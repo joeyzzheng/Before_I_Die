@@ -5,12 +5,6 @@
 	background-color: white;
 }
 
-.bucket-items {
-	text-align: center;
-	margin-left: 110px;
-	margin-right: 110px;
-}
-
 .bucket-item {
 	margin-bottom:50px;
 }
@@ -21,7 +15,7 @@
 
 .item-info {
 	padding: 20px;
-	background-color: rgba(153, 153, 153, 1);
+	background-color: rgba(217, 217, 217, 1);
 }
 
 .user-basic {
