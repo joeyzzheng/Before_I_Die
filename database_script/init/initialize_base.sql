@@ -1,3 +1,5 @@
+SET GLOBAL time_zone = '+00:00';
+
 DROP SCHEMA IF EXISTS `Before_I_Die`;
 CREATE SCHEMA `Before_I_Die`;
 
@@ -8,12 +10,19 @@ CREATE TABLE `Users`
 (
   `ID` BIGINT(64) UNSIGNED NOT NULL AUTO_INCREMENT,
   `Username` VARCHAR(50) NOT NULL,
+  `Email` VARCHAR(200) NOT NULL,
   `FirstName` VARCHAR(50) NOT NULL,
   `LastName` VARCHAR(50) NOT NULL,
+  `Title` VARCHAR (100) NULL,
+  `Description` VARCHAR (500) NULL,
+  `City` VARCHAR(100) NULL,
+  `State` VARCHAR(100) NULL,
+  `ProfilePic` VARCHAR(100) NULL DEFAULT '',
   `Salt` VARCHAR(256) NOT NULL,
   `Password` VARCHAR(256) NOT NULL,
   `PasswordAttempt` TINYINT(1) NULL DEFAULT 0,
   `Locked` BIT(1) NULL DEFAULT 0,
+  `CreatedDt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Status` BIT(1) NULL DEFAULT 1,
   PRIMARY KEY (`ID`),
   UNIQUE INDEX `Username_UNIQUE` (`Username` ASC)
@@ -37,7 +46,9 @@ CREATE TABLE `BucketItem`
   `Content` VARCHAR(2000) NULL,
   `CompleteTime` DATETIME NULL,
   `Location` VARCHAR(200) NULL,
+  `Image` VARCHAR(200) NULL,
   `Private` BIT(1) NULL DEFAULT 1,
+  `OrderIndex` INT NULL DEFAULT 0,
   `CreateDate` DATETIME NOT NULL,
   `BucketListID` BIGINT(64) UNSIGNED NOT NULL,
   `Status` BIT(1) NULL DEFAULT 1,
