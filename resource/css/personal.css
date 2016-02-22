@@ -18,6 +18,9 @@
 	background-color: rgba(217, 217, 217, 1);
 }
 
+.like {
+	width: 20px;
+}
 .user-basic {
 	height: 80px;
 	margin-bottom: 10px;
