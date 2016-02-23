@@ -107,7 +107,15 @@
 	background-color: rgba(217, 217, 217, 1);
 }
 
-.like {
+
+.count-of-like{
+		margin-left: 10px;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		position: absolute;
+}
+
+.icon-like {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	width: 20px;
