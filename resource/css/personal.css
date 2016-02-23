@@ -145,19 +145,19 @@ input[type=text]{
 	margin-bottom: 10px;
 }
 
-#user-img {
+.user-img {
 	border-radius: 50%;
 	margin: inherit;
 	float: left;
 }
 
-#user-name {
+.user-name {
 	position: relative;
 	left: 5px;
 	top: 20%;
 }
 
-#user-loc {
+.user-loc {
 	color: rgba(153, 153, 153, 1);
 }
 
