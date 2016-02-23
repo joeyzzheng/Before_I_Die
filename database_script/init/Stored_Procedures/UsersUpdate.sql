@@ -6,7 +6,7 @@ USE `Before_I_Die`//
 CREATE PROCEDURE `UsersUpdate` (IN username VARCHAR(50), IN email VARCHAR(200),
 		IN firstName VARCHAR(50), IN lastName VARCHAR(50), IN title VARCHAR(100),
         IN description VARCHAR(500), IN city VARCHAR(100), IN state VARCHAR(100),
-        IN profilePic VARCHAR(100))
+        IN profilePic VARCHAR(200))
 BEGIN
 	UPDATE `Users`
     SET

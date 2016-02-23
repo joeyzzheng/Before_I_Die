@@ -17,7 +17,7 @@ CREATE TABLE `Users`
   `Description` VARCHAR (500) NULL,
   `City` VARCHAR(100) NULL,
   `State` VARCHAR(100) NULL,
-  `ProfilePic` VARCHAR(100) NULL DEFAULT '',
+  `ProfilePic` VARCHAR(200) NULL DEFAULT '',
   `Salt` VARCHAR(256) NOT NULL,
   `Password` VARCHAR(256) NOT NULL,
   `PasswordAttempt` TINYINT(1) NULL DEFAULT 0,
@@ -100,27 +100,58 @@ CREATE TABLE `BucketList`
     ON UPDATE NO ACTION
 );
 
-DROP TABLE IF EXISTS `BucketListBucketItem`;
-CREATE TABLE `Before_I_Die`.`BucketListBucketItem`
-(
-  `ID` BIGINT(64) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `BucketListID` BIGINT(64) UNSIGNED NOT NULL,
+-- DROP TABLE IF EXISTS `BucketListBucketItem`;
+-- CREATE TABLE `Before_I_Die`.`BucketListBucketItem`
+-- (
+--   `ID` BIGINT(64) UNSIGNED NOT NULL AUTO_INCREMENT,
+--   `BucketListID` BIGINT(64) UNSIGNED NOT NULL,
+--   `BucketItemID` BIGINT(64) UNSIGNED NOT NULL,
+--   `Status` BIT(1) NULL DEFAULT 1,
+--   PRIMARY KEY (`ID`),
+--   INDEX `fk_BucketListBucketItem_BucketListID_idx` (`BucketListID` ASC),
+--   INDEX `fk_BucketListBucketItem_BucketItemID_idx` (`BucketItemID` ASC),
+--   CONSTRAINT `fk_BucketListBucketItem_BucketListID`
+--     FOREIGN KEY (`BucketListID`)
+--     REFERENCES `Before_I_Die`.`BucketList` (`ID`)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION,
+--   CONSTRAINT `fk_BucketListBucketItem_BucketItemID`
+--     FOREIGN KEY (`BucketItemID`)
+--     REFERENCES `Before_I_Die`.`BucketItem` (`ID`)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION
+-- );
+
+DROP TABLE IF EXISTS `BucketItemComment`;
+CREATE TABLE `BucketItemComment` (
+  `ID` BIGINT(64) UNSIGNED NOT NULL,
   `BucketItemID` BIGINT(64) UNSIGNED NOT NULL,
-  `Status` BIT(1) NULL DEFAULT 1,
+  `Comment` VARCHAR(500) NOT NULL,
   PRIMARY KEY (`ID`),
-  INDEX `fk_BucketListBucketItem_BucketListID_idx` (`BucketListID` ASC),
-  INDEX `fk_BucketListBucketItem_BucketItemID_idx` (`BucketItemID` ASC),
-  CONSTRAINT `fk_BucketListBucketItem_BucketListID`
-    FOREIGN KEY (`BucketListID`)
-    REFERENCES `Before_I_Die`.`BucketList` (`ID`)
+  INDEX `fk_BucketItemComment_BucketItemID_idx` (`BucketItemID` ASC),
+  CONSTRAINT `fk_BucketItemComment_BucketItemID`
+    FOREIGN KEY (`BucketItemID`)
+    REFERENCES `BucketItem` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+    
+DROP TABLE IF EXISTS `BucketItemLike`;
+CREATE TABLE `BucketItemLike` (
+  `ID` BIGINT(64) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `BucketItemID` BIGINT(64) UNSIGNED NOT NULL,
+  `UserID` BIGINT(64) UNSIGNED NOT NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_BucketItemLike_BucketItemID_idx` (`BucketItemID` ASC),
+  INDEX `fk_BucketItemLike_UserID_idx` (`UserID` ASC),
+  CONSTRAINT `fk_BucketItemLike_BucketItemID`
+    FOREIGN KEY (`BucketItemID`)
+    REFERENCES `BucketItem` (`ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_BucketListBucketItem_BucketItemID`
-    FOREIGN KEY (`BucketItemID`)
-    REFERENCES `Before_I_Die`.`BucketItem` (`ID`)
+  CONSTRAINT `fk_BucketItemLike_UserID`
+    FOREIGN KEY (`UserID`)
+    REFERENCES `Users` (`ID`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION
-);
-
+    ON UPDATE NO ACTION);
 
 

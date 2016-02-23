@@ -6,7 +6,7 @@ USE `Before_I_Die`//
 CREATE PROCEDURE `SaltSelect` (IN username VARCHAR(50))
 BEGIN
 	SELECT
-		U.Salt
+		U.Salt AS Salt
 	FROM
 		Users U
 	WHERE

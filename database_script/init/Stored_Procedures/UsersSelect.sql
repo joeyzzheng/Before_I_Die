@@ -6,16 +6,16 @@ USE `Before_I_Die`//
 CREATE PROCEDURE `UsersSelect` (IN username VARCHAR(50))
 BEGIN
 	SELECT
-		U.ID,
-        U.username,
-        U.Email,
-        U.FirstName,
-        U.LastName,
-        U.Title,
-        U.Description,
-        U.City,
-        U.State,
-        U.ProfilePic
+		U.ID AS UserID,
+        U.Username AS Username,
+        U.Email AS Email,
+        U.FirstName AS FirstName,
+        U.LastName AS LastName,
+        U.Title AS Title,
+        U.Description AS Description,
+        U.City AS City,
+        U.State AS State,
+        U.ProfilePic AS ProfilePicture
     FROM Users U
     WHERE
 		U.Username = username

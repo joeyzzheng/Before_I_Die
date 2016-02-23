@@ -9,6 +9,7 @@ CREATE PROCEDURE `UsersInsert` (IN username VARCHAR(50), IN email VARCHAR(200), 
 BEGIN
 	DECLARE Result BIT(1);
     DECLARE Msg VARCHAR(50);
+    DECLARE NewUserID BIGINT(64);
     
     IF (EXISTS(
 		SELECT 1 FROM Users U WHERE U.Username = username))
@@ -25,10 +26,22 @@ BEGIN
         SET Msg = 'Email already used.';
 	END;
     ELSE
+    BEGIN
 		INSERT INTO `Users`
 		(Username, Email, FirstName, LastName, Title, Description, City, State, ProfilePic, Salt, Password, CreatedDt)
 		VALUES 
 		(username, email, firstName, lastName, title, description, city, state, profilePic, salt, password, utc_timestamp());
+        
+        SET NewUserID = (SELECT U.ID FROM Users U WHERE U.Username = username AND U.Status = 1);
+        
+        INSERT INTO BucketList
+        (UserID, OwnerID, CreateDate, Status)
+        VALUES
+        (NewUserID, NewUserID, utc_timestamp(), 1);
+        
+        SET Result = 1;
+        
+	END;
 	END IF;
     
     SELECT Result, Msg;
