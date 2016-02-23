@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Before I Die</title>
-        <link rel="stylesheet" type="text/css" href="../resource/css/main.css">
+        <link rel="stylesheet" type="text/css" href="../resource/css/login.css">
     </head>
     <body>
       <header></header>
@@ -17,10 +17,10 @@
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-6">
-                      <a href="#"  id="login-form-link">Log in</a>
+                      <a href="#" class="active" id="login-form-link">Log in</a>
                     </div>
                     <div class="col-6">
-                      <a href="#" class="active" id="signup-form-link">Sign up</a>
+                      <a href="#" id="signup-form-link">Sign up</a>
                     </div>
                   </div>
                   <hr>
@@ -29,14 +29,14 @@
                   <div class="row">
                     <div class="col-12">
                       <!-- login form -->
-                      <form id="login-form" action="#" method="post" style="display:none;">
+                      <form id="login-form" action="#" method="post" style="display:block;">
                         <div class="form-wrapper">
                           <label class="sr-only" for="username">Email:</label>
-                          <input class="form-entry" type="text" name="email" id="email" tabindex="1" placeholder="xxx@yyy.com">
+                          <input class="form-entry" type="text" name="email" id="email" placeholder="xxx@yyy.com" tabindex="1">
                         </div>
                         <div class="form-wrapper">
-                          <label class="sr-only" for="password">Password:</label>
-                          <input class="form-entry" type="password" name="password" id="password" tabindex="2" placeholder="Password">
+                          <label class="sr-only" for="login-password">Password:</label>
+                          <input class="form-entry" type="password" name="login-password" id="login-password" placeholder="Password" tabindex="2">
                         </div>
                         <div class="form-wrapper text-center">
                           <input type="checkbox" name="remember-password" id="remember-password" tabindex="3">
@@ -45,7 +45,7 @@
                         <div class="form-wrapper">
                           <div class="row">
                             <div class="col-6 col-offset-3">
-                              <input class="btn-login btn-default" type="submit" name="login-submit" id="login-submit" tabindex="4" value="Log In">
+                              <input class="btn-login btn-default" type="submit" name="login-submit" id="login-submit" value="Log In" tabindex="4">
                             </div>
                           </div>
                         </div>
@@ -60,53 +60,52 @@
                         </div>
                       <!-- signup form -->
                       </form>
-                      <form id="signup-form" action="#" method="post" style="display: block;">
+                      <form id="signup-form" action="#" method="post" style="display: none;">
                         <div class="form-wrapper">
                           <label class="sr-only" for="username">Username:</label>
-                          <input class="form-entry" type="text" name="username" id="username" placeholder="Username" tabindex="">
+                          <input class="form-entry" type="text" name="username" id="username" placeholder="Username" tabindex="1">
                         </div>
                         <div class="form-wrapper">
                           <label class="sr-only" for="username">First name:</label>
-                          <input class="form-entry" type="text" name="firstname" id="firstname" placeholder="First name" tabindex="">
+                          <input class="form-entry" type="text" name="firstname" id="firstname" placeholder="First name" tabindex="2">
                           <label class="sr-only" for="username">Last name:</label>
-                          <input class="form-entry" type="text" name="lastname" id="lastname" placeholder="Last name" tabindex="">
+                          <input class="form-entry" type="text" name="lastname" id="lastname" placeholder="Last name" tabindex="3">
                         </div>
                         <div class="form-wrapper">
                           <label class="sr-only" for="email-address">Email Address:</label>
-                          <input class="form-entry" type="text" name="email-address" id="email-address" placeholder="Email Address" tabindex="">
+                          <input class="form-entry" type="text" name="email-address" id="email-address" placeholder="Email Address" tabindex="4">
                         </div>
                         <div class="form-wrapper">
                           <label class="sr-only" for="password">Password:</label>
-                          <input class="form-entry" type="text" name="password" id="password" placeholder="Password" tabindex="">
+                          <input class="form-entry" type="text" name="password" id="password" placeholder="Password" tabindex="5">
                         </div>
                         <div class="form-wrapper">
                           <label class="sr-only" for="confirm-password">Confirm Password:</label>
-                          <input class="form-entry" type="text" name="confirm-password" id="confirm-password" placeholder="Confirm Password" tabindex="">
+                          <input class="form-entry" type="text" name="confirm-password" id="confirm-password" placeholder="Confirm Password" tabindex="6">
                         </div>
                         <hr>
                         <div class="text-center">Optional:</div>
                         <div class="form-wrapper">
                           <label class="sr-only" for="user-title">Title:</label>
-                          <input class="form-entry" type="text" name="user-title" id="user-title" placeholder="What's your title?" tabindex="">
+                          <input class="form-entry" type="text" name="user-title" id="user-title" placeholder="What's your title?" tabindex="7">
                         </div>
                         <div class="form-wrapper">
-                          <label class="sr-only" for"user-description">Self Introduction:</label>
-                          <input class="form-entry" type="text" name="user-description" id="user-description" placeholder="Who are you?" tabindex="">
+                          <label class="sr-only" for="user-description">Self Introduction:</label>
+                          <input class="form-entry" type="text" name="user-description" id="user-description" placeholder="Who are you?" tabindex="8">
                         </div>
                         <div class="form-wrapper">
-                          <label class="sr-only" for"user-city">City:</label>
-                          <input class="form-entry" type="text" name="user-city" id="user-city" placeholder="city" tabindex="">
-                          <label class="sr-only" for"user-state">State:</label>
-                          <input class="form-entry" type="text" name="user-state" id="user-state" placeholder="state" tabindex="">
+                          <label class="sr-only" for="user-city">City:</label>
+                          <input class="form-entry" type="text" name="user-city" id="user-city" placeholder="city" tabindex="9">
+                          <label class="sr-only" for="user-state">State:</label>
+                          <input class="form-entry" type="text" name="user-state" id="user-state" placeholder="state" tabindex="10">
                         </div>
                         <div class="form-wrapper text-center">
-                          <labels for="user-pic-upload">Upload Your Picture:</label>
-                          <input type="file" name="user-pic-upload" id="user-pic-upload">
+                          Upload Your Picture:<input type="file" name="user-pic-upload" id="user-pic-upload" tabindex="11">
                         </div>
                         <div class="form-wrapper">
                           <div class="row">
                             <div class="col-6 col-offset-3">
-                              <input class="btn-signup btn-default" type="submit" name="signup-submit" id="signup-submit" value="Sign Up" tabindex="">
+                              <input class="btn-signup btn-default" type="submit" name="signup-submit" id="signup-submit" value="Sign Up" tabindex="12">
                             </div>
                           </div>
                         </div>
