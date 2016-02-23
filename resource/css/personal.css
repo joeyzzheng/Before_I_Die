@@ -1,10 +1,10 @@
-/*
+
 [class*="col-"] {
-    width: 100%;
+    width: 95%;
 }
 
-@media only screen and (min-width: 768px) {
-    //For desktop:
+@media only screen and (min-width: 1000px) {
+    /*For desktop:*/
     .col-1 {width: 8.33%;}
     .col-2 {width: 16.66%;}
     .col-3 {width: 25%;}
@@ -18,7 +18,7 @@
     .col-11 {width: 91.66%;}
     .col-12 {width: 100%;}
 }
-*/
+
 
 .card {
 	border-radius: 15px;
@@ -28,7 +28,7 @@
 }
 
 .side{
-	position: fixed;
+/*	position: fixed;*/
 }
 
 .title{
@@ -41,11 +41,7 @@
 	position: absolute;
 }
 
-.add{
-	width: 30px;
-}
-
-.share{
+.add, .share{
 	width: 30px;
 }
 
@@ -119,6 +115,12 @@
 
 .comment {
 	margin-right: 15px;
+}
+
+input[type=text]{
+	height: 30px;
+	font-size: 1em;
+	color: black;
 }
 
 .menu {
