@@ -27,6 +27,11 @@
 	background-color: white;
 }
 
+.close{
+		width: 10px;
+		margin-bottom: 30px;
+}
+
 .side{
 /*	position: fixed;*/
 }
@@ -44,6 +49,7 @@
 .add, .share{
 	width: 30px;
 }
+
 
 .bucket-item {
 	margin-bottom:50px;
@@ -163,3 +169,5 @@ input[type=text]{
 .center {
 	text-align: center;
 }
+
+
