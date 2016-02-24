@@ -274,7 +274,7 @@ nav a {
   top: 10%; 
   left: 20%;
   width: 70%; 
-  word-wrap: word-break;
+  /* word-wrap: word-break; */
 }
 
 .tab-bucket-card .tab-bucket-card-word span { 
