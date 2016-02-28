@@ -19,7 +19,7 @@ BEGIN
                 AND U.Locked = 0
 		)
 	) THEN
-    SET Result = 1;
+		SET Result = 1;
     ELSE
     BEGIN
 		SET Result = 0;

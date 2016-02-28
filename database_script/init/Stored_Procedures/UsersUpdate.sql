@@ -20,7 +20,7 @@ BEGIN
         U.State = state,
         U.ProfilePic = profilePic
     WHERE
-		U.username = username
+		U.Email = email
         AND U.status = 1;
             
 END//

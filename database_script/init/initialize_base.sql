@@ -20,7 +20,7 @@ CREATE TABLE `Users`
   `ProfilePic` VARCHAR(200) NULL DEFAULT '',
   `Salt` VARCHAR(256) NOT NULL,
   `Password` VARCHAR(256) NOT NULL,
-  `PasswordAttempt` TINYINT(1) NULL DEFAULT 0,
+  `LoginAttempt` TINYINT(1) NULL DEFAULT 0,
   `Locked` BIT(1) NULL DEFAULT 0,
   `CreatedDt` DATETIME NOT NULL,
   `Status` BIT(1) NULL DEFAULT 1,
