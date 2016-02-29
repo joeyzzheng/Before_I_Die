@@ -9,14 +9,13 @@ BEGIN
 		(SELECT ID FROM BucketItem WHERE BucketItem.ID = BI.ID) AS BucketItemID,
         (SELECT Title FROM BucketItem WHERE BucketItem.ID = BI.ID) AS BucketItemTitle,
         (SELECT Content FROM BucketItem WHERE BucketItem.ID = BI.ID) AS BucketItemContent,
-        (SELECT CompleteTime FROM BucketItem WHERE BucketItem.ID = BI.ID) AS BucketItemCompleteTime,
         (SELECT Location FROM BucketItem WHERE BucketItem.ID = BI.ID) AS Location,
         (SELECT Image FROM BucketItem WHERE BucketItem.ID = BI.ID) AS Image,
         (SELECT Private FROM BucketItem WHERE BucketItem.ID = BI.ID) AS Private,
         (SELECT OrderIndex FROM BucketItem WHERE BucketItem.ID = BI.ID) AS OrderIndex,
         (SELECT CreateDate FROM BucketItem WHERE BucketItem.ID = BI.ID) AS CreatedDate,
         (SELECT OpenToTorch FROM BucketItem WHERE BucketItem.ID = BI.ID) AS OpenToTorch,
-        (SELECT Done FROM BucketItem WHERE BucketItem.ID = BI.ID) AS Completed,
+        (SELECT CompleteTime FROM BucketItem WHERE BucketItem.ID = BI.ID) AS CompleteTime,
         GROUP_CONCAT(DISTINCT HT.HashTag ORDER BY HT.ID ASC) AS HashTags
 	FROM
 		Users U

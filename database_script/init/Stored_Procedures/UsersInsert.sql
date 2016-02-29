@@ -10,6 +10,8 @@ BEGIN
 	DECLARE Result BIT(1);
     DECLARE Msg VARCHAR(100);
     DECLARE NewUserID BIGINT(64);
+    DECLARE `_rollback` BOOL DEFAULT 0;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
     
     START TRANSACTION;
     
@@ -46,9 +48,15 @@ BEGIN
 	END;
 	END IF;
     
-    SELECT Result, Msg;
-    
-    COMMIT;
+    IF `_rollback` THEN
+		SET Result = 0;
+        SET Msg = 'Unknown SQL Exception';
+        SELECT Result, Msg;
+		ROLLBACK;
+	ELSE
+		SELECT Result, Msg;
+		COMMIT;
+	END IF;
             
 END//
 DELIMITER ;

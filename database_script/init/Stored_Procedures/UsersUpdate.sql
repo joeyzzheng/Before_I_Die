@@ -8,7 +8,14 @@ CREATE PROCEDURE `UsersUpdate` (IN username VARCHAR(50), IN email VARCHAR(200),
         IN description VARCHAR(500), IN city VARCHAR(100), IN state VARCHAR(100),
         IN profilePic VARCHAR(200))
 BEGIN
-	UPDATE `Users`
+	DECLARE Result BIT(1);
+    DECLARE Msg VARCHAR(100);
+    DECLARE `_rollback` BOOL DEFAULT 0;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
+    
+    START TRANSACTION;
+
+	UPDATE `Users` U
     SET
         U.Username = username,
         U.Email = email,
@@ -22,6 +29,18 @@ BEGIN
     WHERE
 		U.Username = username
         AND U.status = 1;
+        
+	IF `_rollback` THEN
+		SET Result = 0;
+        SET Msg = 'Unknown SQL Exception';
+        SELECT Result, Msg;
+		ROLLBACK;
+	ELSE
+		SET Result = 1;
+        SET Msg = username;
+		SELECT Result, Msg;
+		COMMIT;
+	END IF;
             
 END//
 DELIMITER ;

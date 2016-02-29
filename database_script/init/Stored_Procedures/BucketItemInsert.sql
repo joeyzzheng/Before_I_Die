@@ -9,6 +9,8 @@ this_proc: BEGIN
 	DECLARE BucketListID INT;
     DECLARE Result INT;
     DECLARE Msg VARCHAR(100);
+    DECLARE `_rollback` BOOL DEFAULT 0;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
     
     START TRANSACTION;
     
@@ -38,11 +40,17 @@ this_proc: BEGIN
     VALUES
     (title, content, null, location, image, 1, orderIndex, utc_timestamp(), BucketListID);
     
-    SET Result = 1;
-    SET Msg = CAST(last_insert_id() AS CHAR(100));
-    
-    SELECT Result, Msg;
-    COMMIT;
+    IF `_rollback` THEN
+		SET Result = 0;
+        SET Msg = 'Unknown SQL Exception';
+        SELECT Result, Msg;
+		ROLLBACK;
+	ELSE
+		SET Result = 1;
+		SET Msg = CAST(last_insert_id() AS CHAR(100));
+		SELECT Result, Msg;
+		COMMIT;
+	END IF;
 
 END//
 DELIMITER ;
