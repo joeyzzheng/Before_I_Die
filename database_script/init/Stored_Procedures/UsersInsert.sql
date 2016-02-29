@@ -8,8 +8,10 @@ CREATE PROCEDURE `UsersInsert` (IN username VARCHAR(50), IN email VARCHAR(200), 
     IN state VARCHAR(100), IN profilePic VARCHAR(100), IN salt VARCHAR(256), IN password VARCHAR(256))
 BEGIN
 	DECLARE Result BIT(1);
-    DECLARE Msg VARCHAR(50);
+    DECLARE Msg VARCHAR(100);
     DECLARE NewUserID BIGINT(64);
+    
+    START TRANSACTION;
     
     IF (EXISTS(
 		SELECT 1 FROM Users U WHERE U.Username = username))
@@ -32,19 +34,21 @@ BEGIN
 		VALUES 
 		(username, email, firstName, lastName, title, description, city, state, profilePic, salt, password, utc_timestamp());
         
-        SET NewUserID = (SELECT U.ID FROM Users U WHERE U.Username = username AND U.Status = 1);
+        SET NewUserID = last_insert_id();
         
         INSERT INTO BucketList
-        (UserID, OwnerID, CreateDate, Status)
+        (UserID, CreateDate, Status)
         VALUES
-        (NewUserID, NewUserID, utc_timestamp(), 1);
+        (NewUserID, utc_timestamp(), 1);
         
         SET Result = 1;
-        
+        SET Msg = CAST(NewUserID AS CHAR(100));
 	END;
 	END IF;
     
     SELECT Result, Msg;
+    
+    COMMIT;
             
 END//
 DELIMITER ;

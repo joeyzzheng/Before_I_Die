@@ -3,7 +3,7 @@ DROP PROCEDURE IF EXISTS `Login`;
 
 DELIMITER //
 USE `Before_I_Die`//
-CREATE PROCEDURE `Login` (IN email VARCHAR(200), IN password VARCHAR(256))
+CREATE PROCEDURE `Login` (IN username VARCHAR(200), IN password VARCHAR(256))
 BEGIN
 	DECLARE Result BIT;
     DECLARE Msg VARCHAR(50);
@@ -13,13 +13,14 @@ BEGIN
 			SELECT 1
 			FROM Before_I_Die.Users U
 			WHERE 
-				U.Email = email
+				U.username = username
 				AND U.password = password
 				AND U.Status = 1
                 AND U.Locked = 0
 		)
 	) THEN
 		SET Result = 1;
+        SET Msg = username;
     ELSE
     BEGIN
 		SET Result = 0;

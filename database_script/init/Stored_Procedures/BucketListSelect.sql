@@ -15,17 +15,18 @@ BEGIN
         (SELECT Private FROM BucketItem WHERE BucketItem.ID = BI.ID) AS Private,
         (SELECT OrderIndex FROM BucketItem WHERE BucketItem.ID = BI.ID) AS OrderIndex,
         (SELECT CreateDate FROM BucketItem WHERE BucketItem.ID = BI.ID) AS CreatedDate,
-        GROUP_CONCAT(DISTINCT HT.HashTag ORDER BY HT.ID ASC) AS HashTags,
-        (SELECT Username FROM Users WHERE Users.ID = BL.OwnerID) AS OwnerUsername
+        (SELECT OpenToTorch FROM BucketItem WHERE BucketItem.ID = BI.ID) AS OpenToTorch,
+        (SELECT Done FROM BucketItem WHERE BucketItem.ID = BI.ID) AS Completed,
+        GROUP_CONCAT(DISTINCT HT.HashTag ORDER BY HT.ID ASC) AS HashTags
 	FROM
 		Users U
         INNER JOIN BucketList BL ON BL.UserID = U.ID
-        -- INNER JOIN BucketListBucketItem BLBI ON BLBI.BucketListID = BL.ID
         INNER JOIN BucketItem BI ON BI.BucketListID = BL.ID
         LEFT OUTER JOIN BucketItemHashTag BIHT ON BIHT.BucketItemID = BI.ID
         LEFT OUTER JOIN HashTag HT ON HT.ID = BIHT.HashTagID
 	WHERE
 		U.Status = 1
+        and U.Username = username
         AND BL.Status = 1
         AND BI.Status = 1
         AND (BIHT.Status = 1 OR BIHT.Status IS NULL)

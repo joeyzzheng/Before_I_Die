@@ -3,7 +3,7 @@ DROP PROCEDURE IF EXISTS `UsersSelect`;
 
 DELIMITER //
 USE `Before_I_Die`//
-CREATE PROCEDURE `UsersSelect` (IN email VARCHAR(200))
+CREATE PROCEDURE `UsersSelect` (IN username VARCHAR(200))
 BEGIN
 	SELECT
 		U.ID AS UserID,
@@ -18,9 +18,8 @@ BEGIN
         U.ProfilePic AS ProfilePicture
     FROM Users U
     WHERE
-		U.Email = email
-        AND U.status = 1
-        AND Locked = 0;
+		U.Username = username
+        AND U.status = 1;
             
 END//
 DELIMITER ;
