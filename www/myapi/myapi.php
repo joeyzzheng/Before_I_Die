@@ -83,22 +83,34 @@
 			$input = (explode('/',strtolower(str_replace("","",$_REQUEST['rquest']))));
 			$this->parseURL = $input;
 			
-			
-			// $this->error_msg = "123";
-			// $temp["success"] = "false";
-			// $temp["error_msg"] = $this->error_msg;
-			// $this->response($this->json($temp),400);
-			//$this->response($this->json($input),404); //for debug
+			//$this->response($this->json($input),404);
+			//echo sizeof($input);
+			//echo $input[0];
+			//exit();
+			//if(empty($input)){
+			//	header("Location: ../home.php");
+			//	exit(); 
+			//}
 			
 			//validate URL begin with api
-			if(strcmp($input[0],"api") !=0){
+			if(strcmp($input[0],"")==0){
+				header("Location: ../home.php");
+				exit(); 
+			}
+			if(strcmp($input[0],"api") !=0 || sizeof($input) < 2){
+				$temp["success"] = "false";
+				$temp["error_msg"] = "API URL should begin with api/blablabla";
+				$this->response($this->json($temp),404);
+			}
+			if(strcmp($input[1],"") == 0){
 				$temp["success"] = "false";
 				$temp["error_msg"] = "API URL should begin with api/blablabla";
 				$this->response($this->json($temp),404);
 			}
 			
 			//register first
-			if((strcmp($input[1],"users") == 0) && (strcmp($input[2],"register") == 0)){
+			
+			if((sizeof($input) == 2) && (strcmp($input[1],"users") == 0) && (strcmp($input[2],"register") == 0)){
 				//$this->response($this->json($input),404);
 				$this->myUsers->PUT();
 			}
