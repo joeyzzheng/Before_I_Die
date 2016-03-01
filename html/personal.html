@@ -9,7 +9,11 @@
 		<link rel="stylesheet" type='text/css' href="../resource/css/personal.css">
 </head>
 
-<body>
+<body onload="render()">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+	<script src="../resource/js/b.js"></script>
+	<script src="../resource/js/bucket_list.js"></script>
+	
 	<div class="container">
 		
 		<div class="col-8 card">
@@ -26,88 +30,9 @@
 			</div>
 
 			<div class="bucket-items">
-				<div class="bucket-item">
-					<div class="item-img-section">
-						<img class="item-img" alt="bucket item image" src="http://www.divezonebath.co.uk/images/bkground_diver.jpg">
-						<div class="dropdown">
-						  <button class="dropbtn"><img class="menu" alt="menu" src="../resource/pic/menu.png"></button>
-						  <div class="dropdown-content">
-							<a href="#">Edit</a>
-							<a href="#">Completed</a>
-							<a href="#">Request Relay</a>
-							<a href="#">Delete</a>
-							  <div class="sub-dropdown">
-							  	<a href="#">Privacy</a>
-							  		<div class="dropdown-sub-content">
-								  		<a href="#">Private</a>
-									  	<a href="#">Public</a>
-								  	</div>
-						  	</div>
-						  </div>
-						</div>
-					</div>
-					<div class="item-info">
-						<h2>Learn diving before I am 50.</h2>
-					
-						<div class="item-desc">
-						Learn diving before I am 50.Learn diving before I am 50.Learn diving before I am 50.Learn diving before I am 50.Learn diving before I am 50.
-						</div>
-						<hr>
-						<div class="response">
-							<div class="like">
-								<img class="icon-like" alt="like button" src="../resource/pic/like.png">
-								<span class="count-of-like">24</span>
-								<img class="torch" src="../resource/pic/torch.png" alt="torch>">
-							</div>
-							<p class="comment">
-								<span class="comment"><b>Navid</b></span>So cooooool!
-							</p>
-							<p class="comment">
-								<span class="comment"><b>Jennifer</b></span>Awesome!
-							</p>
-							<input type="text" placeholder="leave a comment..." maxlength="500">
-						</div>
-					</div>
-				</div>
+				
 
-				<div class="bucket-item">
-					<div class="item-img-section">
-						<img class="item-img" alt="bucket item image" src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Salar_uyuni_200701.jpg">
-						<div class="dropdown">
-						  <button class="dropbtn"><img class="menu" alt="menu" src="../resource/pic/menu.png"></button>
-						  <div class="dropdown-content">
-							<a href="#">Edit</a>
-							<a href="#">Completed</a>
-							<a href="#">Request Relay</a>
-							<a href="#">Delete</a>
-								<div class="sub-dropdown">
-							  	<a href="#">Privacy</a>
-							  		<div class="dropdown-sub-content">
-								  		<a href="#">Private</a>
-									  	<a href="#">Public</a>
-								  	</div>
-						  	</div>
-						  </div>
-						</div>
-					</div>
-					<div class="item-info">
-						<h2>Go to Salt Flats.</h2>
-
-						<div class="item-desc">
-						Learn diving before I am 50.Learn diving before I am 50.Learn diving before I am 50.Learn diving before I am 50.Learn diving before I am 50.
-						</div>
-						<hr>
-						<div class="response">
-							<div class="like">
-								<img class="icon-like" alt="like button" src="../resource/pic/like.png">
-								<span class="count-of-like">52</span>
-							</div>
-							<p class="comment">
-								<span class="comment"><b>Alice</b></span>Nice!
-							</p>
-						</div>
-					</div>
-				</div>
+				
 			</div>
 
 		</div>
