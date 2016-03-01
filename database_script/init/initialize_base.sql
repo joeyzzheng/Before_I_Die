@@ -108,9 +108,11 @@ CREATE TABLE `BucketItemHashTag`
 
 DROP TABLE IF EXISTS `BucketItemComment`;
 CREATE TABLE `BucketItemComment` (
-  `ID` BIGINT(64) UNSIGNED NOT NULL,
+  `ID` BIGINT(64) UNSIGNED NOT NULL AUTO_INCREMENT,
   `BucketItemID` BIGINT(64) UNSIGNED NOT NULL,
-  `Comment` VARCHAR(500) NOT NULL,
+  `UserComment` VARCHAR(500) NOT NULL,
+  `CreateDate` DATETIME NOT NULL,
+  `Status` BIT(1) NULL DEFAULT 1,
   PRIMARY KEY (`ID`),
   INDEX `fk_BucketItemComment_BucketItemID_idx` (`BucketItemID` ASC),
   CONSTRAINT `fk_BucketItemComment_BucketItemID`

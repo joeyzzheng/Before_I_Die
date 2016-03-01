@@ -3,7 +3,7 @@ DROP PROCEDURE IF EXISTS `UsersSelect`;
 
 DELIMITER //
 USE `Before_I_Die`//
-CREATE PROCEDURE `UsersSelect` (IN username VARCHAR(200))
+CREATE PROCEDURE `UsersSelect` (IN username VARCHAR(50))
 BEGIN
 	SELECT
 		U.ID AS UserID,
