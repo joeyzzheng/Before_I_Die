@@ -116,8 +116,8 @@
                         $insert_stmt->close();
                         if(!empty($error_msg)){
                             $temp["success"] = "false";
-                            $temp["error_msg"] = "Register insertion fetch fail".$col1.$col2;
-                            $this->response(json_encode($temp), 500);
+                            $temp["error_msg"] = $col2;
+                            $this->response(json_encode($temp), 400);
                         }
                         $temp["success"] = "true";
                         $temp["error_msg"] = "null";
