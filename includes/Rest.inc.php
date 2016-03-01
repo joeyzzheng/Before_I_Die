@@ -7,9 +7,9 @@
 		/**
 		 * These are the database login details
 		 */
-		const DB_SERVER = "0.0.0.0";//getenv("OPENSHIFT_MYSQL_DB_HOST");
-		const DB_USER = "sedernet";//getenv("OPENSHIFT_MYSQL_DB_USERNAME");
-		const DB_PASSWORD = "";//getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
+		const DB_SERVER = getenv("OPENSHIFT_MYSQL_DB_HOST");
+		const DB_USER = getenv("OPENSHIFT_MYSQL_DB_USERNAME");
+		const DB_PASSWORD = getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
 		const DB = "Before_I_Die";
 		
 		public $_allow = array();
