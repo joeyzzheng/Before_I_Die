@@ -145,5 +145,10 @@
                 $this->response(json_encode($temp),501);
             }
 		}//end PUT
+		
+		
+		public function ALLCANGETALL(){
+		    
+		}
 	}//end CLASS	
 ?>
