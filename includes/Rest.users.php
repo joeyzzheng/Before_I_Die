@@ -4,7 +4,7 @@
 	*/
 	
 	require_once("../../includes/Rest.inc.php");
-	
+	require_once("../../includes/psl-config.php");
 	class USERS extends REST{
 		/**
 		 * These are the database login details
@@ -12,7 +12,7 @@
 		private $db;
 		
 		public function __construct(){
-			$this->db = new mysqli(self::DB_SERVER, self::DB_USER, self::DB_PASSWORD, self::DB);
+			$this->db = new mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB);
 
             if ($this->db->connect_error) {
                 $temp["success"] = "false";
