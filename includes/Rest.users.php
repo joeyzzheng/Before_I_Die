@@ -121,7 +121,7 @@
                         }
                         $temp["success"] = "true";
                         $temp["error_msg"] = "null";
-                        $this->response(json_encode(["success"]),200);
+                        $this->response(json_encode([$temp]),200);
                     }
                 }//prepare
                 else{

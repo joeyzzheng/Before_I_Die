@@ -126,12 +126,12 @@
 				$this->reponse($this->json($temp),401);
 			}
 			
-			//validate Login status
-			if(strcmp($input[1],"login")!=0 && (!$this->login_check())){
-				$temp["success"] = "false";
-				$temp["error_msg"] = "Not Login, Error Message: ".$this->error_msg;
-				$this->response($this->json($temp),401);
-			}
+			// //validate Login status
+			// if(strcmp($input[1],"login")!=0 && (!$this->login_check())){
+			// 	$temp["success"] = "false";
+			// 	$temp["error_msg"] = "Not Login, Error Message: ".$this->error_msg;
+			// 	$this->response($this->json($temp),401);
+			// }
 			
 			
 			//$this->response($func,404);
