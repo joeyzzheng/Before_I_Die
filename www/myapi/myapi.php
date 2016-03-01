@@ -65,7 +65,7 @@
 			// if($this->db)
 			// 	mysql_select_db(self::DB,$this->db);
 				
-			$this->db = new mysqli(self::DB_SERVER, self::DB_USER, self::DB_PASSWORD, self::DB);
+			$this->db = new mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB);
 		    if ($this->db->connect_error) {
 		    	$temp["success"] = "false";
 		    	$temp["error_msg"] = "DB connect_error";
