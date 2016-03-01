@@ -29,7 +29,6 @@ BEGIN
         AND BL.Status = 1
         AND BI.Status = 1
         AND (BIHT.Status = 1 OR BIHT.Status IS NULL)
-        AND (HT.Status = 1 OR HT.Status IS NULL)
 	GROUP BY BI.ID
     ORDER BY BI.OrderIndex, BI.ID DESC;
         
