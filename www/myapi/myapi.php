@@ -35,6 +35,7 @@
 	
 	require_once("../../includes/Rest.inc.php");
 	require_once("../../includes/Rest.users.php");
+	require_once("../../includes/Rest.bucketlist.php");
 	
 	class API extends REST {
 	
@@ -47,9 +48,14 @@
 		private $error_msg;
 		
 		private $myUsers = NULL;
+		private $myBucketList = NULL;
 		
 		public function setMyUsers($instance){
 			$this->myUsers = $instance;
+		}
+		
+		public function setMyBucketList($instance){
+			$this->myBucketList = $instance;
 		}
 		
 		public function __construct(){
@@ -355,7 +361,30 @@
 		    }
 			
 		}
-		
+		/*
+		*  BucketList
+		*/
+		private function bucketlist(){
+			if(strcmp($this->get_request_method(),"GET") == 0){
+				if(sizeof($this->parseURL) < 3){
+					$temp["success"] = "false";
+					$temp["error_msg"] = "No username assign";
+					$this->response(json_encode($temp),400);
+				}
+				if(strcmp($this->parseURL[2],"") == 0){
+					$temp["success"] = "false";
+					$temp["error_msg"] = "No username assign";
+					$this->response(json_encode($temp),400);
+				}
+				
+				$this->myBucketList->ALLGET($this->parseURL[2]);
+			}
+			else{
+				$temp["success"] = "false";
+				$temp["error_msg"] = "HTTP method not found";
+				$this->response(json_encode($temp));
+			}
+		}
 		/*
 		 *	Encode array into JSON
 		*/
@@ -373,6 +402,8 @@
 // if (login_check($mysqli) == true	
 	$api = new API;
 	$users = new USERS;
+	$bucketlist = new BUCKLIST;
 	$api->setMyUsers($users);
+	$api->setMyBucketList($bucketlist);
 	$api->processApi();
 ?>
