@@ -2,15 +2,17 @@
 	/* File : Rest.inc.php
 	 * Author : Arun Kumar Sekar
 	*/
-	//require_once("psl-config.php");
+	require_once("psl-config.php");
 	class REST {
 		/**
 		 * These are the database login details
 		 */
-		const DB_SERVER = getenv("OPENSHIFT_MYSQL_DB_HOST");
-		const DB_USER = getenv("OPENSHIFT_MYSQL_DB_USERNAME");
-		const DB_PASSWORD = getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
-		const DB = "Before_I_Die";
+		 
+		
+		//define('DB_SERVER', getenv('OPENSHIFT_MYSQL_DB_HOST'));
+		// const DB_USER = getenv("OPENSHIFT_MYSQL_DB_USERNAME");
+		// const DB_PASSWORD = getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
+		// const DB = "Before_I_Die";
 		
 		public $_allow = array();
 		public $_content_type = "application/json";

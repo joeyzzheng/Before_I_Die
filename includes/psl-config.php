@@ -28,10 +28,10 @@
 /**
  * These are the database login details
  */
-define("HOST", getenv("OPENSHIFT_MYSQL_DB_HOST")); 			// The host you want to connect to. 
-define("USER", getenv("OPENSHIFT_MYSQL_DB_USERNAME")); 			// The database username. 
-define("PASSWORD", getenv("OPENSHIFT_MYSQL_DB_PASSWORD")); 	// The database password. 
-define("DATABASE", "Before_I_Die");             // The database name.
+define("DB_SERVER", getenv("OPENSHIFT_MYSQL_DB_HOST")); 			// The host you want to connect to. 
+define("DB_USER", getenv("OPENSHIFT_MYSQL_DB_USERNAME")); 			// The database username. 
+define("DB_PASSWORD", getenv("OPENSHIFT_MYSQL_DB_PASSWORD")); 	// The database password. 
+define("DB", "Before_I_Die");             // The database name.
 
 
 /**
