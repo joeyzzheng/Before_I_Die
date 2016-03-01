@@ -3,10 +3,8 @@ DROP PROCEDURE IF EXISTS `BucketItemHashTagInsert`;
 
 DELIMITER //
 USE `Before_I_Die`//
-CREATE PROCEDURE `BucketItemHashTagInsert` (IN bucketItemID BIGINT(64), IN hashTag1 VARCHAR(30), IN hashTag2 VARCHAR(30), IN hashTag3 VARCHAR(30), IN hashTag4 VARCHAR(30), IN hashTag5 VARCHAR(30))
+CREATE PROCEDURE `BucketItemHashTagInsert` (IN bucketItemID BIGINT(64), IN hashTag1 VARCHAR(30), IN hashTag2 VARCHAR(30), IN hashTag3 VARCHAR(30), IN hashTag4 VARCHAR(30), IN hashTag5 VARCHAR(30), OUT Result BIT(1), OUT Msg VARCHAR(100))
 this_proc: BEGIN
-    DECLARE Result INT;
-    DECLARE Msg VARCHAR(100);
     DECLARE hashTagID BIGINT(64);
     DECLARE `_rollback` BOOL DEFAULT 0;
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
@@ -106,12 +104,10 @@ this_proc: BEGIN
     IF `_rollback` THEN
 		SET Result = 0;
         SET Msg = 'Unknown SQL Exception';
-        SELECT Result, Msg;
 		ROLLBACK;
 	ELSE
 		SET Result = 1;
-		SET Msg = CAST(last_insert_id() AS CHAR(100));
-		SELECT Result, Msg;
+		SET Msg = bucketItemID;
 		COMMIT;
 	END IF;
 
