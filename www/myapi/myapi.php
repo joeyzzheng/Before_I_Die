@@ -110,7 +110,7 @@
 			
 			//register first
 			
-			if((sizeof($input) == 2) && (strcmp($input[1],"users") == 0) && (strcmp($input[2],"register") == 0)){
+			if((sizeof($input) == 3) && (strcmp($input[1],"users") == 0) && (strcmp($input[2],"register") == 0)){
 				//$this->response($this->json($input),404);
 				$this->myUsers->PUT();
 			}
