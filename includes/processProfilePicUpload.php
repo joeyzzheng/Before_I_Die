@@ -2,8 +2,8 @@
     $uploadOk = 0;
     
     if(!empty($_FILES["fileToUpload"]["tmp_name"])){
-        $target_dir = "../profilePic/";
-        $target_file = $target_dir . $_POST['username'] .'_'. basename($_FILES["fileToUpload"]["name"]) ;
+        $target_dir = "/resource/pic/". $_POST['username'] .'_'. basename($_FILES["fileToUpload"]["name"]) ;
+        $target_file = $_SERVER['DOCUMENT_ROOT'].$target_dir;
         $uploadOk = 1;
         $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
         
@@ -40,6 +40,7 @@
                 //delete old file
                 //$error_msg .= "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
             } else {
+                exit();
                 $error_msg .= "Sorry, there was an error uploading your file.";
             }
         }

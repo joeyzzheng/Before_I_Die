@@ -377,12 +377,34 @@
 					$this->response(json_encode($temp),400);
 				}
 				
-				$this->myBucketList->ALLGET($this->parseURL[2]);
+				$this->myBucketList->ALLCANGETALL($this->parseURL[2]);
 			}
 			else{
 				$temp["success"] = "false";
 				$temp["error_msg"] = "HTTP method not found";
-				$this->response(json_encode($temp));
+				$this->response(json_encode($temp),400);
+			}
+		}
+		
+		private function users(){
+			if(strcmp($this->get_request_method(),"GET") == 0){
+				if(sizeof($this->parseURL) < 3){
+					$temp["success"] = "false";
+					$temp["error_msg"] = "No username assign";
+					$this->response(json_encode($temp),400);
+				}
+				if(strcmp($this->parseURL[2],"") == 0){
+					$temp["success"] = "false";
+					$temp["error_msg"] = "No username assign";
+					$this->response(json_encode($temp),400);
+				}
+				
+				$this->myBucketList->ALLCANGETALL($this->parseURL[2]);
+			}
+			else{
+				$temp["success"] = "false";
+				$temp["error_msg"] = "HTTP method not found";
+				$this->response(json_encode($temp),400);
 			}
 		}
 		/*

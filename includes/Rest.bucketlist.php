@@ -26,7 +26,10 @@
 		    
 		}
 		
-		public function ALLGET($username){
+		/*
+		* get all the bucketlist, no check privilege
+		*/
+		public function ALLCANGETALL($username){
 		    if(strcmp($this->get_request_method(),"GET")==0){
 		        $query = "call Before_I_Die.BucketListSelect (?)";
 			    // Using prepared statements means that SQL injection is not possible.

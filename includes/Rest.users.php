@@ -91,7 +91,7 @@
                     $city = "";
                     $state = "";
                     if($uploadOk == 1){
-                        $profilePic = $target_file;
+                        $profilePic = $target_dir;
                     }
                     else{
                         $profilePic ="";
@@ -141,12 +141,14 @@
             else{
                 //$this->response(json_encode(["Inside if"]),500);
                 $temp["success"] = "false";
-                $temp["error_msg"] = "Username, passward, first name or last name does not exist.";
+                $temp["error_msg"] = "Username, password, first name or last name does not exist.";
                 $this->response(json_encode($temp),501);
             }
 		}//end PUT
 		
-		
+		/*
+		* no check privilege, anyone can get the other's user information
+		*/
 		public function ALLCANGETALL(){
 		    
 		}

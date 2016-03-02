@@ -207,7 +207,6 @@ input[type="text"], input[type="password"], textarea {
 }
 
 /*----responsive----*/
-@media screen and (min-width: 768px) {}
 
 /*----header----*/
 /*Jason*/
@@ -266,7 +265,7 @@ body {
 .panel-login>.panel-heading {
   color: #00415d;
   background-color: #fff;
-  border-color: #fff;
+  border-color: #ccc;
   text-align:center;
 }
 .panel-login>.panel-heading a{
@@ -309,6 +308,22 @@ body {
   box-shadow: none;
   border-color: #ccc;
 }
+
+/*.panel-login input:valid {
+  border: 1px solid green;
+}
+
+.panel-login input:invalid {
+  box-shadow: : 0 0 5px 1px red;
+  /*border: 1px solid red;*/
+/*}*/
+/*
+.panel-login input:focus:invalid {
+  outline: none;
+}*/
+
+
+
 .btn-login {
   width: 100%;
   background-color: #59B2E0;
@@ -325,7 +340,7 @@ body {
 .btn-login:focus {
   color: #fff;
   background-color: #53A3CD;
-  border-color: #53A3CD;
+  border-color: #3486b2;
 }
 .forgot-password {
   text-decoration: underline;
@@ -353,7 +368,7 @@ body {
 .btn-signup:focus {
   color: #fff;
   background-color: #1CA347;
-  border-color: #1CA347;
+  border-color: #168339;
 }
 
 #firstname {
