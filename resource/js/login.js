@@ -35,7 +35,7 @@ $(document).ready( function() {
             var username = $("#signup-form #username").val();
             var firstname = $("#signup-form #firstname").val();
             var lastname = $("#signup-form #lastname").val();
-            var emailAddress = $("#signup-form #email-address").val();
+            var email = $("#signup-form #email").val();
             var signUpPassword = $("#signup-form #signup-password").val();
             var confirmPassword = $("#signup-form #confirm-password").val();
             // optional fields
