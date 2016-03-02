@@ -12,6 +12,13 @@ this_proc: BEGIN
     
     START TRANSACTION;
     
+    IF (username IS NULL OR title IS NULL OR content IS NULL) THEN
+		SET Result = 0;
+        SET Msg = 'The username or title or content is NOT given.';
+        ROLLBACK;
+        LEAVE this_proc;
+    END IF;
+    
     SET BucketListID = (
 		SELECT BL.ID 
         FROM 

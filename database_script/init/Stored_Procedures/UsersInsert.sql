@@ -13,6 +13,13 @@ this_proc:BEGIN
     
     START TRANSACTION;
     
+    IF (username IS NULL OR email IS NULL OR firstName IS NULL OR lastName IS NULL OR salt IS NULL OR password IS NULL) THEN
+		SET Result = 0;
+        SET Msg = 'Missing required fields';
+        ROLLBACK;
+        LEAVE this_proc;
+    END IF;
+    
     IF (EXISTS(
 		SELECT 1 FROM Users U WHERE U.Username = username))
 	THEN

@@ -16,7 +16,7 @@ this_proc: BEGIN
     IF (bucketItemID IS NULL OR username IS NULL OR Liked IS NULL) THEN 
     BEGIN
 		SET Result = 0;
-        SET Msg = 'The bucket item id is not given.';
+        SET Msg = 'The bucket item id or username or liked is not given.';
         ROLLBACK;
 		LEAVE this_proc;
 	END;

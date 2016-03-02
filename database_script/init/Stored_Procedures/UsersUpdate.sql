@@ -7,12 +7,19 @@ CREATE PROCEDURE `UsersUpdate` (IN username VARCHAR(50), IN email VARCHAR(200),
 		IN firstName VARCHAR(50), IN lastName VARCHAR(50), IN title VARCHAR(100),
         IN description VARCHAR(500), IN city VARCHAR(100), IN state VARCHAR(100),
         IN profilePic VARCHAR(200), OUT Result BIT(1), OUT Msg VARCHAR(100))
-BEGIN
+this_proc:BEGIN
 	
     DECLARE `_rollback` BOOL DEFAULT 0;
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
     
     START TRANSACTION;
+    
+    IF (username IS NULL OR email IS NULL OR firstName IS NULL OR lastName IS NULL) THEN
+		SET Result = 0;
+        SET Msg = 'Missing required fields';
+        ROLLBACK;
+        LEAVE this_proc;
+    END IF;
 
 	UPDATE `Users` U
     SET

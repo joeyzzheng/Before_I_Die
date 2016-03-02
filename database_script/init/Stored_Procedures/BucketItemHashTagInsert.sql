@@ -11,6 +11,13 @@ this_proc: BEGIN
     
     START TRANSACTION;
     
+    IF (bucketItemID IS NULL) THEN
+		SET Result = 0;
+        SET Msg = 'The bucket item id is NOT given.';
+        ROLLBACK;
+        LEAVE this_proc;
+    END IF;
+    
     UPDATE BucketItemHashTag BIHT
     SET BIHT.Status = 0
     WHERE BIHT.BucketItemID = BucketItemID;
