@@ -2,9 +2,17 @@ var render_bucket_item = function(i) {
 	//render image and menu
 	$(".bucket-items").append('<div class="bucket-item" data-item="' + i + '"></div>');
 	$(".bucket-item[data-item='" + i + "']").append('<div class="item-img-section" data-item="' + i + '"></div>');
-	var img = "<img class='item-img alt='bucket item image' src='" + bucket_list[i].image + "'>";
+	var img = '<img class="item-img" alt="bucket item image" src="' + bucket_list[i].image + '" data-item="'+i+'">';
 	$(".item-img-section[data-item='" + i + "']").append(img);
-	var menu = '<div class="dropdown">   <button class="dropbtn"><img class="menu" alt="menu" src="../resource/pic/menu.png"></button>   <div class="dropdown-content"> 	<a href="#">Edit</a> 	<a href="#">Completed</a> 	<a href="#">Request Relay</a> 	<a href="#">Delete</a> 	  <div class="sub-dropdown"> 	  	<a href="#">Privacy</a> 	  		<div class="dropdown-sub-content"> 		  		<a href="#">Private</a> 			  	<a href="#">Public</a> 		  	</div>   	</div>   </div> </div>';
+	var menu = '<div class="dropdown">   <button class="dropbtn" data-item="'+i+'"><img class="menu" alt="menu" src="../resource/pic/menu.png"></button>   <div class="dropdown-content" data-item="'+i+'">' +
+			'<a href="#">Edit</a> ' +
+			'<a onClick="completed('+i+')">Completed</a>' +
+			'<a href="#">Request Relay</a>' +
+			'<a href="#">Delete</a>' +
+			'<div class="sub-dropdown"><a href="#">Privacy</a>' +
+			'<div class="dropdown-sub-content">' +
+			'<a href="#">Private</a>' +
+			'<a href="#">Public</a> </div>   	</div>   </div> </div>';
 	
 	$(".item-img-section[data-item='" + i + "']").append(menu);
 	
