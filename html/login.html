@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Before I Die</title>
         <link rel="stylesheet" type="text/css" href="../resource/css/login.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     </head>
     <body>
       <header></header>
@@ -17,10 +18,10 @@
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-6">
-                      <a href="#" class="active" id="login-form-link">Log in</a>
+                      <a href="#" id="login-form-link">Log in</a>
                     </div>
                     <div class="col-6">
-                      <a href="#" id="signup-form-link">Sign up</a>
+                      <a href="#" class="active" id="signup-form-link">Sign up</a>
                     </div>
                   </div>
                   <hr>
@@ -29,7 +30,7 @@
                   <div class="row">
                     <div class="col-12">
                       <!-- login form -->
-                      <form id="login-form" action="#" method="post" style="display:block;">
+                      <form id="login-form" action="#" method="post" style="display:none;">
                         <div class="form-wrapper">
                           <label class="sr-only" for="username">Email:</label>
                           <input class="form-entry" type="text" name="email" id="email" placeholder="xxx@yyy.com" tabindex="1">
@@ -60,24 +61,24 @@
                         </div>
                       <!-- signup form -->
                       </form>
-                      <form id="signup-form" action="#" method="post" style="display: none;">
+                      <form id="signup-form" style="display: block;">
                         <div class="form-wrapper">
                           <label class="sr-only" for="username">Username:</label>
-                          <input class="form-entry" type="text" name="username" id="username" placeholder="Username" tabindex="1">
+                          <input class="form-entry" type="text" name="username" id="username" placeholder="Username" tabindex="1" maxlength="50">
                         </div>
                         <div class="form-wrapper">
                           <label class="sr-only" for="username">First name:</label>
-                          <input class="form-entry" type="text" name="firstname" id="firstname" placeholder="First name" tabindex="2">
+                          <input class="form-entry" type="text" name="firstname" id="firstname" placeholder="First name" tabindex="2" maxlength="50">
                           <label class="sr-only" for="username">Last name:</label>
-                          <input class="form-entry" type="text" name="lastname" id="lastname" placeholder="Last name" tabindex="3">
+                          <input class="form-entry" type="text" name="lastname" id="lastname" placeholder="Last name" tabindex="3"maxlength="50">
                         </div>
                         <div class="form-wrapper">
                           <label class="sr-only" for="email-address">Email Address:</label>
-                          <input class="form-entry" type="text" name="email-address" id="email-address" placeholder="Email Address" tabindex="4">
+                          <input class="form-entry" type="email" name="email" id="email-address" placeholder="Email Address" tabindex="4" maxlength="200">
                         </div>
                         <div class="form-wrapper">
-                          <label class="sr-only" for="password">Password:</label>
-                          <input class="form-entry" type="text" name="password" id="password" placeholder="Password" tabindex="5">
+                          <label class="sr-only" for="signup-password">Password:</label>
+                          <input class="form-entry" type="text" name="signup-password" id="signup-password" placeholder="Password" tabindex="5">
                         </div>
                         <div class="form-wrapper">
                           <label class="sr-only" for="confirm-password">Confirm Password:</label>
@@ -87,17 +88,19 @@
                         <div class="text-center">Optional:</div>
                         <div class="form-wrapper">
                           <label class="sr-only" for="user-title">Title:</label>
-                          <input class="form-entry" type="text" name="user-title" id="user-title" placeholder="What's your title?" tabindex="7">
+                          <input class="form-entry" type="text" name="user-title" id="user-title" placeholder="What's your title?" tabindex="7" maxlength="100">
                         </div>
                         <div class="form-wrapper">
                           <label class="sr-only" for="user-description">Self Introduction:</label>
-                          <input class="form-entry" type="text" name="user-description" id="user-description" placeholder="Who are you?" tabindex="8">
+                          <input class="form-entry" type="text" name="user-description" id="user-description" placeholder="Who are you?" tabindex="8" maxlength="500">
                         </div>
                         <div class="form-wrapper">
                           <label class="sr-only" for="user-city">City:</label>
-                          <input class="form-entry" type="text" name="user-city" id="user-city" placeholder="city" tabindex="9">
+                          <input class="form-entry" type="text" name="user-city" id="user-city" placeholder="city" tabindex="9" maxlength="100">
                           <label class="sr-only" for="user-state">State:</label>
-                          <input class="form-entry" type="text" name="user-state" id="user-state" placeholder="state" tabindex="10">
+                          <select class="form-entry" name="user-state" id="user-state" tabindex="10" maxlength="100">
+                          </select>
+
                         </div>
                         <div class="form-wrapper text-center">
                           Upload Your Picture:<input type="file" name="user-pic-upload" id="user-pic-upload" tabindex="11">
@@ -119,7 +122,7 @@
         </div>
       </main>
       <footer></footer>
-      <script src="#"></script>
+      <script src="../resource/js/login.js"></script>
     </body>
 </html>
 
