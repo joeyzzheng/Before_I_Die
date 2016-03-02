@@ -126,6 +126,7 @@ CREATE TABLE `BucketItemLike` (
   `ID` BIGINT(64) UNSIGNED NOT NULL AUTO_INCREMENT,
   `BucketItemID` BIGINT(64) UNSIGNED NOT NULL,
   `UserID` BIGINT(64) UNSIGNED NOT NULL,
+  `Status` BIT(1) NULL DEFAULT 1,
   PRIMARY KEY (`ID`),
   INDEX `fk_BucketItemLike_BucketItemID_idx` (`BucketItemID` ASC),
   INDEX `fk_BucketItemLike_UserID_idx` (`UserID` ASC),
