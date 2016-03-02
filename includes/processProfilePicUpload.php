@@ -40,7 +40,6 @@
                 //delete old file
                 //$error_msg .= "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
             } else {
-                exit();
                 $error_msg .= "Sorry, there was an error uploading your file.";
             }
         }
