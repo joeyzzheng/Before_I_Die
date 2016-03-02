@@ -17,7 +17,7 @@
             if ($this->db->connect_error) {
                 $temp["success"] = "false";
                 $temp["error_msg"] = "USERS connect DB error";
-                $this->response(json_encode($temp),500);
+                $this->response(json_encode($temp),200);
             }
 		}
 		
@@ -31,6 +31,11 @@
 		*/
 		public function ALLCANGETALL($username){
 		    if(strcmp($this->get_request_method(),"GET")==0){
+		    	if (strlen($username) > 50) {
+                    $temp["success"] = "false";
+                    $temp["error_msg"] = "Username is too long. Must Less than 50 characters";
+                    $this->response(json_encode($temp),200);
+                }
 		        $query = "call Before_I_Die.BucketListSelect (?)";
 			    // Using prepared statements means that SQL injection is not possible.
 			    if($stmt = $this->db->prepare($query)){
@@ -74,13 +79,13 @@
 			    else{
 			    	$temp["success"] = "false";
 		        	$temp["error_msg"] = "BUCKLIST ALLGET() prepare".$query." fail.";
-		        	$this->response(json_encode($temp));
+		        	$this->response(json_encode($temp),200);
 			    }
 		    }
 		    else{
 		        $temp["success"] = "false";
 		        $temp["error_msg"] = "BUCKLIST ALLGET() can not accept none GET method";
-		        $this->response(json_encode($temp));
+		        $this->response(json_encode($temp),200);
 		    }
 		}
 }

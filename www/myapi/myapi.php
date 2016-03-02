@@ -75,7 +75,7 @@
 		    if ($this->db->connect_error) {
 		    	$temp["success"] = "false";
 		    	$temp["error_msg"] = "DB connect_error";
-		        $this->response($this->json($temp),500);
+		        $this->response($this->json($temp),200);
 		    }
 		}
 		
@@ -85,18 +85,16 @@
 		 *
 		 */
 		public function processApi(){
-			//$this->response(DB_SERVER,404); //for debug
+			//$this->response(DB_SERVER,200); //for debug
 			$input = (explode('/',strtolower(str_replace("","",$_REQUEST['rquest']))));
 			$this->parseURL = $input;
 			
-			//$this->response($this->json($input),404);
-			//echo sizeof($input);
-			//echo $input[0];
-			//exit();
-			//if(empty($input)){
-			//	header("Location: ../home.php");
-			//	exit(); 
-			//}
+			//refresh session
+			if(!$this->sec_session_start()){
+				$temp["success"] = "false";
+				$temp["error_msg"] = $this->error_msg;
+				$this->response($this->json($temp),401);
+			}
 			
 			//validate URL begin with api
 			if(strcmp($input[0],"")==0){
@@ -106,18 +104,18 @@
 			if(strcmp($input[0],"api") !=0 || sizeof($input) < 2){
 				$temp["success"] = "false";
 				$temp["error_msg"] = "API URL should begin with api/blablabla";
-				$this->response($this->json($temp),404);
+				$this->response($this->json($temp),200);
 			}
 			if(strcmp($input[1],"") == 0){
 				$temp["success"] = "false";
 				$temp["error_msg"] = "API URL should begin with api/blablabla";
-				$this->response($this->json($temp),404);
+				$this->response($this->json($temp),200);
 			}
 			
 			//register first
 			
-			if((sizeof($input) == 3) && (strcmp($input[1],"users") == 0) && (strcmp($input[2],"register") == 0)){
-				//$this->response($this->json($input),404);
+			if((sizeof($input) == 2) && (strcmp($input[1],"register") == 0)) {
+				//$this->response($this->json($input),200);
 				$this->myUsers->PUT();
 			}
 			
@@ -125,30 +123,25 @@
 			$this->error_msg = "";
 			
 			
-			//refresh session
-			if(!$this->sec_session_start()){
-				$temp["success"] = "false";
-				$temp["error_msg"] = $this->error_msg;
-				$this->reponse($this->json($temp),401);
-			}
+			
 			
 			// //validate Login status
 			// if(strcmp($input[1],"login")!=0 && (!$this->login_check())){
 			// 	$temp["success"] = "false";
 			// 	$temp["error_msg"] = "Not Login, Error Message: ".$this->error_msg;
-			// 	$this->response($this->json($temp),401);
+			// 	$this->response($this->json($temp),200);
 			// }
 			
 			
-			//$this->response($func,404);
+			//$this->response($func,200);
 			$func = $input[1];
-			//$this->response($func,404); //for debug
+			//$this->response($func,200); //for debug
 			if((int)method_exists($this,$func) > 0)
 				$this->$func();
 			else{
 				$temp["success"] = "false";
 				$temp["error_msg"] = "API Path Not Found";
-				$this->response($this->json($temp),404);				// If the method not exist with in this class, response would be "Page not found".
+				$this->response($this->json($temp),200);				// If the method not exist with in this class, response would be "Page not found".
 				
 			}
 		}
@@ -251,8 +244,8 @@
 		*/
 		private function profilePicture(){
 			$func = strtolower(trim(str_replace("/","",$_REQUEST['rquest'])));
-			$this->response($this->json($this->parseURL),404);
-			//$this->response($func,404);
+			$this->response($this->json($this->parseURL),200);
+			//$this->response($func,200);
 		}
 		
 		/* 
@@ -262,7 +255,7 @@
 		 *  pwd : <USER PASSWORD>
 		 */
 		private function login(){
-			//$this->response($this->json($_POST),404); //for debug
+			//$this->response($this->json($_POST),200); //for debug
 			$this->error_msg = "";
 			if (isset($_POST['username'], $_POST['p'])) {
 				
@@ -281,13 +274,13 @@
 			    if(!empty($this->error_msg)){
 			    	$temp["success"] = "false";
 			    	$temp["error_msg"] = $this->error_msg;
-			    	$this->response($this->json($temp),400);
+			    	$this->response($this->json($temp),200);
 			    }
 			}
 			else{
 				$temp["success"] = "false";
 			    $temp["error_msg"] = "No Username or Password";
-				$this->response($this->json($temp),400);
+				$this->response($this->json($temp),200);
 			}
 			
 		    $query = "call Before_I_Die.SaltSelect (?)";
@@ -306,13 +299,13 @@
 		            $this->error_msg .= "Username is not in DB.";
 		            $temp["success"] = "false";
 		            $temp["error_msg"] = $this->error_msg;
-		            $this->response($this->json($temp),400);
+		            $this->response($this->json($temp),200);
 		        }
 		    }
 		    else{
 		    	$temp["success"] = "false";
 	            $temp["error_msg"] = $this->error_msg;
-	            $this->response($this->json($temp),500);
+	            $this->response($this->json($temp),200);
 		    }
 		    
 		    
@@ -335,7 +328,7 @@
 		        if(empty($col1)){
 		        	$temp["success"] = "false";
 		            $temp["error_msg"] = "Username does not match password.";
-		            $this->response($this->json($temp),400);
+		            $this->response($this->json($temp),200);
 		        }
 		        
 		        // Password is correct!
@@ -357,7 +350,7 @@
 		    else{
 		    	$temp["success"] = "false";
 		    	$temp["error_msg"] ="Prepare login fail.";
-		        $this->response($this->json($temp),500);
+		        $this->response($this->json($temp),200);
 		    }
 			
 		}
@@ -369,12 +362,12 @@
 				if(sizeof($this->parseURL) < 3){
 					$temp["success"] = "false";
 					$temp["error_msg"] = "No username assign";
-					$this->response(json_encode($temp),400);
+					$this->response(json_encode($temp),200);
 				}
 				if(strcmp($this->parseURL[2],"") == 0){
 					$temp["success"] = "false";
 					$temp["error_msg"] = "No username assign";
-					$this->response(json_encode($temp),400);
+					$this->response(json_encode($temp),200);
 				}
 				
 				$this->myBucketList->ALLCANGETALL($this->parseURL[2]);
@@ -382,7 +375,7 @@
 			else{
 				$temp["success"] = "false";
 				$temp["error_msg"] = "HTTP method not found";
-				$this->response(json_encode($temp),400);
+				$this->response(json_encode($temp),200);
 			}
 		}
 		
@@ -391,20 +384,20 @@
 				if(sizeof($this->parseURL) < 3){
 					$temp["success"] = "false";
 					$temp["error_msg"] = "No username assign";
-					$this->response(json_encode($temp),400);
+					$this->response(json_encode($temp),200);
 				}
 				if(strcmp($this->parseURL[2],"") == 0){
 					$temp["success"] = "false";
 					$temp["error_msg"] = "No username assign";
-					$this->response(json_encode($temp),400);
+					$this->response(json_encode($temp),200);
 				}
 				
-				$this->myBucketList->ALLCANGETALL($this->parseURL[2]);
+				$this->myUsers->ALLCANGETALL($this->parseURL[2]);
 			}
 			else{
 				$temp["success"] = "false";
 				$temp["error_msg"] = "HTTP method not found";
-				$this->response(json_encode($temp),400);
+				$this->response(json_encode($temp),200);
 			}
 		}
 		/*
