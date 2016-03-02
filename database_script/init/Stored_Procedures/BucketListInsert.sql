@@ -22,7 +22,7 @@ this_proc:BEGIN
 		LEAVE this_proc;
     END;
     ELSEIF (EXISTS (
-		SELECT 1 FROM BucketList BL WHERE BL.UserID = userID AND BL.Status = 1))
+		SELECT 1 FROM BucketList BL WHERE BL.UserID = userID))
 	THEN
 		SET Result = 0;
         SET Msg = 'A bucketlist for this user already exists.';

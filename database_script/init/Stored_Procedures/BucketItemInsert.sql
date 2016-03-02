@@ -27,7 +27,6 @@ this_proc: BEGIN
 		WHERE
 			U.Username = username
             AND U.Status = 1
-            AND BL.Status = 1
 		);
         
 	IF (BucketListID IS NULL) THEN 

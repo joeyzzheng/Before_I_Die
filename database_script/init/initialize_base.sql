@@ -43,7 +43,6 @@ CREATE TABLE `BucketList`
   `ID` BIGINT(64) UNSIGNED NOT NULL AUTO_INCREMENT,
   `UserID` BIGINT(64) UNSIGNED NOT NULL,
   `CreateDate` DATETIME NOT NULL,
-  `Status` BIT(1) NULL DEFAULT 1,
   PRIMARY KEY (`ID`),
   INDEX `fk_BucketList_UserID_idx` (`UserID` ASC),
   CONSTRAINT `fk_BucketList_UserID`

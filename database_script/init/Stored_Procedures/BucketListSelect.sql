@@ -16,6 +16,11 @@ BEGIN
         (SELECT CreateDate FROM BucketItem WHERE BucketItem.ID = BI.ID) AS CreatedDate,
         (SELECT OpenToTorch FROM BucketItem WHERE BucketItem.ID = BI.ID) AS OpenToTorch,
         (SELECT CompleteTime FROM BucketItem WHERE BucketItem.ID = BI.ID) AS CompleteTime,
+        (SELECT Users.Username 
+        FROM 
+			BucketItem 
+            INNER JOIN Users ON Users.ID = BucketItem.InheritFrom 
+		WHERE BucketItem.ID = BI.ID) AS InheritFrom,
         GROUP_CONCAT(DISTINCT HT.HashTag ORDER BY HT.ID ASC) AS HashTags
 	FROM
 		Users U
@@ -26,7 +31,6 @@ BEGIN
 	WHERE
 		U.Status = 1
         and U.Username = username
-        AND BL.Status = 1
         AND BI.Status = 1
         AND (BIHT.Status = 1 OR BIHT.Status IS NULL)
 	GROUP BY BI.ID
