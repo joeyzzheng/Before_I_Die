@@ -43,6 +43,77 @@ $(document).ready( function() {
             var userDescription = $("#signup-form user-description").val();
             var userCity = $("#signup-form user-city").val();
             var userState = $("#signup-form user-state").val();
+            // check each required fields has a value
+            if (username == '' || firstname == '' || lastname == '' || email == '' || signUpPassword == '' || confirmPassword == '') {
+                alert('You must provide all the requested details. Please try again');
+                return false;
+            }
+            // check username
+            var regExName = /^\w+$/;
+            if(!regExName.test(username)) { 
+                alert("Username must contain only letters, numbers and underscores. Please try again"); 
+                $("#signup-form #username").focus();
+                return false; 
+            }
+            // check firstname
+            if(!regExName.test(firstname)) { 
+                alert("Firstname must contain only letters, numbers and underscores. Please try again"); 
+                $("#signup-form #firstname").focus();
+                return false; 
+            }
+            // check lastname
+            if(!regExName.test(lastname)) { 
+                alert("Lastname must contain only letters, numbers and underscores. Please try again"); 
+                $("#signup-form #lastname").focus();
+                return false; 
+            }
+            // check password
+            if (signUpPassword.length < 6) {
+                alert('Passwords must be at least 6 characters long.  Please try again');
+                $("#signup-form #signup-password").focus();
+                return false;
+            }
+            // At least one number, one lowercase and one uppercase letter 
+            // At least six characters 
+            var regExPW = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/; 
+            if (!regExPW.test(password.value)) {
+                alert('Passwords must contain at least one number, one lowercase and one uppercase letter.  Please try again');
+                $("#signup-form #signup-password").focus(); 
+                return false;
+            }
+            // Check password and confirmation are the same
+            if (signUpPassword != confirmPassword) {
+                alert('Your password and confirmation do not match. Please try again');
+                form.password.focus();
+                $("#signup-form #signup-password").focus();
+                $("#signup-form #confirm-password").focus();
+                return false;
+            }
+            // check user title
+            if (userTitle.length < 100) {
+                alert('User occupation must be less than 100 characters long.  Please try again');
+                $("#signup-form user-title").focus();
+                return false;
+            }
+            // check user description
+            if (userDescription.length < 500) {
+                alert('User description must be less than 500 characters long.  Please try again');
+                $("#signup-form user-description").focus();
+                return false;
+            }
+            // check user city 
+            if (userCity.length < 100) {
+                alert('User city must be less than 100 characters long.  Please try again');
+                $("#signup-form user-city").focus();
+                return false;
+            }
+            // check user state
+            if (userState.length < 100) {
+                alert('User state must be less than 100 characters long.  Please try again');
+                $("#signup-form user-state").focus();
+                return false;
+            }
+            return true; 
         }
 
         // login form validation 
@@ -50,6 +121,29 @@ $(document).ready( function() {
             var username = $("#login-form #username").val();
             var loginPassword = $("#login-form #login-password").val();
             var rememberPassword = $('#login-form #remember-password').is(":checked"); // true or false
+
+            // check username 
+            var regExName = /^\w+$/;
+            if(!regExName.test(username)) { 
+                alert("Username must contain only letters, numbers and underscores. Please try again"); 
+                $("#login-form #username").focus();
+                return false; 
+            }
+            // check password
+            if (loginPassword.length < 6) {
+                alert('Passwords must be at least 6 characters long. Please try again');
+                $("#login-form #login-password").focus();
+                return false;
+            }
+            // At least one number, one lowercase and one uppercase letter 
+            // At least six characters 
+            var regExPW = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/; 
+            if (!regExPW.test(loginPassword)) {
+                alert('Passwords must contain at least one number, one lowercase and one uppercase letter.  Please try again');
+                $("#login-form #login-password").focus(); 
+                return false;
+            }
+            return true; 
         }
 
         // ajax signup form submission
@@ -57,11 +151,26 @@ $(document).ready( function() {
             alert("signup submit button clicked"); // debug
             if (signupFormValidate()) {
                 event.preventDefault();
+                var signupForm = new FormData(this);
+                var signUpPassword = $("#signup-form #signup-password").val();
+                var confirmPassword = $("#signup-form #confirm-password").val();
+
+                // Create a new element input, this will be our hashed password field. 
+                var p = document.createElement("input");
+                // Add the new element to our form. 
+                signupForm.appendChild(p);
+                p.name = "p";
+                p.type = "hidden";
+                p.value = hex_sha512(signUpPassword.value);
+                // Make sure the plaintext password doesn't get sent. 
+                signUpPassword = "";
+                confirmPassword = "";
+
                 var signupURL = "https://apiapache-beforeidie.rhcloud.com/api/users/register";
                 $.ajax({
                     url: signupURL,
                     type: "POST",
-                    data: new FormData(this), 
+                    data: signupForm, 
                     contentType: false, 
                     processData: false,
                     crossDomain: true,
@@ -74,7 +183,7 @@ $(document).ready( function() {
                 })
             }
         })
-        
+
         // ajax login form submission 
         $("#login-form").submit(function(event) {
             alert("login submit button clicked"); // debug
@@ -95,23 +204,5 @@ $(document).ready( function() {
                 })
             }
         })
-
-        // hash password
-        function formhash(form, password) {
-            // Create a new element input, this will be our hashed password field. 
-            var p = document.createElement("input");
-
-            // Add the new element to our form. 
-            form.appendChild(p);
-            p.name = "p";
-            p.type = "hidden";
-            p.value = hex_sha512(password.value);
-
-            // Make sure the plaintext password doesn't get sent. 
-            password.value = "";
-
-            // Finally submit the form. 
-            form.submit();
-        }
     }
 )
