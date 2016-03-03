@@ -46,7 +46,7 @@
 			        // get variables from result.
 			        if( $stmt->num_rows() >0 ){
 			        	
-			        	$stmt->bind_result($col1, $col2, $col3, $col4, $col5, $col6, $col7, $col8, $col9, $col10, $col11);
+			        	$stmt->bind_result($col1, $col2, $col3, $col4, $col5, $col6, $col7, $col8, $col9, $col10, $col11, $col12);
 				        $total_retrieve_result = 0;
 				        while($stmt->fetch()){
 				        	
@@ -60,7 +60,8 @@
 				        	$json_result[$total_retrieve_result]["createDate"]   = $col8;
 				        	$json_result[$total_retrieve_result]["openToTorch"]  = $col9;
 				        	$json_result[$total_retrieve_result]["completeTime"] = $col10;
-				        	$json_result[$total_retrieve_result]["hashTag"] = $col11;
+				        	$json_result[$total_retrieve_result]["inheritFrom"]  = $col11;
+				        	$json_result[$total_retrieve_result]["hashTag"]      = $col12;
 				        	$total_retrieve_result++;
 				        }
 				        $stmt->close();
