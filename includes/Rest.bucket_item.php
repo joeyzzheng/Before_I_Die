@@ -38,19 +38,29 @@
 		        if(isset($_POST["itemID"],$_POST["complete"])){
 		            $itemID = $_POST["itemID"];
 		            $complete = $_POST["complete"];
-		            $query = "call Before_I_Die.BucketItemCompleteUpdate(?,?,?,?)";
+		            $query = "call Before_I_Die.BucketItemCompleteUpdate( ?, ?, @Result, @Msg)";
 		            if($stmt = $this->db->prepare($query)){
-		                $stmt->bind_param('ib', $itemID, $complete, $result, $msg);  // Bind to parameter.
+		                $stmt->bind_param('ib', $itemID, $complete);  // Bind to parameter.
 			            $stmt->execute();    // Execute the prepared query.
-			            $stmt->store_result();
-			            if($result == 0){
-			                $temp["success"] = "false";
-                            $temp["error_msg"] = $msg;
-                            $this->response(json_encode($temp),200);
-			            }
-			            $temp["success"] = "true";
-                        $temp["error_msg"] = "null";
-                        $this->response(json_encode($temp),200);
+			            $stmt->close();
+			            $query = "SELECT @Result, @Msg";
+			            if ($stmt = $this->db->query($query)) {
+                            $result = $stmt->fetch_assoc();
+                            $stmt->close();
+                            if($result["@Result"] == 0){
+                                $temp["success"] = "false";
+                                $temp["error_msg"] = $result["@Msg"];
+                                $this->response(json_encode($temp), 200);
+                            }
+                            $temp["success"] = "true";
+                            $temp["error_msg"] = "null";
+                            $this->response(json_encode([$temp]),200);
+                        }
+                        else{
+                            $temp["success"] = "false";
+                            $temp["error_msg"] = "Can not query Bucketitem Complete result msg";
+                            $this->response(json_encode($temp), 200);
+                        }
 		            }
 		            else{
 		                $temp["success"] = "false";

@@ -81,8 +81,9 @@
                 // Create salted password 
                 $password = hash('sha512', $password . $random_salt);
         
-                // Insert the new user into the database 
-                if ($insert_stmt = $this->db->prepare("call UsersInsert (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+                // Insert the new user into the database
+                $query = "call UsersInsert (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @Result, @Msg)";
+                if ($insert_stmt = $this->db->prepare($query)) {
                 //if ($insert_stmt = $mysqli->prepare("INSERT INTO Users (Username, Email, FirstName, LastName, Title, Description, City, State, ProfilePic, Salt, Password) 
                 //VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
                     $title       = isset($_POST["title"]) ? $_POST["title"] : NULL;
@@ -95,7 +96,7 @@
                     else{
                         $profilePic ="/resource/pic/profilePic/default_profile_pic.png";
                     }
-                    $insert_stmt->bind_param('sssssssssss', $username, $email, $firstName, $lastName, $title, $description, $city, $state, $profilePic, $random_salt, $password, $result, $msg);
+                    $insert_stmt->bind_param('sssssssssss', $username, $email, $firstName, $lastName, $title, $description, $city, $state, $profilePic, $random_salt, $password);
                     // Execute the prepared query.
                     if (! $insert_stmt->execute()) {
                         $temp["success"] = "false";
@@ -104,7 +105,7 @@
                     }
                     else{
                         
-                        $insert_stmt->store_result();
+                        //$insert_stmt->store_result();
                         // $insert_stmt->bind_result($col1, $col2);
                         //  /* fetch values */
                         // while ($insert_stmt->fetch()) {
@@ -112,16 +113,28 @@
                         //         $error_msg .= "col1: ".$col1.",col2: ".$col2;
                         //     }
                         // }
+                        
                         $insert_stmt->close();
-                        if($result == 0){
+                        
+                        $query = "SELECT @Result, @Msg";
+                        if ($insert_stmt = $this->db->query($query)) {
+                            $result = $insert_stmt->fetch_assoc();
+                            $insert_stmt->close();
+                            if($result["@Result"] == 0){
+                                $temp["success"] = "false";
+                                $temp["error_msg"] = $result["@Msg"];
+                                $this->response(json_encode($temp), 200);
+                            }
+                            $temp["success"] = "true";
+                            $temp["error_msg"] = "null";
+                            $this->response(json_encode([$temp]),200);
+                        }
+                        else{
                             $temp["success"] = "false";
-                            $temp["error_msg"] = $msg;
+                            $temp["error_msg"] = "Can not query UserInsert result msg";
                             $this->response(json_encode($temp), 200);
                         }
-                        $temp["success"] = "true";
-                        $temp["error_msg"] = "null";
-                        $this->response(json_encode([$temp]),200);
-                    }
+                    }//else execute fail
                 }//prepare
                 else{
                     $temp["success"] = "false";
