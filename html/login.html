@@ -32,12 +32,12 @@
                       <!-- login form -->
                       <form id="login-form" action="#" method="post" style="display:none;">
                         <div class="form-wrapper">
-                          <label class="sr-only" for="username">Email:</label>
-                          <input class="form-entry" type="text" name="email" id="email" placeholder="xxx@yyy.com" tabindex="1">
+                          <label class="sr-only" for="username">Username:</label>
+                          <input class="form-entry" type="text" name="username" id="username" placeholder="Jason" tabindex="1" maxlength="50" required>
                         </div>
                         <div class="form-wrapper">
                           <label class="sr-only" for="login-password">Password:</label>
-                          <input class="form-entry" type="password" name="login-password" id="login-password" placeholder="Password" tabindex="2">
+                          <input class="form-entry" type="password" name="login-password" id="login-password" placeholder="Password" tabindex="2" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" required>
                         </div>
                         <div class="form-wrapper text-center">
                           <input type="checkbox" name="remember-password" id="remember-password" tabindex="3">
@@ -46,7 +46,7 @@
                         <div class="form-wrapper">
                           <div class="row">
                             <div class="col-6 col-offset-3">
-                              <input class="btn-login btn-default" type="submit" name="login-submit" id="login-submit" value="Log In" tabindex="4">
+                              <input class="btn-login btn-default" type="submit" id="login-submit" value="Log In" tabindex="4">
                             </div>
                           </div>
                         </div>
@@ -123,6 +123,7 @@
       </main>
       <footer></footer>
       <script src="../resource/js/login.js"></script>
+      <script type="../resource/js/sha512.js"></script>
     </body>
 </html>
 

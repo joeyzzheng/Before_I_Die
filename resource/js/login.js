@@ -45,11 +45,17 @@ $(document).ready( function() {
             var userState = $("#signup-form user-state").val();
         }
 
-        // ajax form submission
+        // login form validation 
+        function loginFormValidation() {
+            var username = $("#login-form #username").val();
+            var loginPassword = $("#login-form #login-password").val();
+            var rememberPassword = $('#login-form #remember-password').is(":checked"); // true or false
+        }
+
+        // ajax signup form submission
         $("#signup-form").submit(function(event) {
-            alert("clicked");
-            if (true) {
-                alert("if");
+            alert("signup submit button clicked"); // debug
+            if (signupFormValidate()) {
                 event.preventDefault();
                 var signupURL = "https://apiapache-beforeidie.rhcloud.com/api/users/register";
                 $.ajax({
@@ -60,7 +66,7 @@ $(document).ready( function() {
                     processData: false,
                     crossDomain: true,
                     success: function(data, textStatus, jqXHR) {
-                        // do something
+                        switchToLogin(); // switch to login form
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         alert("An error occured: " + textStatus + " " + errorThrown);
@@ -68,8 +74,44 @@ $(document).ready( function() {
                 })
             }
         })
-    
-        var signupURL = "http://apiapache-beforeidie.rhcloud.com/api/users/register";
-        var loginURL = "http://apiapache-beforeidie.rhcloud.com/api/login"; 
+        
+        // ajax login form submission 
+        $("#login-form").submit(function(event) {
+            alert("login submit button clicked"); // debug
+            if (loginFormValidation()) {
+                event.preventDefault();
+                var loginURL = "https://apiapache-beforeidie.rhcloud.com/api/login";
+                var loginData = $(this).serialize();
+                $.ajax({
+                    url: signupURL,
+                    type: "GET",
+                    data: loginData, 
+                    success: function(data, textStatus, jqXHR) {
+                        // switch to public page
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert("An error occured: " + textStatus + " " + errorThrown);
+                    }
+                })
+            }
+        })
+
+        // hash password
+        function formhash(form, password) {
+            // Create a new element input, this will be our hashed password field. 
+            var p = document.createElement("input");
+
+            // Add the new element to our form. 
+            form.appendChild(p);
+            p.name = "p";
+            p.type = "hidden";
+            p.value = hex_sha512(password.value);
+
+            // Make sure the plaintext password doesn't get sent. 
+            password.value = "";
+
+            // Finally submit the form. 
+            form.submit();
+        }
     }
 )
