@@ -2,10 +2,12 @@
     $uploadOk = 0;
     
     if(!empty($_FILES["fileToUpload"]["tmp_name"])){
-        $target_dir = "/resource/pic/". $_POST['username'] .'_'. basename($_FILES["fileToUpload"]["name"]) ;
+        $temp_imageFileType = explode(".",basename($_FILES["fileToUpload"]["name"]));
+        $imageFileType = $temp_imageFileType[sizeof($temp_imageFileType) - 1];
+        $target_dir = "/resource/pic/profilePic/". $_POST['username'] . "." .$imageFileType;
         $target_file = $_SERVER['DOCUMENT_ROOT'].$target_dir;
         $uploadOk = 1;
-        $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+        
         
         //Check if image file is a actual image or fake image
         $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
@@ -26,6 +28,7 @@
             $uploadOk = 0;
         }
         // Allow certain file formats
+        
         if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
         && $imageFileType != "gif" ) {
             $error_msg .= "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
