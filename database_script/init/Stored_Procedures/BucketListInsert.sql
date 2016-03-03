@@ -31,18 +31,18 @@ this_proc:BEGIN
     ELSE
     BEGIN
 		INSERT INTO BucketList
-        (UserID, CreateDate, Status)
+        (UserID, CreateDate)
         VALUES
-        (userID, utc_timestamp(), 1);
+        (userID, utc_timestamp());
         
         SET Result = 1;
-        SET Msg = CAST(last_insert_id() AS CHAR(100));
+        SET Msg = last_insert_id();
 	END;
 	END IF;
     
     IF `_rollback` THEN
 		SET Result = 0;
-        SET Msg = 'Unknown SQL Exception';
+        SET Msg = 'BucketListInsert: Unknown SQL Exception';
 		ROLLBACK;
 	ELSE
 		COMMIT;

@@ -43,15 +43,15 @@ this_proc:BEGIN
 		INSERT INTO `Users`
 		(Username, Email, FirstName, LastName, Title, Description, City, State, ProfilePic, Salt, Password, CreatedDt)
 		VALUES 
-		(username, email, firstName, lastName, title, description, city, state, profilePic, salt, password, utc_timestamp());
+		(username, email, firstName, lastName, title, description, city, state, IFNULL(profilePic, '/resource/pic/profilePic/default_profile_pic.png'), salt, password, utc_timestamp());
         
         SET NewUserID = last_insert_id();
 
 		CALL BucketListInsert(username, @BLResult, @BLMsg);
-        IF (@BLReslt) THEN
+        IF (@BLResult = 1) THEN
         BEGIN
 			SET Result = 1;
-			SET Msg = CAST(NewUserID AS CHAR(100));
+			SET Msg = NewUserID;
 		END;
 		ELSE
 		BEGIN
@@ -67,7 +67,7 @@ this_proc:BEGIN
     
     IF `_rollback` THEN
 		SET Result = 0;
-        SET Msg = 'Unknown SQL Exception';
+        SET Msg = 'UsersInsert: Unknown SQL Exception';
 		ROLLBACK;
 	ELSE
 		COMMIT;

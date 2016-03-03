@@ -30,7 +30,7 @@ this_proc:BEGIN
         U.Description = description,
         U.City = city,
         U.State = state,
-        U.ProfilePic = profilePic
+        U.ProfilePic = IFNULL(profilePic, '/resource/pic/profilePic/default_profile_pic.png')
     WHERE
 		U.Username = username
         AND U.status = 1;

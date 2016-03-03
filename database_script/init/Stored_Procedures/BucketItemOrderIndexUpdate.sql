@@ -20,7 +20,7 @@ this_proc:BEGIN
     
     UPDATE BucketItem BI
     SET
-		BI.OrderIndex = orderIndex
+		BI.OrderIndex = IFNULL(orderIndex, 0)
 	WHERE BI.ID = itemID;
     
     IF `_rollback` THEN

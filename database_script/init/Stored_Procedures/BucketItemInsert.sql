@@ -41,7 +41,7 @@ this_proc: BEGIN
 	INSERT INTO BucketItem
     (Title, Content, CompleteTime, Location, Image, Private, OrderIndex, CreateDate, BucketListID)
     VALUES
-    (title, content, null, location, image, 1, orderIndex, utc_timestamp(), BucketListID);
+    (title, content, null, location, IFNULL(image, '/resource/pic/bucketPic/default_bucket_pic.jpg'), 1, IFNULL(orderIndex, 0), utc_timestamp(), BucketListID);
     
     IF `_rollback` THEN
 		SET Result = 0;

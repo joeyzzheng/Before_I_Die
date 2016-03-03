@@ -25,7 +25,7 @@ this_proc:BEGIN
 		BI.Title = title,
         BI.Content = content,
         BI.Location = location,
-        BI.Image = image
+        BI.Image = IFNULL(image, '/resource/pic/bucketPic/default_bucket_pic.jpg')
 	WHERE BI.ID = itemID;
     
     IF `_rollback` THEN
