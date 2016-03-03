@@ -1,9 +1,9 @@
 USE `Before_I_Die`;
-DROP PROCEDURE IF EXISTS `BucketItemInherit`;
+DROP PROCEDURE IF EXISTS `BucketItemInheritInsert`;
 
 DELIMITER //
 USE `Before_I_Die`//
-CREATE PROCEDURE `BucketItemInherit` (IN bucketItemID BIGINT(64), IN childUsername VARCHAR(50), OUT Result BIT(1), OUT Msg VARCHAR(100))
+CREATE PROCEDURE `BucketItemInheritInsert` (IN bucketItemID BIGINT(64), IN childUsername VARCHAR(50), OUT Result BIT(1), OUT Msg VARCHAR(100))
 this_proc: BEGIN
 	DECLARE allowToTorch BIT(1);
     DECLARE `_rollback` BOOL DEFAULT 0;
