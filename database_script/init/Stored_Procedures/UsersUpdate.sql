@@ -23,7 +23,6 @@ this_proc:BEGIN
 
 	UPDATE `Users` U
     SET
-        U.Username = username,
         U.Email = email,
         U.FirstName = firstName,
         U.LastName = lastName,
