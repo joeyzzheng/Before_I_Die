@@ -17,13 +17,13 @@ CREATE TABLE `Users`
   `Description` VARCHAR (500) NULL,
   `City` VARCHAR(100) NULL,
   `State` VARCHAR(100) NULL,
-  `ProfilePic` VARCHAR(200) NULL DEFAULT '',
+  `ProfilePic` VARCHAR(200) NOT NULL,
   `Salt` VARCHAR(256) NOT NULL,
   `Password` VARCHAR(256) NOT NULL,
-  `LoginAttempt` TINYINT(1) NULL DEFAULT 0,
-  `Locked` BIT(1) NULL DEFAULT 0,
+  `LoginAttempt` TINYINT(1) NOT NULL DEFAULT 0,
+  `Locked` BIT(1) NOT NULL DEFAULT 0,
   `CreatedDt` DATETIME NOT NULL,
-  `Status` BIT(1) NULL DEFAULT 1,
+  `Status` BIT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`ID`),
   UNIQUE INDEX `Username_UNIQUE` (`Username` ASC)
 );
@@ -43,7 +43,6 @@ CREATE TABLE `BucketList`
   `ID` BIGINT(64) UNSIGNED NOT NULL AUTO_INCREMENT,
   `UserID` BIGINT(64) UNSIGNED NOT NULL,
   `CreateDate` DATETIME NOT NULL,
-  `Status` BIT(1) NULL DEFAULT 1,
   PRIMARY KEY (`ID`),
   INDEX `fk_BucketList_UserID_idx` (`UserID` ASC),
   CONSTRAINT `fk_BucketList_UserID`
@@ -60,15 +59,15 @@ CREATE TABLE `BucketItem`
   `Title` VARCHAR(100) NOT NULL,
   `Content` VARCHAR(2000) NULL,
   `Location` VARCHAR(200) NULL,
-  `Image` VARCHAR(200) NULL,
-  `Private` BIT(1) NULL DEFAULT 1,
-  `OrderIndex` INT(32) NULL DEFAULT 0,
+  `Image` VARCHAR(200) NOT NULL,
+  `Private` BIT(1) NOT NULL DEFAULT 1,
+  `OrderIndex` INT(32) NOT NULL,
   `CreateDate` DATETIME NOT NULL,
   `CompleteTime` DATETIME NULL,
-  `OpenToTorch` BIT(1) NULL DEFAULT 0,
+  `OpenToTorch` BIT(1) NOT NULL DEFAULT 0,
   `InheritFrom` BIGINT(64) UNSIGNED NULL,
   `BucketListID` BIGINT(64) UNSIGNED NOT NULL,
-  `Status` BIT(1) NULL DEFAULT 1,
+  `Status` BIT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`ID`),
   INDEX `fk_BucketItem_InheritFrom_idx` (`InheritFrom` ASC),
   INDEX `fk_BucketItem_BucketListID_idx` (`BucketListID` ASC),
@@ -90,7 +89,7 @@ CREATE TABLE `BucketItemHashTag`
   `ID` BIGINT(64) UNSIGNED NOT NULL AUTO_INCREMENT,
   `BucketItemID` BIGINT(64) UNSIGNED NOT NULL,
   `HashTagID` BIGINT(64) UNSIGNED NOT NULL,
-  `Status` BIT(1) NULL DEFAULT 1,
+  `Status` BIT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`ID`),
   INDEX `fk_BucketItemHashTag_BucketItemID_idx` (`BucketItemID` ASC),
   INDEX `fk_BucketItemHashTag_HashTagID_idx` (`HashTagID` ASC),
@@ -108,11 +107,20 @@ CREATE TABLE `BucketItemHashTag`
 
 DROP TABLE IF EXISTS `BucketItemComment`;
 CREATE TABLE `BucketItemComment` (
-  `ID` BIGINT(64) UNSIGNED NOT NULL,
+  `ID` BIGINT(64) UNSIGNED NOT NULL AUTO_INCREMENT,
   `BucketItemID` BIGINT(64) UNSIGNED NOT NULL,
-  `Comment` VARCHAR(500) NOT NULL,
+  `UserID` BIGINT(64) UNSIGNED NOT NULL,
+  `UserComment` VARCHAR(500) NOT NULL,
+  `CreateDate` DATETIME NOT NULL,
+  `Status` BIT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`ID`),
   INDEX `fk_BucketItemComment_BucketItemID_idx` (`BucketItemID` ASC),
+  INDEX `fk_BucketItemComment_UserID_idx` (`UserID` ASC),
+  CONSTRAINT `fk_BucketItemComment_UserID`
+	FOREIGN KEY (`UserID`)
+    REFERENCES `Users` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_BucketItemComment_BucketItemID`
     FOREIGN KEY (`BucketItemID`)
     REFERENCES `BucketItem` (`ID`)
@@ -124,6 +132,7 @@ CREATE TABLE `BucketItemLike` (
   `ID` BIGINT(64) UNSIGNED NOT NULL AUTO_INCREMENT,
   `BucketItemID` BIGINT(64) UNSIGNED NOT NULL,
   `UserID` BIGINT(64) UNSIGNED NOT NULL,
+  `Status` BIT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`ID`),
   INDEX `fk_BucketItemLike_BucketItemID_idx` (`BucketItemID` ASC),
   INDEX `fk_BucketItemLike_UserID_idx` (`UserID` ASC),

@@ -4,15 +4,20 @@ DROP PROCEDURE IF EXISTS `BucketItemInsert`;
 DELIMITER //
 USE `Before_I_Die`//
 CREATE PROCEDURE `BucketItemInsert` (IN username VARCHAR(50), IN title VARCHAR(100), IN content VARCHAR(2000),
-	IN location VARCHAR(200), IN image VARCHAR(200), IN orderIndex INT)
+	IN location VARCHAR(200), IN image VARCHAR(200), IN orderIndex INT, OUT Result BIT(1), OUT Msg VARCHAR(100))
 this_proc: BEGIN
 	DECLARE BucketListID INT;
-    DECLARE Result INT;
-    DECLARE Msg VARCHAR(100);
     DECLARE `_rollback` BOOL DEFAULT 0;
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
     
     START TRANSACTION;
+    
+    IF (username IS NULL OR title IS NULL OR content IS NULL) THEN
+		SET Result = 0;
+        SET Msg = 'The username or title or content is NOT given.';
+        ROLLBACK;
+        LEAVE this_proc;
+    END IF;
     
     SET BucketListID = (
 		SELECT BL.ID 
@@ -22,14 +27,12 @@ this_proc: BEGIN
 		WHERE
 			U.Username = username
             AND U.Status = 1
-            AND BL.Status = 1
 		);
         
 	IF (BucketListID IS NULL) THEN 
     BEGIN
 		SET Result = 0;
         SET Msg = 'User not found.';
-        SELECT Result, Msg;
         ROLLBACK;
 		LEAVE this_proc;
 	END;
@@ -38,17 +41,15 @@ this_proc: BEGIN
 	INSERT INTO BucketItem
     (Title, Content, CompleteTime, Location, Image, Private, OrderIndex, CreateDate, BucketListID)
     VALUES
-    (title, content, null, location, image, 1, orderIndex, utc_timestamp(), BucketListID);
+    (title, content, null, location, IFNULL(image, '/resource/pic/bucketPic/default_bucket_pic.jpg'), 1, IFNULL(orderIndex, 0), utc_timestamp(), BucketListID);
     
     IF `_rollback` THEN
 		SET Result = 0;
-        SET Msg = 'Unknown SQL Exception';
-        SELECT Result, Msg;
+        SET Msg = 'BucketItemInsert: Unknown SQL Exception';
 		ROLLBACK;
 	ELSE
 		SET Result = 1;
 		SET Msg = CAST(last_insert_id() AS CHAR(100));
-		SELECT Result, Msg;
 		COMMIT;
 	END IF;
 
