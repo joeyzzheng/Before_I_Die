@@ -82,21 +82,20 @@
                 $password = hash('sha512', $password . $random_salt);
         
                 // Insert the new user into the database 
-                if ($insert_stmt = $this->db->prepare("call UsersInsert (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+                if ($insert_stmt = $this->db->prepare("call UsersInsert (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
                 //if ($insert_stmt = $mysqli->prepare("INSERT INTO Users (Username, Email, FirstName, LastName, Title, Description, City, State, ProfilePic, Salt, Password) 
                 //VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
-                    
-                    $title = NULL;
-                    $description = NULL;
-                    $city = NULL;
-                    $state = NULL;
+                    $title       = isset($_POST["title"]) ? $_POST["title"] : NULL;
+                    $description = isset($_POST["description"]) ? $_POST["description"] : NULL;
+                    $city        = isset($_POST["city"]) ? $_POST["city"] : NULL;
+                    $state       = isset($_POST["state"]) ? $_POST["state"] : NULL;
                     if($uploadOk == 1){
                         $profilePic = $target_dir;
                     }
                     else{
-                        $profilePic ="";
+                        $profilePic ="/resource/pic/profilePic/default_profile_pic.png";
                     }
-                    $insert_stmt->bind_param('sssssssssss', $username, $email, $firstName, $lastName, $title, $description, $city, $state, $profilePic, $random_salt, $password);
+                    $insert_stmt->bind_param('sssssssssss', $username, $email, $firstName, $lastName, $title, $description, $city, $state, $profilePic, $random_salt, $password, $result, $msg);
                     // Execute the prepared query.
                     if (! $insert_stmt->execute()) {
                         $temp["success"] = "false";
@@ -106,17 +105,17 @@
                     else{
                         
                         $insert_stmt->store_result();
-                        $insert_stmt->bind_result($col1, $col2);
-                         /* fetch values */
-                        while ($insert_stmt->fetch()) {
-                            if(empty($col1)){
-                                $error_msg .= "col1: ".$col1.",col2: ".$col2;
-                            }
-                        }
+                        // $insert_stmt->bind_result($col1, $col2);
+                        //  /* fetch values */
+                        // while ($insert_stmt->fetch()) {
+                        //     if(empty($col1)){
+                        //         $error_msg .= "col1: ".$col1.",col2: ".$col2;
+                        //     }
+                        // }
                         $insert_stmt->close();
-                        if(!empty($error_msg)){
+                        if($result == 0){
                             $temp["success"] = "false";
-                            $temp["error_msg"] = $col2;
+                            $temp["error_msg"] = $msg;
                             $this->response(json_encode($temp), 200);
                         }
                         $temp["success"] = "true";

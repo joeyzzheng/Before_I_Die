@@ -2,10 +2,11 @@
     $uploadOk = 0;
     
     if(!empty($_FILES["fileToUpload"]["tmp_name"])){
-        $target_dir = "/resource/pic/". $_POST['username'] .'_'. basename($_FILES["fileToUpload"]["name"]) ;
+        $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+        $target_dir = "/resource/pic/profilePic/". $_POST['username'] . $imageFileType;
         $target_file = $_SERVER['DOCUMENT_ROOT'].$target_dir;
         $uploadOk = 1;
-        $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+        
         
         //Check if image file is a actual image or fake image
         $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);

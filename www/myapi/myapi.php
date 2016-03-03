@@ -36,6 +36,7 @@
 	require_once("../../includes/Rest.inc.php");
 	require_once("../../includes/Rest.users.php");
 	require_once("../../includes/Rest.bucketlist.php");
+	require_once("../../includes/Rest.bucket_item.php");
 	
 	class API extends REST {
 	
@@ -49,6 +50,7 @@
 		
 		private $myUsers = NULL;
 		private $myBucketList = NULL;
+		private $myBucketItem = NULL;
 		
 		public function setMyUsers($instance){
 			$this->myUsers = $instance;
@@ -56,6 +58,10 @@
 		
 		public function setMyBucketList($instance){
 			$this->myBucketList = $instance;
+		}
+		
+		public function setMyBucketItem($instance){
+			$this->myBucketItem = $instance;
 		}
 		
 		public function __construct(){
@@ -93,7 +99,7 @@
 			if(!$this->sec_session_start()){
 				$temp["success"] = "false";
 				$temp["error_msg"] = $this->error_msg;
-				$this->response($this->json($temp),401);
+				$this->response($this->json($temp),200);
 			}
 			
 			//validate URL begin with api
@@ -418,7 +424,9 @@
 	$api = new API;
 	$users = new USERS;
 	$bucketlist = new BUCKLIST;
+	$bucketitem = new BUCKETITEM;
 	$api->setMyUsers($users);
 	$api->setMyBucketList($bucketlist);
+	$api->setMyBucketItem($bucketitem);
 	$api->processApi();
 ?>
