@@ -25,7 +25,7 @@ this_proc:BEGIN
     
     IF `_rollback` THEN
 		SET Result = 0;
-        SET Msg = 'Unknown SQL Exception';
+        SET Msg = 'BucketItemTorchUpdate: Unknown SQL Exception';
 		ROLLBACK;
 	ELSE
 		SET Result = 1;

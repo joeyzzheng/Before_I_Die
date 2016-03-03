@@ -1,9 +1,9 @@
 USE `Before_I_Die`;
-DROP PROCEDURE IF EXISTS `BucketItemPrivacyUpdate`;
+DROP PROCEDURE IF EXISTS `BucketItemDelete`;
 
 DELIMITER //
 USE `Before_I_Die`//
-CREATE PROCEDURE `BucketItemPrivacyUpdate` (IN itemID BIGINT(64), IN private BIT(1), OUT Result BIT(1), OUT Msg VARCHAR(100))
+CREATE PROCEDURE `BucketItemDelete` (IN itemID BIGINT(64), OUT Result BIT(1), OUT Msg VARCHAR(100))
 this_proc:BEGIN
 	
     DECLARE `_rollback` BOOL DEFAULT 0;
@@ -11,21 +11,19 @@ this_proc:BEGIN
     
     START TRANSACTION;
     
-    IF (itemID IS NULL OR private IS NULL) THEN
+    IF (itemID IS NULL) THEN
 		SET Result = 0;
-        SET Msg = 'No bucket item id or private flag.';
+        SET Msg = 'The bucket item id is NOT given';
         ROLLBACK;
         LEAVE this_proc;
     END IF;
     
-    UPDATE BucketItem BI
-    SET
-		BI.Private = private
-	WHERE BI.ID = itemID;
+	DELETE FROM BucketItem
+    WHERE BucketItemID = itemID;
     
     IF `_rollback` THEN
 		SET Result = 0;
-        SET Msg = 'BucketItemPrivacyUpdate: Unknown SQL Exception';
+        SET Msg = 'BucketItemDelete: Unknown SQL Exception';
 		ROLLBACK;
 	ELSE
 		SET Result = 1;
