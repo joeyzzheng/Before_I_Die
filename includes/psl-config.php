@@ -33,6 +33,11 @@ define("DB_USER", getenv("OPENSHIFT_MYSQL_DB_USERNAME")); 			// The database use
 define("DB_PASSWORD", getenv("OPENSHIFT_MYSQL_DB_PASSWORD")); 	// The database password. 
 define("DB", "Before_I_Die");             // The database name.
 
+// define("DB_SERVER", "0.0.0.0"); 			// The host you want to connect to. 
+// define("DB_USER", "sedernet"); 			// The database username. 
+// define("DB_PASSWORD", ""); 	// The database password. 
+// define("DB", "Before_I_Die");             // The database name.
+
 
 /**
  * Who can register and what the default role will be
