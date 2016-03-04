@@ -375,10 +375,50 @@
                     $temp["error_msg"] = "ItemID, commentusername or comment does not set.";
                     $this->response(json_encode($temp),200);
 		    	}
-		    }
+		    }//POST
+		    else if(strcmp($this->get_request_method(),"GET") == 0){
+		    	if(isset($_GET["itemID"])){
+		    		$itemID = $_GET["itemID"];
+		    		$query = "call Before_I_Die.BucketItemCommentSelect (?)";
+		        	$json_like_result = NULL;
+		        	if($stmt_like = $this->db->prepare($query)){
+		        		$stmt_like->bind_param('s', $itemID);  // Bind to parameter.
+				        $stmt_like->execute();    // Execute the prepared query.
+				        $stmt_like->store_result();
+				        
+				        if($stmt_like->num_rows() > 0){
+				        	$stmt_like->bind_result($col1_like);
+				        	$total_retrieve_like_result = 0;
+				        	while($stmt_like->fetch()){
+				        		
+				        		$json_like_result[$total_retrieve_like_result] = $col1_like;
+	
+				        		$total_retrieve_like_result++;
+				        	}
+				        }
+				        $stmt_like->close();
+				        $temp["success"] = "true";
+	    				$temp["error_msg"] = "null";
+	    				$temp["responseJSON"] = $json_like_result;
+	    				$this->response(json_encode($temp),200);
+				        
+		        	}
+		        	else{
+		        		$temp["success"] = "false";
+	    				$temp["error_msg"] = "BUCKLIST BucketItemCommentSelect prepare".$query." fail.";
+	    				$this->response(json_encode($temp),200);
+		        	}
+		    	}
+		    	else{
+		    		$temp["success"] = "false";
+	    			$temp["error_msg"] = "itemID does not exist";
+	    			$this->response(json_encode($temp),200);
+		    	}
+		    	
+		    }	
 		    else{
 		    	$temp["success"] = "false";
-                $temp["error_msg"] = "bucket_item/comment method must be POST";
+                $temp["error_msg"] = "bucket_item/comment method must be POST or GET";
                 $this->response(json_encode($temp),200);
 		    }
 		}
