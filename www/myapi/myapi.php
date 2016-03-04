@@ -432,6 +432,17 @@
 					
 				}
 			}
+			else if(strcmp($this->get_request_method(),"GET") == 0){
+				$func = $this->parseURL[2];
+				if((int)method_exists($this->myBucketItem,$func) > 0)
+					$this->myBucketItem->$func();
+				else{
+					$temp["success"] = "false";
+					$temp["error_msg"] = "api/bucket_item/method no method match";
+					$this->response($this->json($temp),200);				// If the method not exist with in this class, response would be "Page not found".
+					
+				}
+			}
 			else{
 				$temp["success"] = "false";
 				$temp["error_msg"] = "HTTP method not found";
