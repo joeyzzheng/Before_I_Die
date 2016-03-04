@@ -26,7 +26,122 @@
 		}
 	    
 	    public function insert(){
-		    
+		    $error_msg = "";
+		    if(strcmp($this->get_request_method(),"POST") != 0){
+		    	$temp["success"] = "false";
+                $temp["error_msg"] = "bucket_item insert method must be POST.";
+                $this->response(json_encode($temp),200);
+		    }
+            //$this->response(json_encode($_POST),200);
+            if (isset($_POST['username'], $_POST['title'], $_POST['content'])) {
+                
+                $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+                if (strlen($username) > 50) {
+                    $error_msg .= "Invalid username, limits to 50 characters.";
+                }
+                
+                $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
+                if (strlen($title) > 100) {
+                    $error_msg .= "Invalid title, limits to 100 characters.";
+                }
+                
+                $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_STRING);
+                if (strlen($content) > 2000) {
+                    // The hashed pwd should be 128 characters long.
+                    // If it's not, something really odd has happened
+                    $error_msg .= "Invalid content, limits to 2000 characters.";
+                }
+                $location       = isset($_POST["location"]) ? $_POST["locaiton"] : NULL;
+                $orderindex     = isset($_POST["orderindex"]) ? $_POST["orderindex"] : NULL;
+                    
+                if(strlen($location) > 200) $error_msg .= "Invalid location, limits to 200 characters.";
+                //if(strlen($orderindex) > 100) $error_msg .= "Invalid orderindex, limits to 100 characters.";
+                
+                    
+                if(!empty($error_msg)){
+                    $temp["success"] = "false";
+                    $temp["error_msg"] = $error_msg;
+                    $this->response(json_encode($temp),200);
+                }   
+                
+            
+                include 'processBucketImagUpload.php';
+                
+                $imag = ($uploadOk == 1) ? $target_dir : "/resource/pic/bucketPic/default_bucket_pic.jpg";
+                if(strlen($imag) > 200) $error_msg .= "pfofilePic file length is too long, limits to 200 characters.";
+                
+                if(!empty($error_msg)){
+                    $temp["success"] = "false";
+                    $temp["error_msg"] = $error_msg;
+                    $this->response(json_encode($temp),200);
+                }
+        
+                // Insert the new bucket item into the database
+                $query = "call Before_I_Die.BucketItemInsert (?, ?, ?, ?, ?, ?, @Result, @Msg)";
+                if ($insert_stmt = $this->db->prepare($query)) {
+                //if ($insert_stmt = $mysqli->prepare("INSERT INTO Users (Username, Email, FirstName, LastName, Title, Description, City, State, ProfilePic, Salt, Password) 
+                //VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+                    
+                    $insert_stmt->bind_param('ssssss', $username, $title, $content, $location, $imag, $orderindex);
+                    // Execute the prepared query.
+                    if (! $insert_stmt->execute()) {
+                        $temp["success"] = "false";
+                        $temp["error_msg"] = "bucketitem insertion execute fail";
+                        $this->response(json_encode($temp), 200);
+                    }
+                    else{
+                        
+                        //$insert_stmt->store_result();
+                        // $insert_stmt->bind_result($col1, $col2);
+                        //  /* fetch values */
+                        // while ($insert_stmt->fetch()) {
+                        //     if(empty($col1)){
+                        //         $error_msg .= "col1: ".$col1.",col2: ".$col2;
+                        //     }
+                        // }
+                        
+                        $insert_stmt->close();
+                        
+                        $query = "SELECT @Result, @Msg";
+                        if ($insert_stmt = $this->db->query($query)) {
+                            $result = $insert_stmt->fetch_assoc();
+                            $insert_stmt->close();
+                            if($result["@Result"] == 0){
+                                $temp["success"] = "false";
+                                $temp["error_msg"] = $result["@Msg"];
+                                $this->response(json_encode($temp), 200);
+                            }
+                            $temp["success"] = "true";
+                            $temp["error_msg"] = "null";
+                            $this->response(json_encode([$temp]),200);
+                        }
+                        else{
+                            $temp["success"] = "false";
+                            $temp["error_msg"] = "Can not query UserInsert result msg";
+                            $this->response(json_encode($temp), 200);
+                        }
+                    }//else execute fail
+                }//prepare
+                else{
+                    $temp["success"] = "false";
+                    $temp["error_msg"] = "bucketitem insert prepare fail.";
+                    $this->response(json_encode($temp), 200);
+                }
+                // if(empty($error_msg)){
+                //     $this->response("success",200);
+                // }
+                // else{
+                //     header("Location: ../error.php?err=".$error_msg."Register Insertion Fail");
+                //     exit();
+                // }
+                
+            }//Not enough POST
+            else{
+                //$this->response(json_encode(["Inside if"]),200);
+                $temp["success"] = "false";
+                $temp["error_msg"] = "username, title or content does not exist.";
+                $this->response(json_encode($temp),200);
+            }
 		}
 		
 		public function delete(){
@@ -375,10 +490,50 @@
                     $temp["error_msg"] = "ItemID, commentusername or comment does not set.";
                     $this->response(json_encode($temp),200);
 		    	}
-		    }
+		    }//POST
+		    else if(strcmp($this->get_request_method(),"GET") == 0){
+		    	if(isset($_GET["itemID"])){
+		    		$itemID = $_GET["itemID"];
+		    		$query = "call Before_I_Die.BucketItemCommentSelect (?)";
+		        	$json_like_result = NULL;
+		        	if($stmt_like = $this->db->prepare($query)){
+		        		$stmt_like->bind_param('s', $itemID);  // Bind to parameter.
+				        $stmt_like->execute();    // Execute the prepared query.
+				        $stmt_like->store_result();
+				        
+				        if($stmt_like->num_rows() > 0){
+				        	$stmt_like->bind_result($col1_like);
+				        	$total_retrieve_like_result = 0;
+				        	while($stmt_like->fetch()){
+				        		
+				        		$json_like_result[$total_retrieve_like_result] = $col1_like;
+	
+				        		$total_retrieve_like_result++;
+				        	}
+				        }
+				        $stmt_like->close();
+				        $temp["success"] = "true";
+	    				$temp["error_msg"] = "null";
+	    				$temp["responseJSON"] = $json_like_result;
+	    				$this->response(json_encode($temp),200);
+				        
+		        	}
+		        	else{
+		        		$temp["success"] = "false";
+	    				$temp["error_msg"] = "BUCKLIST BucketItemCommentSelect prepare".$query." fail.";
+	    				$this->response(json_encode($temp),200);
+		        	}
+		    	}
+		    	else{
+		    		$temp["success"] = "false";
+	    			$temp["error_msg"] = "itemID does not exist";
+	    			$this->response(json_encode($temp),200);
+		    	}
+		    	
+		    }	
 		    else{
 		    	$temp["success"] = "false";
-                $temp["error_msg"] = "bucket_item/comment method must be POST";
+                $temp["error_msg"] = "bucket_item/comment method must be POST or GET";
                 $this->response(json_encode($temp),200);
 		    }
 		}
