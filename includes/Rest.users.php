@@ -60,15 +60,27 @@
                     $error_msg .= "Invalid lastname, limits to 50 characters.";
                 }
                 
+                $title       = isset($_POST["title"]) ? $_POST["title"] : NULL;
+                $description = isset($_POST["description"]) ? $_POST["description"] : NULL;
+                $city        = isset($_POST["city"]) ? $_POST["city"] : NULL;
+                $state       = isset($_POST["state"]) ? $_POST["state"] : NULL;
+                
+                if(strlen($title) > 100) $error_msg .= "Invalid title, limits to 100 characters.";
+                if(strlen($description) > 100) $error_msg .= "Invalid description, limits to 500 characters.";
+                if(strlen($city) > 100) $error_msg .= "Invalid city, limits to 100 characters.";
+                if(strlen($state) > 100) $error_msg .= "Invalid state, limits to 100 characters.";
+                
                 if(!empty($error_msg)){
                     $temp["success"] = "false";
                     $temp["error_msg"] = $error_msg;
                     $this->response(json_encode($temp),200);
                 }   
                 
-            
                 include 'processProfilePicUpload.php';
                 
+                $profilePic = ($uploadOk == 1) ? $target_dir : "/resource/pic/profilePic/default_profile_pic.png";
+                if(strlen($profilePic) > 100) $error_msg .= "pfofilePic file length is too long, limits to 100 characters.";
+                    
                 if(!empty($error_msg)){
                     $temp["success"] = "false";
                     $temp["error_msg"] = $error_msg;
@@ -86,16 +98,8 @@
                 if ($insert_stmt = $this->db->prepare($query)) {
                 //if ($insert_stmt = $mysqli->prepare("INSERT INTO Users (Username, Email, FirstName, LastName, Title, Description, City, State, ProfilePic, Salt, Password) 
                 //VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
-                    $title       = isset($_POST["title"]) ? $_POST["title"] : NULL;
-                    $description = isset($_POST["description"]) ? $_POST["description"] : NULL;
-                    $city        = isset($_POST["city"]) ? $_POST["city"] : NULL;
-                    $state       = isset($_POST["state"]) ? $_POST["state"] : NULL;
-                    if($uploadOk == 1){
-                        $profilePic = $target_dir;
-                    }
-                    else{
-                        $profilePic ="/resource/pic/profilePic/default_profile_pic.png";
-                    }
+                    
+                    
                     $insert_stmt->bind_param('sssssssssss', $username, $email, $firstName, $lastName, $title, $description, $city, $state, $profilePic, $random_salt, $password);
                     // Execute the prepared query.
                     if (! $insert_stmt->execute()) {
