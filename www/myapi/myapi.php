@@ -452,7 +452,7 @@
 		/*
 		* pupular_item
 		*/
-		private function pupular_item(){
+		private function popular_item(){
 			if(strcmp($this->get_request_method(),"GET") == 0){
 				$this->myBucketItem->popular_item();
 			}
