@@ -129,7 +129,7 @@ a{
 }
 
 
-.count-of-like{
+.like-count{
 		margin-left: 10px;
 		margin-top: 10px;
 		margin-bottom: 10px;
@@ -203,4 +203,8 @@ input[type=text]{
 	position: absolute;
 	left:40%;
 	top:40%;
+}
+
+.recommend{
+	display: none;
 }
