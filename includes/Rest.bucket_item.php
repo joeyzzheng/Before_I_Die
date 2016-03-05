@@ -312,7 +312,7 @@
 		    	if(isset($_POST["itemID"],$_POST["likeusername"],$_POST["liked"])){
 		    		$itemID = $_POST["itemID"];
 		    		$likeusername = $_POST["likeusername"];
-		    		// $liked = filter_input(INPUT_POST, 'liked', FILTER_SANITIZE_STRING);
+		    		$liked = filter_input(INPUT_POST, 'liked', FILTER_SANITIZE_STRING);
 		    		// if(strcmp($liked,"0") != 0 || strcmp($liked,"1") != 0){
 		    		// 	$temp["success"] = "false";
         //         		$temp["error_msg"] = "liked is not 0 or 1";
