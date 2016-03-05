@@ -502,11 +502,13 @@
 				        $stmt_like->store_result();
 				        
 				        if($stmt_like->num_rows() > 0){
-				        	$stmt_like->bind_result($col1_like);
+				        	$stmt_like->bind_result($col1_like,$col2_like,$col3_like,$col4_like);
 				        	$total_retrieve_like_result = 0;
 				        	while($stmt_like->fetch()){
 				        		
-				        		$json_like_result[$total_retrieve_like_result] = $col1_like;
+				        		$json_like_result[$total_retrieve_like_result]["username"]    = $col2_like;
+				        		$json_like_result[$total_retrieve_like_result]["comment"]     = $col3_like;
+				        		$json_like_result[$total_retrieve_like_result]["createdDate"] = $col4_like;
 	
 				        		$total_retrieve_like_result++;
 				        	}
