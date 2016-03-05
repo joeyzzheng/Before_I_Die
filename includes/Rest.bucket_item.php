@@ -153,11 +153,11 @@
 		        if(isset($_POST["itemID"],$_POST["complete"])){
 		            $itemID = $_POST["itemID"];
 		            $complete = $_POST["complete"];
-		            if(strcmp($complete,"0") != 0 || strcmp($complete,"1") != 0){
-		    			$temp["success"] = "false";
-                		$temp["error_msg"] = "complete is not 0 or 1";
-                		$this->response(json_encode($temp),200);
-		    		}
+		      //      if(strcmp($complete,"0") != 0 || strcmp($complete,"1") != 0){
+		    		// 	$temp["success"] = "false";
+        //         		$temp["error_msg"] = "complete is not 0 or 1";
+        //         		$this->response(json_encode($temp),200);
+		    		// }
 		            $query = "call Before_I_Die.BucketItemCompleteUpdate( ?, ?, @Result, @Msg)";
 		            if($stmt = $this->db->prepare($query)){
 		                $stmt->bind_param('ii', $itemID, $complete);  // Bind to parameter.
@@ -206,11 +206,11 @@
 		    	if(isset($_POST["itemID"], $_POST["openToTorch"])){
 		    		$itemID = $_POST["itemID"];
 		    		$openToTorch = $_POST["openToTorch"];
-		    		if(strcmp($openToTorch,"0") != 0 || strcmp($openToTorch,"1") != 0){
-		    			$temp["success"] = "false";
-                		$temp["error_msg"] = "openToTorch is not 0 or 1";
-                		$this->response(json_encode($temp),200);
-		    		}
+		    		// if(strcmp($openToTorch,"0") != 0 || strcmp($openToTorch,"1") != 0){
+		    		// 	$temp["success"] = "false";
+        //         		$temp["error_msg"] = "openToTorch is not 0 or 1";
+        //         		$this->response(json_encode($temp),200);
+		    		// }
 		    		$query = "call Before_I_Die.BucketItemTorchUpdate( ?, ?, @Result, @Msg)";
 		    		if($stmt = $this->db->prepare($query)){
 		                $stmt->bind_param('ii', $itemID, $openToTorch);  // Bind to parameter.
@@ -259,11 +259,11 @@
 		    	if(isset($_POST["itemID"], $_POST["private"])){
 		    		$itemID = $_POST["itemID"];
 		    		$private = $_POST["private"];
-		    		if(strcmp($private,"0") != 0 || strcmp($private,"1") != 0){
-		    			$temp["success"] = "false";
-                		$temp["error_msg"] = "private is not 0 or 1";
-                		$this->response(json_encode($temp),200);
-		    		}
+		    		// if(strcmp($private,"0") != 0 || strcmp($private,"1") != 0){
+		    		// 	$temp["success"] = "false";
+        //         		$temp["error_msg"] = "private is not 0 or 1";
+        //         		$this->response(json_encode($temp),200);
+		    		// }
 		    		$query = "call Before_I_Die.BucketItemPrivacyUpdate( ?, ?, @Result, @Msg)";
 		    		if($stmt = $this->db->prepare($query)){
 		                $stmt->bind_param('ii', $itemID, $private);  // Bind to parameter.
@@ -312,12 +312,12 @@
 		    	if(isset($_POST["itemID"],$_POST["likeusername"],$_POST["liked"])){
 		    		$itemID = $_POST["itemID"];
 		    		$likeusername = $_POST["likeusername"];
-		    		$liked = $_POST["liked"];
-		    		if(strcmp($liked,"0") != 0 || strcmp($liked,"1") != 0){
-		    			$temp["success"] = "false";
-                		$temp["error_msg"] = "liked is not 0 or 1";
-                		$this->response(json_encode($temp),200);
-		    		}
+		    		// $liked = filter_input(INPUT_POST, 'liked', FILTER_SANITIZE_STRING);
+		    		// if(strcmp($liked,"0") != 0 || strcmp($liked,"1") != 0){
+		    		// 	$temp["success"] = "false";
+        //         		$temp["error_msg"] = "liked is not 0 or 1";
+        //         		$this->response(json_encode($temp),200);
+		    		// }
 		    		$query = "call Before_I_Die.BucketItemLikeUpdate( ?, ?, ?, @Result, @Msg)";
 		    		if($stmt = $this->db->prepare($query)){
 		                $stmt->bind_param('isi', $itemID, $likeusername, $liked);  // Bind to parameter.
