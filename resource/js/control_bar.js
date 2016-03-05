@@ -1,9 +1,48 @@
-var privacy = function() {
-	console.log("privacy");
+var private = function(item) {
+	var apiData = {
+		itemID:item,
+		private:1
+	};
+	$.ajax({
+		type        : 'POST', 
+		url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/privacy', 
+		data        : apiData, // our data object
+		dataType    : 'json' // what type of data do we expect back from the server
+  })	
+	.done(function(){
+		$(".lock[data-item='" + item + "']").css({display:"initial"});
+	})
 };
 
-var deleteItem = function() {
-	console.log("deleteItem");
+var public = function(item) {
+	var apiData = {
+		itemID:item,
+		private:0
+	};
+	$.ajax({
+		type        : 'POST', 
+		url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/privacy', 
+		data        : apiData, // our data object
+		dataType    : 'json' // what type of data do we expect back from the server
+  })	
+	.done(function(){
+		$(".lock[data-item='" + item + "']").css({display:"none"});
+	})
+};
+
+var deleteItem = function(item) {
+	var apiData = {
+		itemID:item
+	};
+	$.ajax({
+		type        : 'POST', 
+		url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/delete', // the url where we want to POST
+		data        : apiData, // our data object
+		dataType    : 'json', // what type of data do we expect back from the server
+  })
+	.done(function(data){
+		$(".bucket-item[data-item='" + item + "']").remove();
+	})
 };
 
 var requestRelay = function() {

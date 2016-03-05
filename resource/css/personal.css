@@ -123,6 +123,15 @@ a{
 		display: block;
 }
 
+.lock{
+	width: 25px;;
+	position: absolute;
+	top:0;
+	left:0;
+	margin-top: 10px;
+	margin-left: 5px;
+}
+
 .item-info {
 	padding: 20px;
 	background-color: rgba(217, 217, 217, 1);

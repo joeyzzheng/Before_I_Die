@@ -18,10 +18,18 @@ var render_bucket_item = function(item) {
 					'<a onClick="deleteItem('+item.ID+')">Delete</a>' +
 					'<div class="sub-dropdown"><a href="#">Privacy</a>' +
 					'<div class="dropdown-sub-content">' +
-					'<a onClick="privacy('+item.ID+')">Private</a>' +
-					'<a onClick="privacy('+item.ID+')">Public</a> </div>   	</div>   </div> </div>';
+					'<a onClick="private('+item.ID+')">Private</a>' +
+					'<a onClick="public('+item.ID+')">Public</a> </div>   	</div>   </div> </div>';
 
-			$(".item-img-section[data-item='" + item.ID + "']").append(menu);		
+			$(".item-img-section[data-item='" + item.ID + "']").append(menu);	
+		
+			var lock = '<img class="lock" src="../resource/pic/lock.png" alt="lock" data-item="'+item.ID+'" ';
+			
+			if(item.private == 0) lock += 'style="display:none;">';
+
+		
+			$(".item-img-section[data-item='" + item.ID + "']").append(lock);
+
 	}
 
 	
@@ -77,6 +85,10 @@ var render = function() {
 			}	
 		}
 	});
+	
+//	for(var i = 0 ; i < bucket_list.responseJSON.length; i++) {
+//		render_bucket_item(bucket_list.responseJSON[i], i);
+//	}	
 
 	
 }
