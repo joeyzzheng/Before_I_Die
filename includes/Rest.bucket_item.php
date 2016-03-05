@@ -82,7 +82,7 @@
                 //if ($insert_stmt = $mysqli->prepare("INSERT INTO Users (Username, Email, FirstName, LastName, Title, Description, City, State, ProfilePic, Salt, Password) 
                 //VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
                     
-                    $insert_stmt->bind_param('ssssss', $username, $title, $content, $location, $imag, $orderindex);
+                    $insert_stmt->bind_param('sssssi', $username, $title, $content, $location, $imag, $orderindex);
                     // Execute the prepared query.
                     if (! $insert_stmt->execute()) {
                         $temp["success"] = "false";
@@ -360,7 +360,7 @@
 		    		$query = "call Before_I_Die.BucketItemLikeSelect (?)";
 		        	$json_like_result = NULL;
 		        	if($stmt_like = $this->db->prepare($query)){
-		        		$stmt_like->bind_param('s', $itemID);  // Bind to parameter.
+		        		$stmt_like->bind_param('i', $itemID);  // Bind to parameter.
 				        $stmt_like->execute();    // Execute the prepared query.
 				        $stmt_like->store_result();
 				        
@@ -408,7 +408,7 @@
 		    		$childUsername = $_POST["childUsername"];
 		    		$query = "call Before_I_Die.BucketItemInheritInsert( ?, ?, @Result, @Msg)";
 		    		if($stmt = $this->db->prepare($query)){
-		                $stmt->bind_param('ii', $itemID, $childUsername);  // Bind to parameter.
+		                $stmt->bind_param('is', $itemID, $childUsername);  // Bind to parameter.
 			            $stmt->execute();    // Execute the prepared query.
 			            $stmt->close();
 			            $query = "SELECT @Result, @Msg";
@@ -457,7 +457,7 @@
 		    		$comment = $_POST["comment"];
 		    		$query = "call Before_I_Die.BucketItemCommentInsert( ?, ?, ?, @Result, @Msg)";
 		    		if($stmt = $this->db->prepare($query)){
-		                $stmt->bind_param('iii', $itemID, $commentusername, $comment);  // Bind to parameter.
+		                $stmt->bind_param('iss', $itemID, $commentusername, $comment);  // Bind to parameter.
 			            $stmt->execute();    // Execute the prepared query.
 			            $stmt->close();
 			            $query = "SELECT @Result, @Msg";
@@ -497,7 +497,7 @@
 		    		$query = "call Before_I_Die.BucketItemCommentSelect (?)";
 		        	$json_like_result = NULL;
 		        	if($stmt_like = $this->db->prepare($query)){
-		        		$stmt_like->bind_param('s', $itemID);  // Bind to parameter.
+		        		$stmt_like->bind_param('i', $itemID);  // Bind to parameter.
 				        $stmt_like->execute();    // Execute the prepared query.
 				        $stmt_like->store_result();
 				        
