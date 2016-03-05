@@ -450,6 +450,19 @@
 			}
 		}
 		/*
+		* pupular_item
+		*/
+		private function pupular_item(){
+			if(strcmp($this->get_request_method(),"GET") == 0){
+				$this->myBucketItem->popular_item();
+			}
+			else{
+				$temp["success"] = "false";
+				$temp["error_msg"] = "HTTP method not found";
+				$this->response(json_encode($temp),200);
+			}
+		}
+		/*
 		 *	Encode array into JSON
 		*/
 		private function json($data){
