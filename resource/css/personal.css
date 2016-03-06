@@ -153,6 +153,7 @@ a{
 }
 
 .torch{
+	cursor: pointer;
 	position: absolute;
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -179,7 +180,8 @@ input[type=text]{
 }
 
 .user-img {
-	border-radius: 50%;
+/*	border-radius: 50%;*/
+	width:80px;
 	margin: inherit;
 	float: left;
 }
@@ -216,4 +218,8 @@ input[type=text]{
 
 .recommend{
 	display: none;
+}
+
+.inheritFrom{
+	float: right;
 }

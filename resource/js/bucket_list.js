@@ -26,7 +26,7 @@ var render_bucket_item = function(item) {
 			var lock = '<img class="lock" src="../resource/pic/lock.png" alt="lock" data-item="'+item.ID+'" ';
 			
 			if(item.private == 0) lock += 'style="display:none;">';
-
+			else lock += ">";
 		
 			$(".item-img-section[data-item='" + item.ID + "']").append(lock);
 
@@ -46,13 +46,20 @@ var render_bucket_item = function(item) {
 	$(".item-info[data-item='" + item.ID + "']").append('<div class="response" data-item="' + item.ID + '"></div>');
 	$(".response[data-item='" + item.ID + "']").append('<div class="like" data-item="' + item.ID + '"></div>');
 	var countLike = (item.like)?item.like.length:0;
-	var like = '<img onClick="like('+item.ID+')" class="icon-like" alt="like button" data-item="'+item.ID+'" src="../resource/pic/like.png"><span class="like-count" data-item="'+item.ID+'">'+countLike+'</span><img class="torch" src="../resource/pic/torch.png" alt="torch>">';
+	var like = '<img onClick="like('+item.ID+')" class="icon-like" alt="like button" data-item="'+item.ID+'" src="../resource/pic/like.png"><span class="like-count" data-item="'+item.ID+'">'+countLike+'</span>';
 	$(".like[data-item='" + item.ID + "']").append(like);
 	
+	var torch = '<img class="torch" data-item="'+item.ID+'" alt="torch" src="../resource/pic/'
+	if(item.openToTorch == 0) torch += 'torch.png">';
+	else torch += 'torched.png" onClick="inherit(' + item.ID + ')">';
+		
+	$(".like[data-item='" + item.ID + "']").append(torch);
+	
+//	var inheritFrom = '<span class="inheritFrom">' + + '</span>';
 	//render comment
 	if(item.comment){
 		for(var j = item.comment.length-1; j >= 0; j--) {
-			var text = item.comment[j].comment;
+			var text = item.comment[j].comment.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 			//add new line to every 70 char
 			if(text != "") text = text.match(/.{1,70}/g).join("<br>");
 			
@@ -66,8 +73,7 @@ var render_bucket_item = function(item) {
 }
 
 var render = function() {
-	render_title();
-	render_user_card();
+	render_user_info();
 	
 	$.ajax({
 		type        : 'GET', 
@@ -77,6 +83,7 @@ var render = function() {
 	
 	.done(function(data){
 		if(data.success){
+			
 			if(data.responseJSON){
 				$(".recommend").css("display","initial");
 				for(var i = 0 ; i < data.responseJSON.length; i++) {

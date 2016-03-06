@@ -43,11 +43,39 @@ var deleteItem = function(item) {
 	.done(function(data){
 		$(".bucket-item[data-item='" + item + "']").remove();
 	})
+
 };
 
-var requestRelay = function() {
-	console.log("relay");
+var requestRelay = function(item) {
+	var apiData = {
+		itemID:item,
+		openToTorch:1
+	};
+	$.ajax({
+		type        : 'POST', 
+		url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/request_relay', // the url where we want to POST
+		data        : apiData, // our data object
+		dataType    : 'json', // what type of data do we expect back from the server
+  })
+	.done(function(data){
+		$(".torch[data-item='" + item + "']").attr("src","../resource/pic/torched.png");
+		$(".torch[data-item='" + item + "']").attr("onClick","inherit("+item+")");
+	})
 };
+
+var inherit = function(item) {
+	var apiData = {
+		itemID:item,
+		childUsername:"fwang1"
+	};
+	$.ajax({
+		type        : 'POST', 
+		url         : 'api/bucket_item/torch',
+		data        : apiData,
+		dataType    : 'json' // what type of data do we expect back from the server
+  })
+
+}
 
 var share = function() {
 	var url = window.location.href;
@@ -74,30 +102,33 @@ var like = function(item) {
 	.done(function(likers){
 		var likerExist = false;
 		if(likers.success == "true"){
-			for(var i = 0; i < likers.responseJSON.length; i++) {
-				if(likers.responseJSON[i] == apiDataPOST.likeusername) likerExist = true;
+			if(likers.responseJSON){
+				for(var i = 0; i < likers.responseJSON.length; i++) {
+					if(likers.responseJSON[i] == apiDataPOST.likeusername) likerExist = true;
+				}				
 			}
 			if(likerExist) apiDataPOST.liked = "0";
 			
-				$.ajax({
-					type        : 'POST', 
-					url         : 'api/bucket_item/like', // the url where we want to POST
-					data        : apiDataPOST, // our data object
-					dataType    : 'json', // what type of data do we expect back from the server
-				})
-				.done(function(data){
-					if(data[0].success == "true"){
-						$.ajax({
-							type        : 'GET', 
-							url         : 'api/bucket_item/like', // the url where we want to POST
-							data        : apiDataPOST, // our data object
-							dataType    : 'json', // what type of data do we expect back from the server
-						})
-						.done(function(dataGet){
-							$(".like-count[data-item='" + item + "']").text(dataGet.responseJSON.length);
-						})
-					}			
-				})
+			$.ajax({
+				type        : 'POST', 
+				url         : 'api/bucket_item/like', // the url where we want to POST
+				data        : apiDataPOST, // our data object
+				dataType    : 'json', // what type of data do we expect back from the server
+			})
+			.done(function(data){
+				if(data[0].success == "true"){
+					$.ajax({
+						type        : 'GET', 
+						url         : 'api/bucket_item/like', // the url where we want to POST
+						data        : apiDataPOST, // our data object
+						dataType    : 'json', // what type of data do we expect back from the server
+					})
+					.done(function(dataGet){
+						var countLike = dataGet.responseJSON?dataGet.responseJSON.length:0;
+						$(".like-count[data-item='" + item + "']").text(countLike);
+					})
+				}			
+			})
 		}
 
 	})	
@@ -161,7 +192,8 @@ var leave_comment = function(event, item) {
 				})	
 				.done(function(getdata){
 					$("input[data-item='" + item + "']").val("");
-					$(".response[data-item='" + item + "']").append('<p class="comment"><span class="comment"><b>' + getdata.responseJSON[0].username + '</b></span><span class="comment_content">' + getdata.responseJSON[0].comment + '</span></p>');
+					var comment = getdata.responseJSON[0].comment.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+					$(".response[data-item='" + item + "']").append('<p class="comment"><span class="comment"><b>' + getdata.responseJSON[0].username + '</b></span><span class="comment_content">' + comment + '</span></p>');
 					
 				});
 			}
