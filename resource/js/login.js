@@ -158,7 +158,7 @@ $(document).ready( function() {
         // ajax signup form submission
         $("#signup-form").submit(function(event) {
             alert("signup submit button clicked"); // debug
-            if (signupFormValidate()) {
+            if (true) {
                 event.preventDefault();
                 var signupForm = new FormData(this);
                 var signUpPassword = $("#signup-form #signup-password").val();
