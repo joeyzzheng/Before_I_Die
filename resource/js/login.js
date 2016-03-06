@@ -22,12 +22,21 @@ $(document).ready( function() {
         createStateList(); 
 
         // swith bewteen login page and signup page
-        function switchToLogin() {
+        $("#login-form-link").on("click", function(e) {
+            $("#login-form").delay(100).fadeIn(100);
+            $("#signup-form").fadeOut(100);
+            $("#signup-form-link").removeClass("active");
+            $(this).addClass("active");
+            e.preventDefault();
+        });
+        $("#signup-form-link").on("click", function(e) {
             $("#signup-form").delay(100).fadeIn(100);
             $("#login-form").fadeOut(100);
-            $("#signup-form-link").removeClass("active");
-            $("#login-form-link").addClass("active");
-        }
+            $("#login-form-link").removeClass("active");
+            $(this).addClass("active");
+            e.preventDefault();
+        })
+        
 
         // signup form validation
         function signupFormValidate() {

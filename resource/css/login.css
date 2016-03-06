@@ -315,8 +315,8 @@ body {
   box-shadow: 0 0 5px 1px #ff4d4d;
 }
 
-.panel-login input:valid {
-  border: 1px solid green;
+.panel-login input[type="text"]:valid, .panel-login input[type="email"]:valid, .panel-login input[type="password"]:valid, .panel-login select:valid {
+  border: 1px solid #2fb62f;
 }
 
 
