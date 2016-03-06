@@ -8,10 +8,10 @@ var render_bucket_item = function(item) {
 	
 	if(item.completeTime){
 		$(".item-img-section[data-item='" + item.ID + "']").css({opacity:0.5});
-		var done = '<img class="done" src="../resource/pic/done.png" alt="completed item">'
+		var done = '<img class="done" src="resource/pic/done.png" alt="completed item">'
 		$(".item-img-section[data-item='" + item.ID + "']").append(done);
 	} else {
-			var menu = '<div class="dropdown">   <button class="dropbtn" data-item="'+item.ID+'"><img class="menu" alt="menu" src="../resource/pic/menu.png"></button>   <div class="dropdown-content" data-item="'+item.ID+'">' +
+			var menu = '<div class="dropdown">   <button class="dropbtn" data-item="'+item.ID+'"><img class="menu" alt="menu" src="resource/pic/menu.png"></button>   <div class="dropdown-content" data-item="'+item.ID+'">' +
 					'<a href="#">Edit</a> ' +
 					'<a onClick="completed('+item.ID+')">Completed</a>' +
 					'<a onClick="requestRelay('+item.ID+')">Request Relay</a>' +
@@ -23,7 +23,7 @@ var render_bucket_item = function(item) {
 
 			$(".item-img-section[data-item='" + item.ID + "']").append(menu);	
 		
-			var lock = '<img class="lock" src="../resource/pic/lock.png" alt="lock" data-item="'+item.ID+'" ';
+			var lock = '<img class="lock" src="resource/pic/lock.png" alt="lock" data-item="'+item.ID+'" ';
 			
 			if(item.private == 0) lock += 'style="display:none;">';
 			else lock += ">";
@@ -46,10 +46,10 @@ var render_bucket_item = function(item) {
 	$(".item-info[data-item='" + item.ID + "']").append('<div class="response" data-item="' + item.ID + '"></div>');
 	$(".response[data-item='" + item.ID + "']").append('<div class="like" data-item="' + item.ID + '"></div>');
 	var countLike = (item.like)?item.like.length:0;
-	var like = '<img onClick="like('+item.ID+')" class="icon-like" alt="like button" data-item="'+item.ID+'" src="../resource/pic/like.png"><span class="like-count" data-item="'+item.ID+'">'+countLike+'</span>';
+	var like = '<img onClick="like('+item.ID+')" class="icon-like" alt="like button" data-item="'+item.ID+'" src="resource/pic/like.png"><span class="like-count" data-item="'+item.ID+'">'+countLike+'</span>';
 	$(".like[data-item='" + item.ID + "']").append(like);
 	
-	var torch = '<img class="torch" data-item="'+item.ID+'" alt="torch" src="../resource/pic/'
+	var torch = '<img class="torch" data-item="'+item.ID+'" alt="torch" src="resource/pic/'
 	if(item.openToTorch == 0) torch += 'torch.png">';
 	else torch += 'torched.png" onClick="inherit(' + item.ID + ')">';
 		

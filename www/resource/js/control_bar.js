@@ -58,7 +58,7 @@ var requestRelay = function(item) {
 		dataType    : 'json', // what type of data do we expect back from the server
   })
 	.done(function(data){
-		$(".torch[data-item='" + item + "']").attr("src","../resource/pic/torched.png");
+		$(".torch[data-item='" + item + "']").attr("src","resource/pic/torched.png");
 		$(".torch[data-item='" + item + "']").attr("onClick","inherit("+item+")");
 	})
 };
@@ -153,7 +153,7 @@ var completed = function(item) {
   })
 	.done(function(data){
 		$(".item-img-section[data-item='" + item + "']").css({opacity:0.5});
-		var done = '<img class="done" src="../resource/pic/done.png" alt="completed item">'
+		var done = '<img class="done" src="resource/pic/done.png" alt="completed item">'
 		$(".item-img-section[data-item='" + item + "']").append(done);
 		$(".dropbtn[data-item='" + item + "']").css({display:"none"});
 		$(".dropdown-content[data-item='" + item + "']").css({display:"none"});
