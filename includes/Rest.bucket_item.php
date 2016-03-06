@@ -541,7 +541,7 @@
 		}
 		
 		/*
-		* get all the bucketlist, no check privilege
+		* get popular_item
 		*/
 		public function popular_item(){
 		    if(strcmp($this->get_request_method(),"GET")==0){
@@ -597,6 +597,67 @@
 		    else{
 		        $temp["success"] = "false";
 		        $temp["error_msg"] = "BUCKLIST popular_item can not accept none GET method";
+		        $this->response(json_encode($temp),200);
+		    }
+		}
+		
+		/*
+		* get popular_item
+		*/
+		public function recent_item(){
+		    if(strcmp($this->get_request_method(),"GET")==0){
+		    	
+		        $query = "call Before_I_Die.RecentUserSelect ()";
+			    // Using prepared statements means that SQL injection is not possible.
+			    if($stmt = $this->db->prepare($query)){
+			        //$stmt->bind_param('s', $username);  // Bind to parameter.
+			        $stmt->execute();    // Execute the prepared query.
+			        $stmt->store_result();
+			        $stmt->num_rows();
+			        // get variables from result.
+			        if( $stmt->num_rows() > -1 ){
+			        	
+			        	$stmt->bind_result($col1, $col2, $col3, $col4, $col5, $col6, $col7, $col8, $col9, $col10);
+				        $total_retrieve_result = 0;
+				        while($stmt->fetch()){
+				        	
+				        	
+				        	//$json_result[$total_retrieve_result]["userID"]           = $col1;
+				        	$json_result[$total_retrieve_result]["username"]        = $col2;
+				        	$json_result[$total_retrieve_result]["email"]           = $col3;
+				        	$json_result[$total_retrieve_result]["firstName"]       = $col4;
+				        	$json_result[$total_retrieve_result]["lastName"]        = $col5;
+				        	$json_result[$total_retrieve_result]["title"]           = $col6;
+				        	$json_result[$total_retrieve_result]["description"]     = $col7;
+				        	$json_result[$total_retrieve_result]["city"]            = $col8;
+				        	$json_result[$total_retrieve_result]["state"]           = $col9;
+				        	$json_result[$total_retrieve_result]["profilePicture"]  = $col10;
+				        	
+				        	
+				        	$total_retrieve_result++;
+				        }
+				        $stmt->close();
+				        
+				        $temp["success"] = "true";
+				        $temp["error_msg"] = "null";
+				        $temp["responseJSON"] = $json_result;
+				        $this->response(json_encode($temp),200);
+			        }
+			        else{
+			        	$temp["success"] = "true";
+			        	$temp["error_msg"] = "No bucketlist at all ";
+			        	$this->response(json_encode($temp),200);
+			        }
+			    }
+			    else{
+			    	$temp["success"] = "false";
+		        	$temp["error_msg"] = "BUCKLIST recent_item prepare".$query." fail.";
+		        	$this->response(json_encode($temp),200);
+			    }
+		    }
+		    else{
+		        $temp["success"] = "false";
+		        $temp["error_msg"] = "BUCKLIST recent_item can not accept none GET method";
 		        $this->response(json_encode($temp),200);
 		    }
 		}
