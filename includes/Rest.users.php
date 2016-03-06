@@ -79,7 +79,7 @@
                 include 'processProfilePicUpload.php';
                 
                 $profilePic = ($uploadOk == 1) ? $target_dir : "/resource/pic/profilePic/default_profile_pic.png";
-                if(strlen($profilePic) > 100) $error_msg .= "pfofilePic file length is too long, limits to 100 characters.";
+                if(strlen($profilePic) > 200) $error_msg .= "pfofilePic file length is too long, limits to 200 characters.";
                     
                 if(!empty($error_msg)){
                     $temp["success"] = "false";
@@ -157,10 +157,126 @@
             else{
                 //$this->response(json_encode(["Inside if"]),200);
                 $temp["success"] = "false";
-                $temp["error_msg"] = "Username, password, first name or last name does not exist.";
+                $temp["error_msg"] = "Username, password, firstname or lastname does not exist.";
                 $this->response(json_encode($temp),200);
             }
 		}//end PUT
+		
+		/*
+		* update users
+		*/
+		public function update(){
+		    $error_msg = "";
+            //$this->response(json_encode($_POST),200);
+            if (isset($_POST['username'], $_POST['email'], $_POST['firstname'], $_POST['lastname'], $_POST['profilePic'])) {
+                
+                $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+                if (strlen($username) > 50) {
+                    $error_msg .= "Invalid username, limits to 50 characters.";
+                }
+                
+                $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+                $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    // Not a valid email
+                    $error_msg .= "The email address you entered is not valid";
+                }
+                if (strlen($email) > 200) {
+                    $error_msg .= "Invalid email, limits to 200 characters.";
+                }
+                
+                $firstName = filter_input(INPUT_POST, 'firstname', FILTER_SANITIZE_STRING);
+                if (strlen($firstName) > 50) {
+                    $error_msg .= "Invalid firstname, limits to 50 characters.";
+                }
+                
+                $lastName = filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING);;
+                if (strlen($lastName) > 50) {
+                    $error_msg .= "Invalid lastname, limits to 50 characters.";
+                }
+                
+                $title       = isset($_POST["title"]) ? $_POST["title"] : NULL;
+                $description = isset($_POST["description"]) ? $_POST["description"] : NULL;
+                $city        = isset($_POST["city"]) ? $_POST["city"] : NULL;
+                $state       = isset($_POST["state"]) ? $_POST["state"] : NULL;
+                
+                if(strlen($title) > 100) $error_msg .= "Invalid title, limits to 100 characters.";
+                if(strlen($description) > 100) $error_msg .= "Invalid description, limits to 500 characters.";
+                if(strlen($city) > 100) $error_msg .= "Invalid city, limits to 100 characters.";
+                if(strlen($state) > 100) $error_msg .= "Invalid state, limits to 100 characters.";
+                
+                if(!empty($error_msg)){
+                    $temp["success"] = "false";
+                    $temp["error_msg"] = $error_msg;
+                    $this->response(json_encode($temp),200);
+                }   
+                
+                include 'processProfilePicUpload.php';
+                $profilePic = filter_input(INPUT_POST, 'profilePic', FILTER_SANITIZE_STRING);
+                $profilePic = ($uploadOk == 1) ? $target_dir : $profilePic;
+                if(strlen($profilePic) > 200) $error_msg .= "pfofilePic file length is too long, limits to 200 characters.";
+                    
+                if(!empty($error_msg)){
+                    $temp["success"] = "false";
+                    $temp["error_msg"] = $error_msg;
+                    $this->response(json_encode($temp),200);
+                }
+                
+                
+        
+                // Insert the new user into the database
+                $query = "call UsersInsert (?, ?, ?, ?, ?, ?, ?, ?, ?, @Result, @Msg)";
+                if ($insert_stmt = $this->db->prepare($query)) {
+                //if ($insert_stmt = $mysqli->prepare("INSERT INTO Users (Username, Email, FirstName, LastName, Title, Description, City, State, ProfilePic, Salt, Password) 
+                //VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+                    
+                    
+                    $insert_stmt->bind_param('sssssssss', $username, $email, $firstName, $lastName, $title, $description, $city, $state, $profilePic);
+                    // Execute the prepared query.
+                    if (! $insert_stmt->execute()) {
+                        $temp["success"] = "false";
+                        $temp["error_msg"] = "user update execute fail";
+                        $this->response(json_encode($temp), 200);
+                    }
+                    else{
+                        
+                        $insert_stmt->close();
+                        
+                        $query = "SELECT @Result, @Msg";
+                        if ($insert_stmt = $this->db->query($query)) {
+                            $result = $insert_stmt->fetch_assoc();
+                            $insert_stmt->close();
+                            if($result["@Result"] == 0){
+                                $temp["success"] = "false";
+                                $temp["error_msg"] = $result["@Msg"];
+                                $this->response(json_encode($temp), 200);
+                            }
+                            $temp["success"] = "true";
+                            $temp["error_msg"] = "null";
+                            $this->response(json_encode([$temp]),200);
+                        }
+                        else{
+                            $temp["success"] = "false";
+                            $temp["error_msg"] = "Can not query UserUpdate result msg";
+                            $this->response(json_encode($temp), 200);
+                        }
+                    }//else execute fail
+                }//prepare
+                else{
+                    $temp["success"] = "false";
+                    $temp["error_msg"] = "User update prepare fail.";
+                    $this->response(json_encode($temp), 200);
+                }
+                
+                
+            }//Not enough POST
+            else{
+                //$this->response(json_encode(["Inside if"]),200);
+                $temp["success"] = "false";
+                $temp["error_msg"] = "username, email, firstname , lastname or profilePic does not exist.";
+                $this->response(json_encode($temp),200);
+            }
+		}//end update
 		
 		/*
 		* no check privilege, anyone can get the other's user information

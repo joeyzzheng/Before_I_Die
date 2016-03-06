@@ -400,6 +400,18 @@
 				
 				$this->myUsers->ALLCANGETALL($this->parseURL[2]);
 			}
+			if(strcmp($this->get_request_method(),"POST") == 0){
+				if(sizeof($this->parseURL) > 2 && strcmp($this->parseURL[2],"") != 0){
+					$temp["success"] = "false";
+					$temp["error_msg"] = "api/users/redundant URL assign";
+					$this->response(json_encode($temp),200);
+				}
+				
+				
+				
+				$this->myUsers->update();
+				
+			}
 			else{
 				$temp["success"] = "false";
 				$temp["error_msg"] = "HTTP method not found";
@@ -450,7 +462,7 @@
 			}
 		}
 		/*
-		* pupular_item
+		* popular_item
 		*/
 		private function popular_item(){
 			if(strcmp($this->get_request_method(),"GET") == 0){
@@ -468,6 +480,19 @@
 		private function recent_item(){
 			if(strcmp($this->get_request_method(),"GET") == 0){
 				$this->myBucketItem->recent_item();
+			}
+			else{
+				$temp["success"] = "false";
+				$temp["error_msg"] = "HTTP method not found";
+				$this->response(json_encode($temp),200);
+			}
+		}
+		/*
+		* torch_item
+		*/
+		private function torch_item(){
+			if(strcmp($this->get_request_method(),"GET") == 0){
+				$this->myBucketItem->torch_item();
 			}
 			else{
 				$temp["success"] = "false";
