@@ -55,7 +55,10 @@ var render_bucket_item = function(item) {
 		
 	$(".like[data-item='" + item.ID + "']").append(torch);
 	
-//	var inheritFrom = '<span class="inheritFrom">' + + '</span>';
+	if(item.inheritFrom) {
+		var parentUser = '<span class="inheritFrom">' + 'Inherited from ' + item.inheritFrom + '</span>';
+		$(".like[data-item='" + item.ID + "']").append(parentUser);
+	}
 	//render comment
 	if(item.comment){
 		for(var j = item.comment.length-1; j >= 0; j--) {
@@ -77,7 +80,7 @@ var render = function() {
 	
 	$.ajax({
 		type        : 'GET', 
-		url         : 'api/bucketlist/joeyzheng', 
+		url         : 'api/bucketlist/joeyzheng',//joeyzheng 
 		dataType    : 'json', // what type of data do we expect back from the server
   })
 	
