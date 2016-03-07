@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</head>
+<body>
+
+<div><h2>jQuery AJAX API Test GET Method</h2></div>
+
+<dic>
+    <div>
+        <label>itemID: </label>
+        <input type="text" name="itemID" placeholder="itemID">
+    </div>
+    <br>
+    
+    <button id="clickMe">Get JSON Return</button>
+    
+</div>
+<br>
+<div id="api-result"></div>
+
+<script>
+$(document).ready(function() {
+    /* Load form information */
+    $('#clickMe').click(function() {
+        var apiData = {
+            'itemID'          : $('input[name=itemID]').val(),
+        };
+
+        // Execute ajax with API /api/register
+        $.ajax({
+            type        : 'GET', // Define the https method that we want to use
+            url         : 'api/bucket_item/like', // api url that we want to call
+            data        : apiData, // our data object
+            dataType    : 'json', // what type of data do we expect back from the server
+        })
+        
+        /* if returned header shows 200 OK */
+        .done(function(data) {
+            //Debug message
+            console.log("Success Message:\n" + JSON.stringify(data)); 
+            $("#api-result").text("Success Message:\n" + JSON.stringify(data));
+        })
+        
+        /* if returned header shows none 200 OK */
+        .fail(function(data) {
+            console.log("Failure Message:\n" + JSON.stringify(data)); 
+            $("#api-result").text("Failure Message:\n" + JSON.stringify(data));
+        })
+    });
+});
+
+</script>
+</body>
+</html>
+
+
+
+
