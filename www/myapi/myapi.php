@@ -92,6 +92,11 @@
 		 */
 		public function processApi(){
 			//$this->response(DB_SERVER,200); //for debug
+			if(empty($_REQUEST)){
+				include("../home.html");
+                                exit();
+			}
+
 			$input = (explode('/',strtolower(str_replace("","",$_REQUEST['rquest']))));
 			$this->parseURL = $input;
 			
@@ -102,21 +107,27 @@
 				$this->response($this->json($temp),200);
 			}
 			
-			//validate URL begin with api
+			//validate URL is {domain}/api/ or {domain}/personal/
 			if(strcmp($input[0],"")==0){
-				header("Location: ../home.php");
+				include("../home.html");
 				exit(); 
 			}
-			if(strcmp($input[0],"api") !=0 || sizeof($input) < 2){
+			if((strcmp($input[0],"api") !=0 && strcmp($input[0], "personal")) || sizeof($input) < 2){
 				$temp["success"] = "false";
-				$temp["error_msg"] = "API URL should begin with api/blablabla";
+				$temp["error_msg"] = "API URL should begin with {domain}/api/ or {domain}/personal/";
 				$this->response($this->json($temp),200);
 			}
 			if(strcmp($input[1],"") == 0){
 				$temp["success"] = "false";
-				$temp["error_msg"] = "API URL should begin with api/blablabla";
+				$temp["error_msg"] = "The 2nd portion of the URL is not given. {domain}/1/2/";
 				$this->response($this->json($temp),200);
 			}
+
+			// parse personal page requests
+			if(strcmp($input[0], "personal") == 0){
+                                include("../personal.html");
+                                exit();
+                        }
 			
 			//register first
 			
@@ -319,23 +330,32 @@
 		    //hash password with salt
 		    $password = hash('sha512', $password . $salt); 
 		    
-		    $query = "call Before_I_Die.Login (?,?)";
+		    $query = "call Before_I_Die.Login (?,?,@Result,@Msg)";
 		    // Using prepared statements means that SQL injection is not possible.
 		    if($stmt = $this->db->prepare($query)){
 		        //$stmt = $mysqli->prepare("call Before_I_Die.Login (?,?)");
 		        $stmt->bind_param('ss', $username, $password);  // Bind "$email"/$password to parameter.
 		        $stmt->execute();    // Execute the prepared query.
-		        $stmt->store_result();
-		    
-		        // get variables from result.
-		        $stmt->bind_result($col1, $col2);
-		        $stmt->fetch();
 		        $stmt->close();
-		        if(empty($col1)){
-		        	$temp["success"] = "false";
-		            $temp["error_msg"] = "Username does not match password.";
-		            $this->response($this->json($temp),200);
-		        }
+		        
+		        $query = "SELECT @Result, @Msg";
+                if ($insert_stmt = $this->db->query($query)) {
+                    $result = $insert_stmt->fetch_assoc();
+                    $insert_stmt->close();
+                    if($result["@Result"] == 0){
+                        $temp["success"] = "false";
+                        $temp["error_msg"] = $result["@Msg"];
+                        $this->response(json_encode($temp), 200);
+                    }
+                    $temp["success"] = "true";
+                    $temp["error_msg"] = "null";
+                    $this->response(json_encode([$temp]),200);
+                }
+                else{
+                    $temp["success"] = "false";
+                    $temp["error_msg"] = "Can not query UserInsert result msg";
+                    $this->response(json_encode($temp), 200);
+                }
 		        
 		        // Password is correct!
 		        
