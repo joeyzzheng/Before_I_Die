@@ -1,6 +1,6 @@
 var render_bucket_item = function(item) {
 	//render image and menu
-	$(".bucket-items").append('<div class="bucket-item" data-item="' + item.ID + '" data-torch="'+item.openToTorch+'"></div>');
+	$(".bucket-items").append('<div class="bucket-item" id="'+item.ID+'" data-item="' + item.ID + '" data-torch="'+item.openToTorch+'"></div>');
 	$(".bucket-item[data-item='" + item.ID + "']").append('<div class="item-img-section" data-item="' + item.ID + '"></div>');
 	var img = '<img class="item-img" alt="bucket item image" src="' + item.image + '" data-item="'+ item.ID +'">';
 	$(".item-img-section[data-item='" + item.ID + "']").append(img);
