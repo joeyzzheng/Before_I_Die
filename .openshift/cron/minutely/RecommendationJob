@@ -1,5 +1,3 @@
 #!/bin/bash
 
-mysql --user=$OPENSHIFT_MYSQL_DB_USERNAME --password=$OPENSHIFT_MYSQL_DB_PASSWORD Before_I_Die << EOF
-CALL RecommendationUpdate(@Result, @Msg);
-EOF 
+mysql --user=$OPENSHIFT_MYSQL_DB_USERNAME --password=$OPENSHIFT_MYSQL_DB_PASSWORD --database=Before_I_Die --execute="CALL RecommendationUpdate(@Result, @Msg);"
