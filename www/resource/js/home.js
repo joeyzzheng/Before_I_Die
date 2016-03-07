@@ -152,17 +152,29 @@ $(document).ready(function() {
                 var tabPopDiv = document.getElementById(tagEl);
                 var divPopCard = document.createElement("div");
                 divPopCard.setAttribute("class", "tab-bucket-card");
-                divPopCard.setAttribute("id", data.responseJSON[ranChoice[index]].username);
-                var imgPop = document.createElement("img");
                 
                 if (apiURLCall === "api/torch_item") {
+                    /* set element id with username#bucketID */
+                    divPopCard.setAttribute("id", data.responseJSON[ranChoice[index]].username + "#" + data.responseJSON[ranChoice[index]].bucketItemID);
                     imgSrc = data.responseJSON[ranChoice[index]].image;
                     spanText = data.responseJSON[ranChoice[index]].username + "<br>" + data.responseJSON[ranChoice[index]].bucketItemTitle;
+                    
                 } else {
+                    /* set element id with username */
+                    divPopCard.setAttribute("id", data.responseJSON[ranChoice[index]].username);
                     imgSrc = data.responseJSON[ranChoice[index]].profilePicture;
                     spanText = data.responseJSON[ranChoice[index]].username + "<br>" + data.responseJSON[ranChoice[index]].description;
                 }
-                
+
+                /* Add click function - redirect to personal user page */
+                divPopCard.addEventListener("click", function() {
+                    console.log("Debug - verify id: " + this.id);
+                    var redirectURL = "";
+                    redirectURL = "https://apiapache-beforeidie.rhcloud.com/personal/" + this.id;
+                    window.location.assign(redirectURL)
+                });
+
+                var imgPop = document.createElement("img");
                 imgPop.setAttribute("src", imgSrc);
                 imgPop.setAttribute("alt", altText);
                 divPopCard.appendChild(imgPop);
