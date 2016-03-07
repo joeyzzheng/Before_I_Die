@@ -1,7 +1,7 @@
 $(document).ready( function() {
         // create dropdown list
         function createStateList() {
-            var listOfUserState = $("#signup-form #user-state");
+            var listOfUserState = $("#signup-form #state");
             var usaAllStates = ["AK","AL","AR","AZ","CA","CO","CT","DC","DE","FL","GA","GU","HI","IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MH","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY", "OH","OK","OR","PA","PR","PW","RI","SC","SD","TN","TX","UT","VA","VI","VT","WA","WI","WV","WY"];
             var len = usaAllStates.length;
             var optionResult = "";
@@ -41,85 +41,90 @@ $(document).ready( function() {
         // signup form validation
         function signupFormValidate() {
             // required fields 
-            var username = $("#signup-form #username").val();
-            var firstname = $("#signup-form #firstname").val();
-            var lastname = $("#signup-form #lastname").val();
-            var email = $("#signup-form #email").val();
-            var signUpPassword = $("#signup-form #signup-password").val();
-            var confirmPassword = $("#signup-form #confirm-password").val();
+            var username = $("#signup-form #username");
+            var firstname = $("#signup-form #firstname");
+            var lastname = $("#signup-form #lastname");
+            var email = $("#signup-form #email");
+            var signUpPassword = $("#signup-form #signup-password");
+            var confirmPassword = $("#signup-form #confirm-password");
             // optional fields
-            var userTitle = $("#signup-form title").val();
-            var userDescription = $("#signup-form description").val();
-            var userCity = $("#signup-form city").val();
-            var userState = $("#signup-form state").val();
+            var userTitle = $("#signup-form #title");
+            var userDescription = $("#signup-form #description");
+            var userCity = $("#signup-form #city");
+            var userState = $("#signup-form #state");
             // check each required fields has a value
-            if (username == '' || firstname == '' || lastname == '' || email == '' || signUpPassword == '' || confirmPassword == '') {
+            if (username.val() == '' || firstname.val() == '' || lastname.val() == '' || email.val() == '' || signUpPassword.val() == '' || confirmPassword.val() == '') {
                 alert('You must provide all the requested details. Please try again');
                 return false;
             }
             // check username
-            var regExName = /^\w+$/;
-            if(!regExName.test(username)) { 
+            var regEx = /[a-zA-Z0-9_]+/;
+            if(!regEx.test(username.val())) { 
                 alert("Username must contain only letters, numbers and underscores. Please try again"); 
-                $("#signup-form #username").focus();
+                username.focus();
                 return false; 
             }
             // check firstname
-            if(!regExName.test(firstname)) { 
+            if(!/[a-zA-Z]+/.test(firstname.val())) { 
                 alert("Firstname must contain only letters, numbers and underscores. Please try again"); 
-                $("#signup-form #firstname").focus();
+                firstname.focus();
                 return false; 
             }
             // check lastname
-            if(!regExName.test(lastname)) { 
+            if(!/[a-zA-Z]+/.test(lastname.val())) { 
                 alert("Lastname must contain only letters, numbers and underscores. Please try again"); 
-                $("#signup-form #lastname").focus();
+                lastname.focus();
                 return false; 
             }
             // check password
-            if (signUpPassword.length < 6) {
+            if (signUpPassword.val().length < 6) {
                 alert('Passwords must be at least 6 characters long.  Please try again');
-                $("#signup-form #signup-password").focus();
+                signUpPassword.focus();
                 return false;
             }
             // At least one number, one lowercase and one uppercase letter 
             // At least six characters 
             var regExPW = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/; 
-            if (!regExPW.test(password.value)) {
+            if (!regExPW.test(signUpPassword.val())) {
                 alert('Passwords must contain at least one number, one lowercase and one uppercase letter.  Please try again');
-                $("#signup-form #signup-password").focus(); 
+                signUpPassword.focus(); 
                 return false;
             }
             // Check password and confirmation are the same
-            if (signUpPassword != confirmPassword) {
+            if (signUpPassword.val() != confirmPassword.val()) {
                 alert('Your password and confirmation do not match. Please try again');
-                form.password.focus();
-                $("#signup-form #signup-password").focus();
-                $("#signup-form #confirm-password").focus();
+                confirmPassword.focus();
+                signUpPassword.focus();
                 return false;
             }
             // check user title
-            if (userTitle.length < 100) {
-                alert('User occupation must be less than 100 characters long.  Please try again');
-                $("#signup-form user-title").focus();
-                return false;
+            if (userTitle.val() != '') {
+                if (userTitle.val().length > 100){
+                    alert('User occupation must be less than 100 characters long. Please try again');
+                    userTitle.focus();
+                    return false;
+                }
             }
+
             // check user description
-            if (userDescription.length < 500) {
-                alert('User description must be less than 500 characters long.  Please try again');
-                $("#signup-form user-description").focus();
-                return false;
+            if (userDescription.val() != '') {
+                if (userDescription.val().length > 500) {
+                    alert('User description must be less than 500 characters long. Please try again');
+                    userDescription.focus();
+                    return false;
+                }
             }
+
             // check user city 
-            if (userCity.length < 100) {
-                alert('User city must be less than 100 characters long.  Please try again');
-                $("#signup-form user-city").focus();
+            if (userCity.val().length > 100 || (!/[a-zA-Z\s]+/.test(userCity))) {
+                alert('User city must be less than 100 characters long. Please try again');
+                userCity.focus();
                 return false;
             }
             // check user state
-            if (userState.length < 100) {
-                alert('User state must be less than 100 characters long.  Please try again');
-                $("#signup-form user-state").focus();
+            if (userState.val().length > 100 || (!/[a-zA-Z\s]+/.test(userState))) {
+                alert('User state must be less than 100 characters long. Please try again');
+                userState.focus();
                 return false;
             }
             return true; 
@@ -127,38 +132,47 @@ $(document).ready( function() {
 
         // login form validation 
         function loginFormValidation() {
-            var username = $("#login-form #username").val();
-            var loginPassword = $("#login-form #login-password").val();
-            var rememberPassword = $('#login-form #remember-password').is(":checked"); // true or false
-
+            var username = $("#login-form #username");
+            var loginPassword = $("#login-form #login-password");
+            var rememberPassword = $("#login-form #remember-password");
             // check username 
-            var regExName = /^\w+$/;
-            if(!regExName.test(username)) { 
+            var regEx = /[a-zA-Z0-9_]+/;
+            if(!regEx.test(username.val())) { 
                 alert("Username must contain only letters, numbers and underscores. Please try again"); 
-                $("#login-form #username").focus();
+                username.focus();
                 return false; 
             }
             // check password
-            if (loginPassword.length < 6) {
+            if (loginPassword.val().length < 6) {
                 alert('Passwords must be at least 6 characters long. Please try again');
-                $("#login-form #login-password").focus();
+                loginPassword.focus();
                 return false;
             }
             // At least one number, one lowercase and one uppercase letter 
             // At least six characters 
             var regExPW = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/; 
-            if (!regExPW.test(loginPassword)) {
+            if (!regExPW.test(loginPassword.val())) {
                 alert('Passwords must contain at least one number, one lowercase and one uppercase letter.  Please try again');
-                $("#login-form #login-password").focus(); 
+                loginPassword.focus(); 
                 return false;
             }
+            
+            // check if the remember me is checked
+            if (rememberPassword.is(":checked")){
+                // do something
+            }
+            // check if the forget me link is clicked
+            $("#forgot-password").click(function() {
+                // do something
+            });
+
             return true; 
         }
 
         // ajax signup form submission
         $("#signup-form").submit(function(event) {
             alert("signup submit button clicked"); // debug
-            if (true) {
+            if (signupFormValidate()) {
                 event.preventDefault();
                 var form = $("#signup-form"); 
                 var signUpPassword = $("#signup-form #signup-password").val();
@@ -205,20 +219,52 @@ $(document).ready( function() {
         $("#login-form").submit(function(event) {
             alert("login submit button clicked"); // debug
             if (loginFormValidation()) {
-                event.preventDefault();
-                var loginURL = "https://apiapache-beforeidie.rhcloud.com/api/login";
-                var loginData = $(this).serialize();
+                // event.preventDefault();
+                var form = $("#login-form"); 
+                var loginPassword = $("#login-form #login-password").val();
+                // Create a new element input, this will be our hashed password field. 
+                var p = document.createElement("input");
+                // Add the new element to our form. 
+                form.append(p); 
+                p.name = "p";
+                p.type = "hidden";
+                p.value = hex_sha512(loginPassword);
+                alert("p.value" + p.value);
+                // Make sure the plaintext password doesn't get sent. 
+                loginPassword = "";
+                // collect the form data
+                // var loginForm = new FormData(this);
+                var loginURL = "/api/login";
+                // var loginData = $(this).serialize();
+                var apiData = {
+                    "username": $("#login-form #username").val(),
+                    "p": p.value 
+                }
                 $.ajax({
-                    url: signupURL,
-                    type: "GET",
-                    data: loginData, 
-                    success: function(data, textStatus, jqXHR) {
-                        // switch to public page
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        alert("An error occured: " + textStatus + " " + errorThrown);
-                    }
+                    url: loginURL,
+                    type: "POST",
+                    dataType: "json",
+                    data: apiData, 
+                    encode: true
+                    // success: function(data, textStatus, jqXHR) {
+                    //     alert("responsed data:" + JSON.stringify(data));
+                    //     alert("textStatus:" + textStatus);
+                    //     alert("jqXHR:" + JSON.stringify(jqXHR));
+                    // },
+                    // error: function(jqXHR, textStatus, errorThrown) {
+                    //     alert("An error occured: " + textStatus + " " + errorThrown);
+                    // }
                 })
+                .done(function(data) {
+                    //Debug message
+                    console.log("Success Message:\n" + JSON.stringify(data)); 
+                    $("#api-result").text("Success Message:\n" + JSON.stringify(data));
+                })
+                .fail(function(data) {
+                    console.log("Failure Message:\n" + JSON.stringify(data)); 
+                    $("#api-result").text("Failure Message:\n" + JSON.stringify(data));
+                })
+                event.preventDefault();
             }
         })
     }
