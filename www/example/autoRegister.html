@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</head>
+<body>
+
+<div><h2>Auto register members with /api/register</h2></div>
+
+<div>
+    <label>robotNum: (Please enter numbers from 0,1,2,3,4,5,6,7,8,9,10 to 99)</label>
+    <input type="text" name="robotNum" placeholder="0" value="0">
+</div>
+<br>
+<button type="submit" id="btnGen">Generate Robot ID</button>
+<hr>
+
+<form>
+    <div>
+        <label>username: </label>
+        <input type="text" name="username" placeholder="Tester">
+    </div>
+    
+    <div>
+        <label>email: </label>
+        <input type="text" name="email" placeholder="Tester@gmail.com">
+    </div>
+    
+    <div>
+        <label>firstname: </label>
+        <input type="text" name="firstname" placeholder="Tester">
+    </div>   
+    
+    <div>
+        <label>lastname: </label>
+        <input type="text" name="lastname" placeholder="Dummy">
+    </div>     
+    
+    <div>
+        <label>hash password: </label>
+        <input type="text" name="p" placeholder="########################">
+    </div>   
+    
+    <div>
+        <label>title: </label>
+        <input type="text" name="title" placeholder="Web Programming Engineer">
+    </div>  
+    
+    <div>
+        <label>description: </label>
+        <input type="text" name="description" placeholder="Front End and Back End">
+    </div>  
+    
+    <div>
+        <label>city: </label>
+        <input type="text" name="city" placeholder="Santa Clara">
+    </div> 
+    
+    <div>
+        <label>state: </label>
+        <input type="text" name="state" placeholder="CA">
+    </div> 
+    
+    <div>
+        <label>fileToUpload: </label>
+        <input type="file" name="fileToUpload" placeholder="photo.jpg">
+    </div> 
+    <br>
+    <button type="submit">Get JSON Return</button>
+    
+</form>
+<br>
+<div id="api-result"></div>
+
+<script>
+$(document).ready(function() {
+    $("label").after("<br>");
+    
+    var username       = "";
+    var email          = "";
+    var firstname      = "";
+    var lastname       = "";
+    var p              = "bc30ecc758c63691c69e66d846326670924bff9609b5febf39c1e86cca8fb72783ad5e5b7076359e6d709bc58cd379ade1495945f8591e9876cb2634e43139a6";
+    var title          = ["Front-End Developer", "Front-End Tester", "Back-End Developer", "Back-End Tester",
+                            "Engineer", "Senior Engineer", "System Engineer", "Sales", 
+                            "Senior Sales", "Manager", "Senior Manager", "Director"];
+    var description    = ["I love travel", "I love flight", "I love eat", "I love jogging",
+                            "I love reading", "I love SKI", "Never say no", "Yes Man",
+                            "Don't give up", "Life is beautiful", "Cheer up", "Before I Die"];
+    var city           = ["San Jose", "LA", "Oakland", "Red Wood",
+                            "Bakersfield", "San Diego", "Anaheim", "Spokane",
+                            "Tacoma", "Vancouver", "Yakima", "Richland"];
+    var state          = ["CA", "CA", "CA", "CA",
+                            "CA", "CA", "CA", "Washington",
+                            "Washington", "Washington", "Washington", "Washington"];
+    var fileToUpload   = "";
+    var reItem = "";
+    
+    
+    /* Load form information */
+    $('#btnGen').click(function() {
+        var item = $('input[name=robotNum]').val();
+        console.log("robotNum:\n" + item); 
+
+        if (item < 10) {
+            reItem = '0' + item;
+        } else {
+            reItem = item;
+        }
+
+        username        = "robot" + reItem;
+        email           = "robot" + reItem + "@gmail.com";
+        firstname       = "robot" + reItem;
+        lastname        = "BFID"  + reItem;
+        //fileToUpload    = "C:\\Users\\Wei\\Desktop\\BFID_files\\bucket01.jpg"; //+ reItem + ".jpg";
+        item = item % 12; // There are only 12 datas in title, description, city and state array
+        
+        $('input[name=username]').val(username);
+        $('input[name=email]').val(email);
+        $('input[name=firstname]').val(firstname);
+        $('input[name=lastname]').val(lastname);
+        $('input[name=p]').val(p);
+        $('input[name=title]').val(title[item]);
+        $('input[name=description]').val(description[item]);
+        $('input[name=city]').val(city[item]);
+        $('input[name=state]').val(state[item]);
+        //$('input[name=fileToUpload]').val(fileToUpload);
+    });
+    
+    /* Load form information */
+    $('form').submit(function(event) {
+        var apiData = {
+            'username'          : $('input[name=username]').val(),
+            'email'             : $('input[name=email]').val(),
+            'firstname'         : $('input[name=firstname]').val(),
+            'lastname'          : $('input[name=lastname]').val(),
+            'p'                 : $('input[name=p]').val(),
+            'title'             : $('input[name=title]').val(),
+            'description'       : $('input[name=description]').val(),
+            'city'              : $('input[name=city]').val(),
+            'state'             : $('input[name=state]').val(),
+            'fileToUpload'      : $('input[name=fileToUpload]').val()
+        };
+
+        // Execute ajax with API /api/register
+        $.ajax({
+            type        : 'POST', // Define the https method that we want to use
+            url         : 'https://apiapache-beforeidie.rhcloud.com/api/register', // api url that we want to call
+            data        : apiData, // our data object
+            dataType    : 'json', // what type of data do we expect back from the server
+            encode      : true
+        })
+        
+        /* if returned header shows 200 OK */
+        .done(function(data) {
+            //Debug message
+            console.log("Success Message:\n" + JSON.stringify(data)); 
+            $("#api-result").text("Success Message:\n" + JSON.stringify(data));
+        })
+        
+        /* if returned header shows none 200 OK */
+        .fail(function(data) {
+            console.log("Failure Message:\n" + JSON.stringify(data)); 
+            $("#api-result").text("Failure Message:\n" + JSON.stringify(data));
+        })
+
+        /* stop the form from submitting the normal way and refreshing the page */
+        event.preventDefault();
+    });
+});
+
+</script>
+</body>
+</html>
+
+
+
+
