@@ -260,6 +260,7 @@ nav a {
   width: 100%;
   position: relative; 
   overflow:hidden;
+  cursor: pointer;
 }
 
 .tab-bucket-card img {
@@ -280,7 +281,7 @@ nav a {
   position: absolute; 
   top: 10%; 
   left: 20%;
-  width: 70%; 
+  /* width: 70%; */ 
   /* word-wrap: word-break; */
 }
 

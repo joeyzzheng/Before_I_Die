@@ -197,7 +197,7 @@ $(document).ready(function() {
             console.log("Failure Message:\n" + data); 
         })
     }
-   
+
     /**
      * Initialize home page
      */
