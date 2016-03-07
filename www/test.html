@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type='text/css' href="index.css">
+	</head>
+
+	<body onkeydown="move(event)">
+		<script>
+			var goPersonal = function(e){
+				var username = e.target.id
+				window.location.assign("https://apiapache-beforeidie.rhcloud.com/personal/"+username);
+			}
+			
+		</script>
+		
+		<div id="joeyzheng" onClick="goPersonal(event)" width="50px" hieght="50px" style="background-color:yellow">
+			go list
+		</div>
+
+	</body>
+	
+</html>
