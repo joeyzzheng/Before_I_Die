@@ -15,7 +15,7 @@ $(document).ready(function() {
     var linkLoginPage = document.getElementById("link-open-login-page");
 
     /* Initialize web page */
-
+    iniFun();
     
     /* Declare Events */
     /* When the user clicks the login link to open the login page */
@@ -28,6 +28,11 @@ $(document).ready(function() {
     
     /* When the user clicks the popular link to load popular bucket list */
     $("#tab-popular-link").click(function() {
+        if (!$("#tab-popular-link").is(".active")) {
+            $("#tab-popular").empty();
+            tabPageLoad("api/popular_item", "tab-popular", 6, 0, 11);
+        }
+        
         /* clean class active first */
         $("#tab-ids").find("a").removeClass("active");
         $(this).addClass("active");
@@ -39,6 +44,27 @@ $(document).ready(function() {
     
     /* When the user clicks the recent link to load recent bucket list */
     $("#tab-recent-link").click(function() {
+        if (!$("#tab-recent-link").is(".active")) {
+            $("#tab-recent").empty();
+            tabPageLoad("api/recent_item", 'tab-recent', 6, 0, 9);
+        }
+        
+        /* clean class active first */
+        $("#tab-ids").find("a").removeClass("active");
+        $(this).addClass("active");
+        
+        /* reset display behavior to none first */
+        tabConDisplayReset();
+        $("#tab-recent").css("display","block");
+    });
+    
+    /* When the user clicks the torch relay link to load torch relay bucket item */
+    $("#tab-torch-relay-link").click(function() {
+        if (!$("#tab-torch-relay").is(".active")) {
+            $("#tab-torch-relay").empty();
+            tabPageLoad("api/torch_item", 'tab-torch-relay', 6, 0, 9);
+        }
+        
         /* clean class active first */
         $("#tab-ids").find("a").removeClass("active");
         $(this).addClass("active");
@@ -83,7 +109,8 @@ $(document).ready(function() {
             var btnClose = document.getElementById("btn-close");
             /* When the user clicks on <span> (x), close the modal */
             btnClose.onclick = function() {
-              cleanFun();
+                loginPage.style.display = "none";
+                $("#wrapper-login-page").empty(); 
             }
         })
         
@@ -94,18 +121,102 @@ $(document).ready(function() {
     }
            
     /**
-     * Clean all function when user close or end the login page
+     * Load tab page information by Ajax Get method
      */
-    function cleanFun() {
-        loginPage.style.display = "none";
-        $("#wrapper-login-page").empty(); 
+    function tabPageLoad(apiURLCall, tagEl, num_limit, num_lower_bound, num_higher_bound) {
+        // Execute ajax with API /api/register
+        $.ajax({
+            type        : 'GET', // Define the https method that we want to use
+            url         : apiURLCall, // api url that we want to call
+            dataType    : 'json', // what type of data do we expect back from the server
+        })
+        
+        /* if returned header shows 200 OK */
+        .done(function(data) {
+            console.log("Success Message - tabPageLoad " + apiURLCall + " :\n" + JSON.stringify(data)); 
+            
+            //var objLen = data.responseJSON.length; 
+            /* Establish random sequence for extracing Bucket List */
+            var ranChoice = [];
+            ranChoice = ranSeq(num_limit, num_lower_bound, num_higher_bound);
+            var ranChoiceLen = ranChoice.length;
+            var imgSrc = "";
+            var spanText = "";
+            
+            for	(var index = 0; index < ranChoiceLen; index++) {
+                for (var item in data.responseJSON[ranChoice[index]]) {
+                    console.log(item + " : " + data.responseJSON[ranChoice[index]][item]);
+                }
+                var altText = data.responseJSON[ranChoice[index]].username + "_profilePicture";
+                
+                var tabPopDiv = document.getElementById(tagEl);
+                var divPopCard = document.createElement("div");
+                divPopCard.setAttribute("class", "tab-bucket-card");
+                divPopCard.setAttribute("id", data.responseJSON[ranChoice[index]].username);
+                var imgPop = document.createElement("img");
+                
+                if (apiURLCall === "api/torch_item") {
+                    imgSrc = data.responseJSON[ranChoice[index]].image;
+                    spanText = data.responseJSON[ranChoice[index]].username + "<br>" + data.responseJSON[ranChoice[index]].bucketItemTitle;
+                } else {
+                    imgSrc = data.responseJSON[ranChoice[index]].profilePicture;
+                    spanText = data.responseJSON[ranChoice[index]].username + "<br>" + data.responseJSON[ranChoice[index]].description;
+                }
+                
+                imgPop.setAttribute("src", imgSrc);
+                imgPop.setAttribute("alt", altText);
+                divPopCard.appendChild(imgPop);
+                
+                var divPopWord = document.createElement("div");
+                divPopWord.setAttribute("class", "tab-bucket-card-word");
+                var spanWord = document.createElement("span");
+                spanWord.setAttribute("class", "spacer");
+
+                spanWord.innerHTML = spanText;
+                divPopWord.appendChild(spanWord);
+                divPopCard.appendChild(divPopWord);
+                
+                tabPopDiv.appendChild(divPopCard);
+            }
+        })
+        
+        /* if returned header shows none 200 OK */
+        .fail(function(data) {
+            console.log("Failure Message:\n" + data); 
+        })
     }
-    
+   
+    /**
+     * Initialize home page
+     */
+    function iniFun() {
+        tabPageLoad("api/popular_item", "tab-popular", 6, 0, 11);
+    }
+   
     function tabConDisplayReset() {
          $("#tab-popular").css("display","none");
          $("#tab-recent").css("display","none");
          $("#tab-torch-relay").css("display","none");
     }
+    
+    /***
+     * 
+     * Refer http://stackoverflow.com/ to generate random number into array
+     * http://stackoverflow.com/questions/8378870/generating-unique-random-numbers-integers-between-0-and-x
+     */
+    function ranSeq(limit, lower_bound, upper_bound) {
+        var ranChoice = [];
+
+        while (ranChoice.length < limit) {
+            var random_number = Math.round(Math.random()*(upper_bound - lower_bound) + lower_bound);
+            if (ranChoice.indexOf(random_number) == -1) { 
+                ranChoice.push(random_number);
+            }
+        }
+        console.log("random sequence: " + ranChoice);
+        
+        return  ranChoice;
+    }    
     
 });
 
