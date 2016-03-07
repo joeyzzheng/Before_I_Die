@@ -131,6 +131,8 @@
                             }
                             $temp["success"] = "true";
                             $temp["error_msg"] = "null";
+                            $temp["POST_Message"] = $_POST;
+                            $temp["File_Message"] = $_FILES;
                             $this->response(json_encode([$temp]),200);
                         }
                         else{
