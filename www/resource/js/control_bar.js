@@ -47,9 +47,11 @@ var deleteItem = function(item) {
 };
 
 var requestRelay = function(item) {
+	var torch = $(".bucket-item[data-item='"+item+"']").attr("data-torch");
+	torch = parseInt(torch);
 	var apiData = {
 		itemID:item,
-		openToTorch:1
+		openToTorch:(torch == 1)?0:1
 	};
 	$.ajax({
 		type        : 'POST', 
@@ -58,8 +60,15 @@ var requestRelay = function(item) {
 		dataType    : 'json', // what type of data do we expect back from the server
   })
 	.done(function(data){
-		$(".torch[data-item='" + item + "']").attr("src","resource/pic/torched.png");
-		$(".torch[data-item='" + item + "']").attr("onClick","inherit("+item+")");
+		if(torch == 0){
+			$(".bucket-item[data-item='"+item+"']").attr("data-torch",1);
+			$(".torch[data-item='" + item + "']").attr("src","resource/pic/torched.png");
+			$(".torch[data-item='" + item + "']").attr("onClick","inherit("+item+")");			
+		} else {
+			$(".bucket-item[data-item='"+item+"']").attr("data-torch",0);
+			$(".torch[data-item='" + item + "']").attr("src","resource/pic/torch.png");
+		}
+
 	})
 };
 

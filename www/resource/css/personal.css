@@ -225,3 +225,7 @@ input[type=text]{
 .inheritFrom{
 	float: right;
 }
+
+.commentBox{
+	padding-left: 15px;
+}
