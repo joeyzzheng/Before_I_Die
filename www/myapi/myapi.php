@@ -400,6 +400,18 @@
 				
 				$this->myUsers->ALLCANGETALL($this->parseURL[2]);
 			}
+			if(strcmp($this->get_request_method(),"POST") == 0){
+				if(sizeof($this->parseURL) > 2 && strcmp($this->parseURL[2],"") != 0){
+					$temp["success"] = "false";
+					$temp["error_msg"] = "api/users/redundant URL assign";
+					$this->response(json_encode($temp),200);
+				}
+				
+				
+				
+				$this->myUsers->update();
+				
+			}
 			else{
 				$temp["success"] = "false";
 				$temp["error_msg"] = "HTTP method not found";
@@ -442,6 +454,45 @@
 					$this->response($this->json($temp),200);				// If the method not exist with in this class, response would be "Page not found".
 					
 				}
+			}
+			else{
+				$temp["success"] = "false";
+				$temp["error_msg"] = "HTTP method not found";
+				$this->response(json_encode($temp),200);
+			}
+		}
+		/*
+		* popular_item
+		*/
+		private function popular_item(){
+			if(strcmp($this->get_request_method(),"GET") == 0){
+				$this->myBucketItem->popular_item();
+			}
+			else{
+				$temp["success"] = "false";
+				$temp["error_msg"] = "HTTP method not found";
+				$this->response(json_encode($temp),200);
+			}
+		}
+		/*
+		* recent_item
+		*/
+		private function recent_item(){
+			if(strcmp($this->get_request_method(),"GET") == 0){
+				$this->myBucketItem->recent_item();
+			}
+			else{
+				$temp["success"] = "false";
+				$temp["error_msg"] = "HTTP method not found";
+				$this->response(json_encode($temp),200);
+			}
+		}
+		/*
+		* torch_item
+		*/
+		private function torch_item(){
+			if(strcmp($this->get_request_method(),"GET") == 0){
+				$this->myBucketItem->torch_item();
 			}
 			else{
 				$temp["success"] = "false";

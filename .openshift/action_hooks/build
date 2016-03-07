@@ -15,6 +15,9 @@ then
     PID=$!
     echo $PID > ${PID_FILE}
     echo "php env build started. proccess pid : ${PID}"
+    ln -s ~/app-root/data/profilePic/ ~/app-root/runtime/repo/www/resource/pic/
+    ln -s ~/app-root/data/bucketPic/ ~/app-root/runtime/repo/www/resource/pic/
+    ln -s ~/app-root/data/homePic/ ~/app-root/runtime/repo/www/resource/pic/
 else
     echo "seems already building, pid is ${PID}"
 fi

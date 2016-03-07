@@ -31,7 +31,7 @@ this_proc: BEGIN
         LEAVE this_proc;
     END IF;
         
-	IF (Liked) THEN
+	IF (Liked = 1) THEN
 	BEGIN
 		IF (NOT EXISTS( 
 			SELECT 1 
