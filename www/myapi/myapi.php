@@ -330,23 +330,32 @@
 		    //hash password with salt
 		    $password = hash('sha512', $password . $salt); 
 		    
-		    $query = "call Before_I_Die.Login (?,?)";
+		    $query = "call Before_I_Die.Login (?,?,@Result,@Msg)";
 		    // Using prepared statements means that SQL injection is not possible.
 		    if($stmt = $this->db->prepare($query)){
 		        //$stmt = $mysqli->prepare("call Before_I_Die.Login (?,?)");
 		        $stmt->bind_param('ss', $username, $password);  // Bind "$email"/$password to parameter.
 		        $stmt->execute();    // Execute the prepared query.
-		        $stmt->store_result();
-		    
-		        // get variables from result.
-		        $stmt->bind_result($col1, $col2);
-		        $stmt->fetch();
 		        $stmt->close();
-		        if(empty($col1)){
-		        	$temp["success"] = "false";
-		            $temp["error_msg"] = "Username does not match password.";
-		            $this->response($this->json($temp),200);
-		        }
+		        
+		        $query = "SELECT @Result, @Msg";
+                if ($insert_stmt = $this->db->query($query)) {
+                    $result = $insert_stmt->fetch_assoc();
+                    $insert_stmt->close();
+                    if($result["@Result"] == 0){
+                        $temp["success"] = "false";
+                        $temp["error_msg"] = $result["@Msg"];
+                        $this->response(json_encode($temp), 200);
+                    }
+                    $temp["success"] = "true";
+                    $temp["error_msg"] = "null";
+                    $this->response(json_encode([$temp]),200);
+                }
+                else{
+                    $temp["success"] = "false";
+                    $temp["error_msg"] = "Can not query UserInsert result msg";
+                    $this->response(json_encode($temp), 200);
+                }
 		        
 		        // Password is correct!
 		        
