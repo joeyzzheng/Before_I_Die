@@ -62,11 +62,11 @@ var requestRelay = function(item) {
 	.done(function(data){
 		if(torch == 0){
 			$(".bucket-item[data-item='"+item+"']").attr("data-torch",1);
-			$(".torch[data-item='" + item + "']").attr("src","resource/pic/torched.png");
+			$(".torch[data-item='" + item + "']").attr("src","../resource/pic/torched.png");
 			$(".torch[data-item='" + item + "']").attr("onClick","inherit("+item+")");			
 		} else {
 			$(".bucket-item[data-item='"+item+"']").attr("data-torch",0);
-			$(".torch[data-item='" + item + "']").attr("src","resource/pic/torch.png");
+			$(".torch[data-item='" + item + "']").attr("src","../resource/pic/torch.png");
 		}
 
 	})
@@ -79,7 +79,7 @@ var inherit = function(item) {
 	};
 	$.ajax({
 		type        : 'POST', 
-		url         : 'api/bucket_item/torch',
+		url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/torch',
 		data        : apiData,
 		dataType    : 'json' // what type of data do we expect back from the server
   })
@@ -102,10 +102,13 @@ var like = function(item) {
 		likeusername:"fwang3",
 		liked:"1"
 	};
+	var apiDataGET = {
+		itemID:item
+	};
 	$.ajax({
 		type        : 'GET', 
-		url         : 'api/bucket_item/like', // the url where we want to POST
-		data        : apiDataPOST, // our data object
+		url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/like', // the url where we want to POST
+		data        : apiDataGET, // our data object
 		dataType    : 'json', // what type of data do we expect back from the server
 	})
 	.done(function(likers){
@@ -120,7 +123,7 @@ var like = function(item) {
 			
 			$.ajax({
 				type        : 'POST', 
-				url         : 'api/bucket_item/like', // the url where we want to POST
+				url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/like', // the url where we want to POST
 				data        : apiDataPOST, // our data object
 				dataType    : 'json', // what type of data do we expect back from the server
 			})
@@ -128,8 +131,8 @@ var like = function(item) {
 				if(data[0].success == "true"){
 					$.ajax({
 						type        : 'GET', 
-						url         : 'api/bucket_item/like', // the url where we want to POST
-						data        : apiDataPOST, // our data object
+						url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/like', // the url where we want to POST
+						data        : apiDataGET, // our data object
 						dataType    : 'json', // what type of data do we expect back from the server
 					})
 					.done(function(dataGet){
@@ -162,7 +165,7 @@ var completed = function(item) {
   })
 	.done(function(data){
 		$(".item-img-section[data-item='" + item + "']").css({opacity:0.5});
-		var done = '<img class="done" src="resource/pic/done.png" alt="completed item">'
+		var done = '<img class="done" src="../resource/pic/done.png" alt="completed item">'
 		$(".item-img-section[data-item='" + item + "']").append(done);
 		$(".dropbtn[data-item='" + item + "']").css({display:"none"});
 		$(".dropdown-content[data-item='" + item + "']").css({display:"none"});
