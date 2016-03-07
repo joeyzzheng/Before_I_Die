@@ -98,9 +98,9 @@ var render = function() {
 		}
 	});
 	
-//	for(var i = 0 ; i < bucket_list.responseJSON.length; i++) {
-//		render_bucket_item(bucket_list.responseJSON[i], i);
-//	}	
+	for(var i = 0 ; i < bucket_list.responseJSON.length; i++) {
+		render_bucket_item(bucket_list.responseJSON[i], i);
+	}	
 
 	
 }

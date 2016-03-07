@@ -165,6 +165,7 @@ a{
 
 .comment {
 	margin-right: 15px;
+	word-wrap: break-word;
 }
 
 input[type=text]{
