@@ -33,11 +33,11 @@
                       <form id="login-form" action="#" method="post" style="display:none;">
                         <div class="form-wrapper">
                           <label class="sr-only" for="username">Username:</label>
-                          <input class="form-entry" type="text" name="username" id="username" placeholder="Jason" tabindex="1" maxlength="50" required>
+                          <input class="form-entry" type="text" name="username" id="username" placeholder="Jason" tabindex="1" maxlength="50" >
                         </div>
                         <div class="form-wrapper">
                           <label class="sr-only" for="login-password">Password:</label>
-                          <input class="form-entry" type="password" name="login-password" id="login-password" placeholder="Password" tabindex="2" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" required>
+                          <input class="form-entry" type="password" name="login-password" id="login-password" placeholder="Password" tabindex="2" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" >
                         </div>
                         <div class="form-wrapper text-center">
                           <input type="checkbox" name="remember-password" id="remember-password" tabindex="3">
@@ -64,25 +64,25 @@
                       <form id="signup-form" style="display: block;">
                         <div class="form-wrapper">
                           <label class="sr-only" for="username">Username:</label>
-                          <input class="form-entry" type="text" name="username" id="username" placeholder="Username (in 50 characters)" tabindex="1" maxlength="50" title="Enter your username in 50 characters" required>
+                          <input class="form-entry" type="text" name="username" id="username" placeholder="Username (in 50 characters)" tabindex="1" maxlength="50" title="Enter your username in 50 characters" >
                         </div>
                         <div class="form-wrapper">
                           <label class="sr-only" for="username">First name:</label>
-                          <input class="form-entry" type="text" name="firstname" id="firstname" placeholder="First name（in 50 characters)" tabindex="2" maxlength="50" title="Enter your first name in 50 characters" required>
+                          <input class="form-entry" type="text" name="firstname" id="firstname" placeholder="First name（in 50 characters)" tabindex="2" maxlength="50" title="Enter your first name in 50 characters" >
                           <label class="sr-only" for="username">Last name:</label>
-                          <input class="form-entry" type="text" name="lastname" id="lastname" placeholder="Last name (in 50 characters)" tabindex="3"maxlength="50" title="Enter your lastname in 50 characters" required>
+                          <input class="form-entry" type="text" name="lastname" id="lastname" placeholder="Last name (in 50 characters)" tabindex="3"maxlength="50" title="Enter your lastname in 50 characters" >
                         </div>
                         <div class="form-wrapper">
                           <label class="sr-only" for="email-address">Email Address:</label>
-                          <input class="form-entry" type="email" name="email" id="email" placeholder="Email (in 200 characters)" tabindex="4" maxlength="200" title="Enter your email in 200 characters" required>
+                          <input class="form-entry" type="email" name="email" id="email" placeholder="Email (in 200 characters)" tabindex="4" maxlength="200" title="Enter your email in 200 characters" >
                         </div>
                         <div class="form-wrapper">
                           <label class="sr-only" for="signup-password">Password:</label>
-                          <input class="form-entry" type="password" name="signup-password" id="signup-password" placeholder="Password(at least 6 letters, one number, one uppercase letter and one lowercase letter)" tabindex="5" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" required>
+                          <input class="form-entry" type="password" name="signup-password" id="signup-password" placeholder="Password(at least 6 letters, one number, one uppercase letter and one lowercase letter)" tabindex="5" title="Must contain at least one number and one uppercase and lowercase letter, and at least 6 or more characters" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" >
                         </div>
                         <div class="form-wrapper">
                           <label class="sr-only" for="confirm-password">Confirm Password:</label>
-                          <input class="form-entry" type="password" name="confirm-password" id="confirm-password" placeholder="Confirm Password" tabindex="6" title="Must match your password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" required>
+                          <input class="form-entry" type="password" name="confirm-password" id="confirm-password" placeholder="Confirm Password" tabindex="6" title="Must match your password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" >
                         </div>
                         <hr>
                         <div class="text-center">Optional:</div>
@@ -122,8 +122,9 @@
         </div>
       </main>
       <footer></footer>
+      <script src="../resource/js/sha512.js"></script>
       <script src="../resource/js/login.js"></script>
-      <script type="../resource/js/sha512.js"></script>
+
     </body>
 </html>
 

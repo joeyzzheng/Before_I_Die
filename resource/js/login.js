@@ -160,17 +160,17 @@ $(document).ready( function() {
             alert("signup submit button clicked"); // debug
             if (true) {
                 event.preventDefault();
-                var signupForm = new FormData(this);
+                var form = $("#signup-form"); 
                 var signUpPassword = $("#signup-form #signup-password").val();
                 var confirmPassword = $("#signup-form #confirm-password").val();
-
                 // Create a new element input, this will be our hashed password field. 
                 var p = document.createElement("input");
                 // Add the new element to our form. 
-                signupForm.appendChild(p);
+                form.append(p); 
                 p.name = "p";
                 p.type = "hidden";
-                p.value = hex_sha512(signUpPassword.value);
+                p.value = hex_sha512(signUpPassword);
+                var signupForm = new FormData(this);
                 // Make sure the plaintext password doesn't get sent. 
                 signUpPassword = "";
                 confirmPassword = "";
@@ -184,7 +184,8 @@ $(document).ready( function() {
                     processData: false,
                     crossDomain: true,
                     success: function(data, textStatus, jqXHR) {
-                        switchToLogin(); // switch to login form
+                        // switchToLogin(); 
+                        // switch to login form
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         alert("An error occured: " + textStatus + " " + errorThrown);
