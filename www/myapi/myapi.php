@@ -92,6 +92,11 @@
 		 */
 		public function processApi(){
 			//$this->response(DB_SERVER,200); //for debug
+			if(empty($_REQUEST)){
+				include("../home.html");
+                                exit();
+			}
+
 			$input = (explode('/',strtolower(str_replace("","",$_REQUEST['rquest']))));
 			$this->parseURL = $input;
 			
@@ -104,7 +109,7 @@
 			
 			//validate URL is {domain}/api/ or {domain}/personal/
 			if(strcmp($input[0],"")==0){
-				header("Location: ../home.php");
+				include("../home.html");
 				exit(); 
 			}
 			if((strcmp($input[0],"api") !=0 && strcmp($input[0], "personal")) || sizeof($input) < 2){
