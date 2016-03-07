@@ -53,6 +53,7 @@ a{
 }
 
 .add, .share{
+	margin-right:5px;
 	width: 30px;
 	cursor: pointer;
 }
@@ -184,20 +185,23 @@ input[type=text]{
 
 .user-img {
 /*	border-radius: 50%;*/
+
 	width:80px;
+	position: absolute;
+	clip: rect(0px,80px,80px,0px);
 	margin: inherit;
 	float: left;
 }
 
 .user-name {
 	position: relative;
-	left: 5px;
+	left: 85px;
 	top: 20%;
 }
 
 .user-loc {
 	position: relative;
-	left:5px;
+	left: 85px;
 	top: 20px;
 	color: rgba(153, 153, 153, 1);
 }
