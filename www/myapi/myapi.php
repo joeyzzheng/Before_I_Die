@@ -102,21 +102,27 @@
 				$this->response($this->json($temp),200);
 			}
 			
-			//validate URL begin with api
+			//validate URL is {domain}/api/ or {domain}/personal/
 			if(strcmp($input[0],"")==0){
 				header("Location: ../home.php");
 				exit(); 
 			}
-			if(strcmp($input[0],"api") !=0 || sizeof($input) < 2){
+			if((strcmp($input[0],"api") !=0 && strcmp($input[0], "personal")) || sizeof($input) < 2){
 				$temp["success"] = "false";
-				$temp["error_msg"] = "API URL should begin with api/blablabla";
+				$temp["error_msg"] = "API URL should begin with {domain}/api/ or {domain}/personal/";
 				$this->response($this->json($temp),200);
 			}
 			if(strcmp($input[1],"") == 0){
 				$temp["success"] = "false";
-				$temp["error_msg"] = "API URL should begin with api/blablabla";
+				$temp["error_msg"] = "The 2nd portion of the URL is not given. {domain}/1/2/";
 				$this->response($this->json($temp),200);
 			}
+
+			// parse personal page requests
+			if(strcmp($input[0], "personal") == 0){
+                                include("../personal.html");
+                                exit();
+                        }
 			
 			//register first
 			
