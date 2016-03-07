@@ -48,10 +48,10 @@ $(document).ready( function() {
             var signUpPassword = $("#signup-form #signup-password").val();
             var confirmPassword = $("#signup-form #confirm-password").val();
             // optional fields
-            var userTitle = $("#signup-form user-title").val();
-            var userDescription = $("#signup-form user-description").val();
-            var userCity = $("#signup-form user-city").val();
-            var userState = $("#signup-form user-state").val();
+            var userTitle = $("#signup-form title").val();
+            var userDescription = $("#signup-form description").val();
+            var userCity = $("#signup-form city").val();
+            var userState = $("#signup-form state").val();
             // check each required fields has a value
             if (username == '' || firstname == '' || lastname == '' || email == '' || signUpPassword == '' || confirmPassword == '') {
                 alert('You must provide all the requested details. Please try again');
@@ -170,20 +170,27 @@ $(document).ready( function() {
                 p.name = "p";
                 p.type = "hidden";
                 p.value = hex_sha512(signUpPassword);
-                var signupForm = new FormData(this);
+                alert("p.value" + p.value);
                 // Make sure the plaintext password doesn't get sent. 
                 signUpPassword = "";
                 confirmPassword = "";
+                // collect the form data
+                var signupForm = new FormData(this);
 
-                var signupURL = "https://apiapache-beforeidie.rhcloud.com/api/users/register";
+                var signupURL = "https://apiapache-beforeidie.rhcloud.com/api/register";
+                // var signupURL = "https://loging-sedernet.c9users.io/api/register";
                 $.ajax({
                     url: signupURL,
                     type: "POST",
                     data: signupForm, 
+                    dataType: "json", 
                     contentType: false, 
                     processData: false,
                     crossDomain: true,
                     success: function(data, textStatus, jqXHR) {
+                        alert("responsed data:" + JSON.stringify(data))
+                        alert("textStatus:" + textStatus)
+                        alert("jqXHR:" + JSON.stringify(jqXHR))
                         // switchToLogin(); 
                         // switch to login form
                     },

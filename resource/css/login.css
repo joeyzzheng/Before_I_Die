@@ -383,12 +383,12 @@ body {
   float: right;
 }
 
-#user-city {
+#city {
   width: 48%;
   float: left;
 }
 
-#user-state {
+#state {
   width: 48%;
   float: right;
 }
