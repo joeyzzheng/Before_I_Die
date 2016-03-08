@@ -187,7 +187,10 @@
 				$temp["error_msg"] = "Not Login, Error Message: ".$this->error_msg;
 				$this->response($this->json($temp),200);
 			}
-			
+			//recommendation 
+			if(strcmp($input[0],"api") == 0 && strcmp($input[1],"recommendation") == 0){
+				$this->myUsers->recommendation();
+			}
             
 			
 			//$this->response($func,200);
