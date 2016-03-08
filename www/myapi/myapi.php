@@ -113,7 +113,7 @@
 				include("../home.html");
 				exit(); 
 			}
-			if((strcmp($input[0],"api") != 0 && strcmp($input[0], "personal") != 0 && strcmp($input[0],"login") != 0 && strcmp($input[0],"logout") != 0) || sizeof($input) < 2){
+			if((strcmp($input[0],"api") != 0 && strcmp($input[0], "personal") != 0 && strcmp($input[0],"login") != 0 && strcmp($input[0],"logout") != 0)){
 				$temp["success"] = "false";
 				$temp["error_msg"] = "API URL should begin with {domain}/api/method or {domain}/personal/username or {domain}/login or {domain}/logout";
 				$this->response($this->json($temp),200);
