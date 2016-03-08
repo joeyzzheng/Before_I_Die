@@ -128,12 +128,13 @@
                 $this->response(json_encode($temp),200);
 		    }
             //$this->response(json_encode($_POST),200);
-            if (isset($_POST['username'], $_POST['title'], $_POST['content'])) {
+            if (isset($_POST['title'], $_POST['content'])) {
                 
-                $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-                if (strlen($username) > 50) {
-                    $error_msg .= "Invalid username, limits to 50 characters.";
-                }
+                // $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+                // if (strlen($username) > 50) {
+                //     $error_msg .= "Invalid username, limits to 50 characters.";
+                // }
+                $username = $_SESSION["username"];
                 
                 $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
                 if (strlen($title) > 100) {
@@ -450,9 +451,9 @@
 		
 		public function like(){
 		    if(strcmp($this->get_request_method(),"POST") == 0){
-		    	if(isset($_POST["itemID"],$_POST["likeusername"],$_POST["liked"])){
+		    	if(isset($_POST["itemID"],$_POST["liked"])){
 		    		$itemID = $_POST["itemID"];
-		    		$likeusername = $_POST["likeusername"];
+		    		$likeusername = $_SESSION["username"];
 		    		$liked = filter_input(INPUT_POST, 'liked', FILTER_SANITIZE_STRING);
 		    		// if(strcmp($liked,"0") != 0 || strcmp($liked,"1") != 0){
 		    		// 	$temp["success"] = "false";
@@ -491,7 +492,7 @@
 		    	}
 		    	else{
 		    		$temp["success"] = "false";
-                    $temp["error_msg"] = "ItemID likeusername or liked does not set.";
+                    $temp["error_msg"] = "ItemID or liked does not set.";
                     $this->response(json_encode($temp),200);
 		    	}
 		    }
@@ -544,9 +545,9 @@
 		
 		public function torch(){
 		    if(strcmp($this->get_request_method(),"POST") == 0){
-		    	if(isset($_POST["itemID"], $_POST["childUsername"])){
+		    	if(isset($_POST["itemID"])){
 		    		$itemID = $_POST["itemID"];
-		    		$childUsername = $_POST["childUsername"];
+		    		$childUsername = $_SESSION["username"];
 		    		$query = "call Before_I_Die.BucketItemInheritInsert( ?, ?, @Result, @Msg)";
 		    		if($stmt = $this->db->prepare($query)){
 		                $stmt->bind_param('is', $itemID, $childUsername);  // Bind to parameter.
@@ -579,7 +580,7 @@
 		    	}
 		    	else{
 		    		$temp["success"] = "false";
-                    $temp["error_msg"] = "ItemID or childUsername does not set.";
+                    $temp["error_msg"] = "ItemID does not set.";
                     $this->response(json_encode($temp),200);
 		    	}
 		    }
@@ -592,9 +593,9 @@
 		
 		public function comment(){
 		    if(strcmp($this->get_request_method(),"POST") == 0){
-		    	if(isset($_POST["itemID"], $_POST["commentusername"], $_POST["comment"])){
+		    	if(isset($_POST["itemID"], $_POST["comment"])){
 		    		$itemID = $_POST["itemID"];
-		    		$commentusername = $_POST["commentusername"];
+		    		$commentusername = $_SESSION["username"];
 		    		$comment = $_POST["comment"];
 		    		$query = "call Before_I_Die.BucketItemCommentInsert( ?, ?, ?, @Result, @Msg)";
 		    		if($stmt = $this->db->prepare($query)){
@@ -628,7 +629,7 @@
 		    	}
 		    	else{
 		    		$temp["success"] = "false";
-                    $temp["error_msg"] = "ItemID, commentusername or comment does not set.";
+                    $temp["error_msg"] = "ItemID or comment does not set.";
                     $this->response(json_encode($temp),200);
 		    	}
 		    }//POST
