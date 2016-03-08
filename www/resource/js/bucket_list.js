@@ -1,6 +1,6 @@
 var render_bucket_item = function(item) {
 	//render image and menu
-	$(".bucket-items").append('<div class="bucket-item" data-item="' + item.ID + '"></div>');
+	$(".bucket-items").append('<div class="bucket-item" id="'+item.ID+'" data-item="' + item.ID + '" data-torch="'+item.openToTorch+'"></div>');
 	$(".bucket-item[data-item='" + item.ID + "']").append('<div class="item-img-section" data-item="' + item.ID + '"></div>');
 	var img = '<img class="item-img" alt="bucket item image" src="' + item.image + '" data-item="'+ item.ID +'">';
 	$(".item-img-section[data-item='" + item.ID + "']").append(img);
@@ -12,9 +12,9 @@ var render_bucket_item = function(item) {
 		$(".item-img-section[data-item='" + item.ID + "']").append(done);
 	} else {
 			var menu = '<div class="dropdown">   <button class="dropbtn" data-item="'+item.ID+'"><img class="menu" alt="menu" src="../resource/pic/menu.png"></button>   <div class="dropdown-content" data-item="'+item.ID+'">' +
-					'<a href="#">Edit</a> ' +
+					'<a class="edit" href="#">Edit</a> ' +
 					'<a onClick="completed('+item.ID+')">Completed</a>' +
-					'<a onClick="requestRelay('+item.ID+')">Request Relay</a>' +
+					'<a class="requestRelay" onClick="requestRelay('+item.ID+')">Request Relay</a>' +
 					'<a onClick="deleteItem('+item.ID+')">Delete</a>' +
 					'<div class="sub-dropdown"><a href="#">Privacy</a>' +
 					'<div class="dropdown-sub-content">' +
@@ -58,29 +58,35 @@ var render_bucket_item = function(item) {
 	if(item.inheritFrom) {
 		var parentUser = '<span class="inheritFrom">' + 'Inherited from ' + item.inheritFrom + '</span>';
 		$(".like[data-item='" + item.ID + "']").append(parentUser);
+		$(".dropdown-content[data-item='" + item.ID + "']>.edit").remove();
+		$(".dropdown-content[data-item='" + item.ID + "']>.requestRelay").remove();
 	}
 	//render comment
 	if(item.comment){
+		$(".like[data-item='" + item.ID + "']").append("<HR>");
 		for(var j = item.comment.length-1; j >= 0; j--) {
 			var text = item.comment[j].comment.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 			//add new line to every 70 char
 			if(text != "") text = text.match(/.{1,70}/g).join("<br>");
 			
-			$(".response[data-item='" + item.ID + "']").append('<p class="comment"><span class="comment"><b>' + item.comment[j].username + '</b></span><span class="comment_content">' + text + '</span></p>');
+			$(".response[data-item='" + item.ID + "']").append('<p class="comment"><span class="comment"><b>' + item.comment[j].username + '</b></span><span class="comment_content">' + text + '</span></p><HR>');
 		}
 	}
 	//render comeent textarea
-	var textarea = '<input onkeydown="leave_comment(event,'+item.ID+')" type="text" data-item="' + item.ID + '" placeholder="leave a comment..." maxlength="500">';
+	var textarea = '<input class="commentBox" onkeydown="leave_comment(event,'+item.ID+')" type="text" data-item="' + item.ID + '" placeholder="leave a comment..." maxlength="500">';
 	$(".item-info[data-item='" + item.ID + "']").append(textarea);
 
 }
 
 var render = function() {
-	render_user_info();
+	var url = window.location.href.split("/");
+	var username = url[url.length-1];
+	render_user_info(username);
+	var userUrl = 'https://apiapache-beforeidie.rhcloud.com/api/bucketlist/' + username;
 	
 	$.ajax({
 		type        : 'GET', 
-		url         : 'api/bucketlist/joeyzheng',//joeyzheng 
+		url         : userUrl,//joeyzheng 
 		dataType    : 'json', // what type of data do we expect back from the server
   })
 	
