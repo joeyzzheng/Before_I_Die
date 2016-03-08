@@ -51,13 +51,13 @@ var render_bucket_item = function(item, id) {
 	$(".like[data-item='" + item.ID + "']").append(like);
 	
 	var torch = '<img class="torch" data-item="'+item.ID+'" alt="torch" src="../resource/pic/'
-	if(item.openToTorch == 0) torch += 'torch.png">';
+	if(item.openToTorch == 0 || item.inheritFrom) torch += 'torch.png">';
 	else torch += 'torched.png" onClick="inherit(' + item.ID + ')">';
 		
 	$(".like[data-item='" + item.ID + "']").append(torch);
 	
 	if(item.inheritFrom) {
-		var parentUser = '<span class="inheritFrom">' + 'Inherited from ' + item.inheritFrom + '</span>';
+		var parentUser = '<span class="inheritFrom">' + 'Inherited from <a class="inherit-link" href="https://apiapache-beforeidie.rhcloud.com/personal/'+item.inheritFrom+'#'+item.ID+'">' + item.inheritFrom + '</a></span>';
 		$(".like[data-item='" + item.ID + "']").append(parentUser);
 		$(".dropdown-content[data-item='" + item.ID + "']>.edit").remove();
 		$(".dropdown-content[data-item='" + item.ID + "']>.requestRelay").remove();
@@ -80,8 +80,11 @@ var render_bucket_item = function(item, id) {
 	
 	if( ("#"+item.ID) == id){
 		//$(".item-img[data-item='" + id + "']")
-		var pos_top = $(id).offset().top - 25;
-		$("body").animate({scrollTop: pos_top}, 2000);
+		setTimeout(function(){
+			var pos_top = $(id).offset().top - 25;
+			$("body").animate({scrollTop: pos_top}, 2000);			
+		},500);
+
 	} 
 }
 

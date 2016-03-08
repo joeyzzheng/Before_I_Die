@@ -44,12 +44,15 @@ a{
 
 .title{
 	position: relative;
+	display: inline;
 }
 
 .add-share{
+	float: right;
+
 	top:0;
 	right:0;
-	position: absolute;
+
 }
 
 .add, .share{
@@ -58,6 +61,10 @@ a{
 	cursor: pointer;
 }
 
+h1{
+	position: relative;
+	word-wrap: break-word;
+}
 
 .bucket-item {
 	margin-bottom:50px;
@@ -168,8 +175,8 @@ a{
 }
 
 .user-comment-img{
-	width:50px;
-	clip: rect(0px,50px,50px,0px);
+	width:40px;
+	clip: rect(0px,40px,40px,0px);
 	margin: inherit;
 }
 
@@ -177,7 +184,7 @@ a{
 	padding-left: 10px;
 	position: relative;
 	height: 50px;
-	top:-25px;
+	top:-20px;
 	margin-right: 15px;
 	word-wrap: break-word;
 }
@@ -186,6 +193,10 @@ input[type=text]{
 	height: 30px;
 	font-size: 1em;
 	color: black;
+}
+
+button {
+	outline:none;
 }
 
 .menu {
@@ -246,4 +257,12 @@ input[type=text]{
 
 .commentBox{
 	padding-left: 15px;
+}
+
+.inherit-link{
+	text-decoration: none;
+	color: #465353;
+}
+.inherit-link:hover{
+	text-decoration: underline;
 }
