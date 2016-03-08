@@ -158,7 +158,7 @@
 				}
             }
             // log out
-			if(strcmp($input[0],"logout")==0 && strcmp($input[1],"api")==0){
+			if(strcmp($input[1],"logout")==0 && strcmp($input[0],"api")==0){
 				// Unset all session values 
 				$_SESSION = array();
 				
