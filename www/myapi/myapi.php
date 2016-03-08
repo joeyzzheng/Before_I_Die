@@ -148,7 +148,7 @@
 			}
 			// parse personal page requests
 			if(strcmp($input[0], "personal") == 0){
-				if(login_check()){
+				if($this->login_check()){
             		include("../personal.html");
                 	exit();
 				}
