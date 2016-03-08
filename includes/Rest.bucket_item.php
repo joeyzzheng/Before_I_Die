@@ -30,6 +30,7 @@
 		    }
             //$this->response(json_encode($_POST),200);
             if (isset($_POST['itemID'], $_POST['title'], $_POST['content'], $_POST["imag"])) {
+                $username = $_SESSION["username"];
                 
                 $itemID = filter_input(INPUT_POST, 'itemID', FILTER_SANITIZE_STRING);
                 
@@ -74,7 +75,7 @@
                 //if ($insert_stmt = $mysqli->prepare("INSERT INTO Users (Username, Email, FirstName, LastName, Title, Description, City, State, ProfilePic, Salt, Password) 
                 //VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
                     
-                    $insert_stmt->bind_param('issss', $itemID, $title, $content, $location, $imag);
+                    $insert_stmt->bind_param('sissss', $username, $itemID, $title, $content, $location, $imag);
                     // Execute the prepared query.
                     if (! $insert_stmt->execute()) {
                         $temp["success"] = "false";
@@ -252,11 +253,12 @@
 		public function delete(){
 		    if(strcmp($this->get_request_method(),"POST") == 0){
 		        if(isset($_POST["itemID"])){
+		        	$username = $_SESSION["username"];
 		            $itemID = $_POST["itemID"];
 		            
-		            $query = "call Before_I_Die.BucketItemDelete( ?, @Result, @Msg)";
+		            $query = "call Before_I_Die.BucketItemDelete( ?, ?, @Result, @Msg)";
 		            if($stmt = $this->db->prepare($query)){
-		                $stmt->bind_param('i', $itemID);  // Bind to parameter.
+		                $stmt->bind_param('si', $username, $itemID);  // Bind to parameter.
 			            $stmt->execute();    // Execute the prepared query.
 			            $stmt->close();
 			            $query = "SELECT @Result, @Msg";
@@ -300,6 +302,7 @@
 		public function complete(){
 		    if(strcmp($this->get_request_method(),"POST") == 0){
 		        if(isset($_POST["itemID"],$_POST["complete"])){
+		        	$username = $_SESSION["username"];
 		            $itemID = $_POST["itemID"];
 		            $complete = $_POST["complete"];
 		      //      if(strcmp($complete,"0") != 0 || strcmp($complete,"1") != 0){
@@ -309,7 +312,7 @@
 		    		// }
 		            $query = "call Before_I_Die.BucketItemCompleteUpdate( ?, ?, @Result, @Msg)";
 		            if($stmt = $this->db->prepare($query)){
-		                $stmt->bind_param('ii', $itemID, $complete);  // Bind to parameter.
+		                $stmt->bind_param('sii', $username, $itemID, $complete);  // Bind to parameter.
 			            $stmt->execute();    // Execute the prepared query.
 			            $stmt->close();
 			            $query = "SELECT @Result, @Msg";
@@ -353,6 +356,7 @@
 		public function request_relay(){
 		    if(strcmp($this->get_request_method(),"POST") == 0){
 		    	if(isset($_POST["itemID"], $_POST["openToTorch"])){
+		    		$username = $_SESSION["username"];
 		    		$itemID = $_POST["itemID"];
 		    		$openToTorch = $_POST["openToTorch"];
 		    		// if(strcmp($openToTorch,"0") != 0 || strcmp($openToTorch,"1") != 0){
@@ -362,7 +366,7 @@
 		    		// }
 		    		$query = "call Before_I_Die.BucketItemTorchUpdate( ?, ?, @Result, @Msg)";
 		    		if($stmt = $this->db->prepare($query)){
-		                $stmt->bind_param('ii', $itemID, $openToTorch);  // Bind to parameter.
+		                $stmt->bind_param('sii', $username, $itemID, $openToTorch);  // Bind to parameter.
 			            $stmt->execute();    // Execute the prepared query.
 			            $stmt->close();
 			            $query = "SELECT @Result, @Msg";
@@ -406,6 +410,7 @@
 		public function privacy(){
 		    if(strcmp($this->get_request_method(),"POST") == 0){
 		    	if(isset($_POST["itemID"], $_POST["private"])){
+		    		$username = $_SESSION["username"];
 		    		$itemID = $_POST["itemID"];
 		    		$private = $_POST["private"];
 		    		// if(strcmp($private,"0") != 0 || strcmp($private,"1") != 0){
@@ -415,7 +420,7 @@
 		    		// }
 		    		$query = "call Before_I_Die.BucketItemPrivacyUpdate( ?, ?, @Result, @Msg)";
 		    		if($stmt = $this->db->prepare($query)){
-		                $stmt->bind_param('ii', $itemID, $private);  // Bind to parameter.
+		                $stmt->bind_param('sii', $username, $itemID, $private);  // Bind to parameter.
 			            $stmt->execute();    // Execute the prepared query.
 			            $stmt->close();
 			            $query = "SELECT @Result, @Msg";
