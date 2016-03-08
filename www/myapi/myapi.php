@@ -92,13 +92,6 @@
 		 */
 		public function processApi(){
 			//$this->response(DB_SERVER,200); //for debug
-			if(empty($_REQUEST)){
-				include("../home.html");
-                                exit();
-			}
-
-			$input = (explode('/',strtolower(str_replace("","",$_REQUEST['rquest']))));
-			$this->parseURL = $input;
 			
 			//refresh session
 			if(!$this->sec_session_start()){
@@ -107,14 +100,22 @@
 				$this->response($this->json($temp),200);
 			}
 			
+			if(empty($_REQUEST)){
+				include("../home.html");
+                exit();
+			}
+
+			$input = (explode('/',strtolower(str_replace("","",$_REQUEST['rquest']))));
+			$this->parseURL = $input;
+			
 			//validate URL is {domain}/api/ or {domain}/personal/
 			if(strcmp($input[0],"")==0){
 				include("../home.html");
 				exit(); 
 			}
-			if((strcmp($input[0],"api") !=0 && strcmp($input[0], "personal")) || sizeof($input) < 2){
+			if((strcmp($input[0],"api") != 0 && strcmp($input[0], "personal") != 0 && strcmp($input[0],"login") != 0) || sizeof($input) < 2){
 				$temp["success"] = "false";
-				$temp["error_msg"] = "API URL should begin with {domain}/api/ or {domain}/personal/";
+				$temp["error_msg"] = "API URL should begin with {domain}/api/method or {domain}/personal/username or {domain}/login";
 				$this->response($this->json($temp),200);
 			}
 			if(strcmp($input[1],"") == 0){
@@ -123,32 +124,48 @@
 				$this->response($this->json($temp),200);
 			}
 
-			// parse personal page requests
-			if(strcmp($input[0], "personal") == 0){
-                                include("../personal.html");
-                                exit();
-                        }
-			
 			//register first
-			
 			if((sizeof($input) == 2) && (strcmp($input[1],"register") == 0)) {
 				//$this->response($this->json($input),200);
 				$this->myUsers->PUT();
 			}
-			
+			//login first
+			if((strcmp($input[0],"login") == 0)){
+				include("../login.html");
+				exit();
+			}
+			//popular_item first
+			if(strcmp($input[0],"api") == 0 && strcmp($input[1],"popular_item") == 0){
+				$this->myBucketItem->popular_item();
+			}
+			//popular_item first
+			if(strcmp($input[0],"api") == 0 && strcmp($input[1],"recent_item") == 0){
+				$this->myBucketItem->recent_item();
+			}
+			//popular_item first
+			if(strcmp($input[0],"api") == 0 && strcmp($input[1],"torch_item") == 0){
+				$this->myBucketItem->torch_item();
+			}
 			
 			$this->error_msg = "";
-			
-			
-			
-			
+
 			// //validate Login status
 			if(strcmp($input[1],"login")!=0 && (!$this->login_check())){
 				$temp["success"] = "false";
 				$temp["error_msg"] = "Not Login, Error Message: ".$this->error_msg;
 				$this->response($this->json($temp),200);
 			}
-			
+			// parse personal page requests
+			if(strcmp($input[0], "personal") == 0){
+				if(login_check()){
+            		include("../personal.html");
+                	exit();
+				}
+				else{
+					header("Location: ../login");
+					exit();
+				}
+            }
 			
 			//$this->response($func,200);
 			$func = $input[1];
@@ -396,8 +413,13 @@
 					$temp["error_msg"] = "No username assign";
 					$this->response(json_encode($temp),200);
 				}
-				
-				$this->myBucketList->ALLCANGETALL($this->parseURL[2]);
+				//validate Login status
+				if(strcmp($_SESSION["username"],$this->parseURL[2]) != 0){
+					$this->myBucketList->ALLCANGETPUBLIC($this->parseURL[2]);
+				}
+				else{
+					$this->myBucketList->SELFCANGETALL();
+				}
 			}
 			else{
 				$temp["success"] = "false";
