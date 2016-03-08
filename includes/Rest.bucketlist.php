@@ -58,14 +58,15 @@
 						        $stmt_comment->execute();    // Execute the prepared query.
 						        $stmt_comment->store_result();
 						        if($stmt_comment->num_rows() > 0){
-						        	$stmt_comment->bind_result($col1_comment, $col2_comment, $col3_comment, $col4_comment);
+						        	$stmt_comment->bind_result($col1_comment, $col2_comment, $col3_comment, $col4_comment, $col5_comment);
 						        	$total_retrieve_comment_result = 0;
 						        	while($stmt_comment->fetch()){
 						        		
 						        		//$json_comment_result[$total_retrieve_comment_result]["bucketItemID"] = $col1_comment;
 						        		$json_comment_result[$total_retrieve_comment_result]["username"]     = $col2_comment;
-						        		$json_comment_result[$total_retrieve_comment_result]["comment"]      = $col3_comment;
-						        		$json_comment_result[$total_retrieve_comment_result]["createdDate"]  = $col4_comment;
+						        		$json_comment_result[$total_retrieve_comment_result]["profilePic"]   = $col3_comment;
+						        		$json_comment_result[$total_retrieve_comment_result]["comment"]      = $col4_comment;
+						        		$json_comment_result[$total_retrieve_comment_result]["createdDate"]  = $col5_comment;
 			
 						        		$total_retrieve_comment_result++;
 						        	}
@@ -177,14 +178,15 @@
 						        $stmt_comment->execute();    // Execute the prepared query.
 						        $stmt_comment->store_result();
 						        if($stmt_comment->num_rows() > 0){
-						        	$stmt_comment->bind_result($col1_comment, $col2_comment, $col3_comment, $col4_comment);
+						        	$stmt_comment->bind_result($col1_comment, $col2_comment, $col3_comment, $col4_comment, $col5_comment);
 						        	$total_retrieve_comment_result = 0;
 						        	while($stmt_comment->fetch()){
 						        		
 						        		//$json_comment_result[$total_retrieve_comment_result]["bucketItemID"] = $col1_comment;
 						        		$json_comment_result[$total_retrieve_comment_result]["username"]     = $col2_comment;
-						        		$json_comment_result[$total_retrieve_comment_result]["comment"]      = $col3_comment;
-						        		$json_comment_result[$total_retrieve_comment_result]["createdDate"]  = $col4_comment;
+						        		$json_comment_result[$total_retrieve_comment_result]["profilePic"]   = $col3_comment;
+						        		$json_comment_result[$total_retrieve_comment_result]["comment"]      = $col4_comment;
+						        		$json_comment_result[$total_retrieve_comment_result]["createdDate"]  = $col5_comment;
 			
 						        		$total_retrieve_comment_result++;
 						        	}
@@ -295,14 +297,15 @@
 						        $stmt_comment->execute();    // Execute the prepared query.
 						        $stmt_comment->store_result();
 						        if($stmt_comment->num_rows() > 0){
-						        	$stmt_comment->bind_result($col1_comment, $col2_comment, $col3_comment, $col4_comment);
+						        	$stmt_comment->bind_result($col1_comment, $col2_comment, $col3_comment, $col4_comment, $col5_comment);
 						        	$total_retrieve_comment_result = 0;
 						        	while($stmt_comment->fetch()){
 						        		
 						        		//$json_comment_result[$total_retrieve_comment_result]["bucketItemID"] = $col1_comment;
 						        		$json_comment_result[$total_retrieve_comment_result]["username"]     = $col2_comment;
-						        		$json_comment_result[$total_retrieve_comment_result]["comment"]      = $col3_comment;
-						        		$json_comment_result[$total_retrieve_comment_result]["createdDate"]  = $col4_comment;
+						        		$json_comment_result[$total_retrieve_comment_result]["profilePic"]   = $col3_comment;
+						        		$json_comment_result[$total_retrieve_comment_result]["comment"]      = $col4_comment;
+						        		$json_comment_result[$total_retrieve_comment_result]["createdDate"]  = $col5_comment;
 			
 						        		$total_retrieve_comment_result++;
 						        	}
