@@ -143,11 +143,11 @@
 			
 			
 			// //validate Login status
-			// if(strcmp($input[1],"login")!=0 && (!$this->login_check())){
-			// 	$temp["success"] = "false";
-			// 	$temp["error_msg"] = "Not Login, Error Message: ".$this->error_msg;
-			// 	$this->response($this->json($temp),200);
-			// }
+			if(strcmp($input[1],"login")!=0 && (!$this->login_check())){
+				$temp["success"] = "false";
+				$temp["error_msg"] = "Not Login, Error Message: ".$this->error_msg;
+				$this->response($this->json($temp),200);
+			}
 			
 			
 			//$this->response($func,200);
@@ -347,6 +347,23 @@
                         $temp["error_msg"] = $result["@Msg"];
                         $this->response(json_encode($temp), 200);
                     }
+
+                    // Password is correct!
+		        
+			        // Get the user-agent string of the user.
+			        $user_browser = $_SERVER['HTTP_USER_AGENT'];
+			        
+			        //hash the password and user browser as login proof
+			        $_SESSION['login_string'] = hash('sha512', $password . $user_browser);
+			        
+			        // unique email as identity
+			        $_SESSION['username'] = $username;
+			        
+			        //login success
+			        $temp["success"] = "true";
+			        $temp["error_msg"] = "null";
+			        $this->response($this->json($temp),200);
+
                     $temp["success"] = "true";
                     $temp["error_msg"] = "null";
                     $this->response(json_encode([$temp]),200);
@@ -356,22 +373,6 @@
                     $temp["error_msg"] = "Can not query UserInsert result msg";
                     $this->response(json_encode($temp), 200);
                 }
-		        
-		        // Password is correct!
-		        
-		        // Get the user-agent string of the user.
-		        $user_browser = $_SERVER['HTTP_USER_AGENT'];
-		        
-		        //hash the password and user browser as login proof
-		        $_SESSION['login_string'] = hash('sha512', $password . $user_browser);
-		        
-		        // unique email as identity
-		        $_SESSION['username'] = $username;
-		        
-		        //login success
-		        $temp["success"] = "true";
-		        $temp["error_msg"] = "null";
-		        $this->response($this->json($temp),200);
 		    }
 		    else{
 		    	$temp["success"] = "false";
