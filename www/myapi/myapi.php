@@ -118,7 +118,7 @@
 				$temp["error_msg"] = "API URL should begin with {domain}/api/method or {domain}/personal/username or {domain}/login or {domain}/logout";
 				$this->response($this->json($temp),200);
 			}
-			if(strcmp($input[1],"") == 0){
+			if(sizeof($input) < 2 && strcmp($input[0],"api") == 0 && strcmp($input[0], "personal") == 0){
 				$temp["success"] = "false";
 				$temp["error_msg"] = "The 2nd portion of the URL is not given. {domain}/1/2/";
 				$this->response($this->json($temp),200);
