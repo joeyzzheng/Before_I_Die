@@ -127,7 +127,7 @@
 				        
 				        $temp["success"] = "true";
 				        $temp["error_msg"] = "null";
-				        $temp["responseJSON"] = $json_result;
+				        $temp["responseJSON"] = empty($json_result) ? NULL : $json_result;
 				        $this->response(json_encode($temp),200);
 			        }
 			        else{
@@ -246,7 +246,7 @@
 				        
 				        $temp["success"] = "true";
 				        $temp["error_msg"] = "null";
-				        $temp["responseJSON"] = $json_result;
+				        $temp["responseJSON"] = empty($json_result) ? NULL : $json_result;
 				        $this->response(json_encode($temp),200);
 			        }
 			        else{
@@ -364,7 +364,7 @@
 				        
 				        $temp["success"] = "true";
 				        $temp["error_msg"] = "null";
-				        $temp["responseJSON"] = $json_result;
+				        $temp["responseJSON"] = empty($json_result) ? NULL : $json_result;
 				        $this->response(json_encode($temp),200);
 			        }
 			        else{

@@ -105,7 +105,7 @@
                 exit();
 			}
 
-			$input = (explode('/',strtolower(str_replace("","",$_REQUEST['rquest']))));
+			$input = (explode('/',(str_replace("","",$_REQUEST['rquest']))));
 			$this->parseURL = $input;
 			
 			//validate URL is {domain}/api/ or {domain}/personal/
@@ -113,7 +113,7 @@
 				include("../home.html");
 				exit(); 
 			}
-			if((strcmp($input[0],"api") != 0 && strcmp($input[0], "personal") != 0 && strcmp($input[0],"login") != 0 && strcmp($input[0],"logout") != 0)){
+			if((strcmp($input[0],"api") != 0 && strcmp($input[0], "personal") != 0 && strcmp($input[0],"login") != 0 ){
 				$temp["success"] = "false";
 				$temp["error_msg"] = "API URL should begin with {domain}/api/method or {domain}/personal/username or {domain}/login or {domain}/logout";
 				$this->response($this->json($temp),200);
@@ -158,7 +158,7 @@
 				}
             }
             // log out
-			if(strcmp($input[0],"logout")==0){
+			if(strcmp($input[0],"logout")==0 && strcmp($input[1],"api")==0){
 				// Unset all session values 
 				$_SESSION = array();
 				
@@ -170,8 +170,14 @@
 				
 				// Destroy session 
 				session_destroy();
-				include("../home.html");
-				exit();
+				
+				// logout
+				$temp["success"] = "true";
+				$temp["error_msg"] = "null";
+				$this->response($this->json($temp),200);
+				
+				// include("../home.html");
+				// exit();
 			}
 			$this->error_msg = "";
 
