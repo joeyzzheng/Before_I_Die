@@ -113,9 +113,9 @@
 				include("../home.html");
 				exit(); 
 			}
-			if((strcmp($input[0],"api") != 0 && strcmp($input[0], "personal") != 0 && strcmp($input[0],"login") != 0) || sizeof($input) < 2){
+			if((strcmp($input[0],"api") != 0 && strcmp($input[0], "personal") != 0 && strcmp($input[0],"login") != 0 && strcmp($input[0],"logout") != 0) || sizeof($input) < 2){
 				$temp["success"] = "false";
-				$temp["error_msg"] = "API URL should begin with {domain}/api/method or {domain}/personal/username or {domain}/login";
+				$temp["error_msg"] = "API URL should begin with {domain}/api/method or {domain}/personal/username or {domain}/login or {domain}/logout";
 				$this->response($this->json($temp),200);
 			}
 			if(strcmp($input[1],"") == 0){
@@ -146,15 +146,6 @@
 			if(strcmp($input[0],"api") == 0 && strcmp($input[1],"torch_item") == 0){
 				$this->myBucketItem->torch_item();
 			}
-			
-			$this->error_msg = "";
-
-			// //validate Login status
-			if(strcmp($input[1],"login")!=0 && (!$this->login_check())){
-				$temp["success"] = "false";
-				$temp["error_msg"] = "Not Login, Error Message: ".$this->error_msg;
-				$this->response($this->json($temp),200);
-			}
 			// parse personal page requests
 			if(strcmp($input[0], "personal") == 0){
 				if(login_check()){
@@ -166,6 +157,31 @@
 					exit();
 				}
             }
+			$this->error_msg = "";
+
+			// //validate Login status
+			if(strcmp($input[1],"login")!=0 && (!$this->login_check())){
+				$temp["success"] = "false";
+				$temp["error_msg"] = "Not Login, Error Message: ".$this->error_msg;
+				$this->response($this->json($temp),200);
+			}
+			
+            // log out
+			if(strcmp($input[0],"logout")==0){
+				// Unset all session values 
+				$_SESSION = array();
+				
+				// get session parameters 
+				$params = session_get_cookie_params();
+				
+				// Delete the actual cookie. 
+				setcookie(session_name(),'', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+				
+				// Destroy session 
+				session_destroy();
+				include("../home.html");
+				exit();
+			}
 			
 			//$this->response($func,200);
 			$func = $input[1];
@@ -543,6 +559,7 @@
 				$this->response(json_encode($temp),200);
 			}
 		}
+		
 		/*
 		 *	Encode array into JSON
 		*/
