@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Before I Die</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" type="text/css" href="./resource/css/login.css">
+    <link rel="stylesheet" type='text/css' href="./resource/css/home.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  </head>
+  
+  <body>
+    <div class="container">
+      <header class="row">
+        <nav class="col-12 navbar-position-top">
+          <div class="wrapper-navbar">
+            <div class="navbar-col-left">
+              <div class="navbar-content navbar-padding">
+                <a href="#"><span class="font-normal">Before I Die</span></a>
+              </div>
+            </div>
+            <div class="navbar-col-right">
+              <div class="navbar-content navbar-padding">
+                <a href="login.html" id="link-open-login-page"><span class="font-small">Login/Sign Up</span></a>
+                <div class="wrapper" id="wrapper-login-page"></div>  
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
+      
+      <main>
+        <div class="row">
+          <div class="col-12">
+            <div class="wrapper banner-wrapper">
+              <img id="banner" src="./resource/pic/homePic/banner.png" alt="placehold">
+            </div>
+          </div>
+        </div>
+          
+        <div class="row">
+          <div class="col-12">
+            <div class="wrapper tab-wrapper">
+              <div class="tab-main">
+                
+                <div class="tab-heading tab-nav" id="tab-ids">
+                  <a href="#tab-location" class="active font-adjust" id="tab-popular-link">Popular</a>
+                  <a href="#tab-location" class="font-adjust" id="tab-recent-link">Recent</a>
+                  <a href="#tab-location" class="font-adjust" id="tab-torch-relay-link">Torch Relay</a>
+                </div>
+                
+                <div class="tab-body" id="tab-body">
+                
+                  <div class="row" id="tab-popular">
+                  </div>
+    
+                  <div class="row" id="tab-recent" style="display:none;">
+                  </div>
+                  
+                  <div class="row" id="tab-torch-relay" style="display:none;">
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+        
+      <footer class="row text-center">
+        <p class="font-xsmall">Copyright © 2016 Before I Die</p>
+      </footer>
+      
+      
+      <script src="./resource/js/home.js"></script>
+
+    </div>
+  </body>
+</html>
