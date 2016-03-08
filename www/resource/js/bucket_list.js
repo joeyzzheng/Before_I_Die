@@ -13,7 +13,7 @@ var render_bucket_item = function(item, id) {
 		$(".item-img-section[data-item='" + item.ID + "']").append(done);
 	} else {
 		var menu = '<div class="dropdown">   <button class="dropbtn" data-item="'+item.ID+'"><img class="menu" alt="menu" src="../resource/pic/menu.png"></button>   <div class="dropdown-content" data-item="'+item.ID+'">' +
-				'<a class="edit" href="#">Edit</a> ' +
+				'<a class="edit" onClick="edit('+item.ID+')">Edit</a> ' +
 				'<a onClick="completed('+item.ID+')">Completed</a>' +
 				'<a class="requestRelay" onClick="requestRelay('+item.ID+')">Request Relay</a>' +
 				'<a onClick="deleteItem('+item.ID+')">Delete</a>' +
@@ -70,14 +70,19 @@ var render_bucket_item = function(item, id) {
 			//add new line to every 70 char
 			if(text != "") text = text.match(/.{1,70}/g).join("<br>");
 			
-			$(".response[data-item='" + item.ID + "']").append('<p class="comment"><span class="comment"><b>' + item.comment[j].username + '</b></span><span class="comment_content">' + text + '</span></p><HR>');
+			$(".response[data-item='" + item.ID + "']").append('<p class="comment-row"><img class="user-comment-img" alt="user image" src="'+item.comment[j].profilePic+'"><span class="comment"><b>' + item.comment[j].username + '</b>&nbsp&nbsp' + text + '</span></p><HR>');
 		}
 	}
 	//render comeent textarea
 	var textarea = '<input class="commentBox" onkeydown="leave_comment(event,'+item.ID+')" type="text" data-item="' + item.ID + '" placeholder="leave a comment..." maxlength="500">';
 	$(".item-info[data-item='" + item.ID + "']").append(textarea);
-
-	if( ("#" + item.ID) == id) $( "body" ).scrollTop( $(id).position().top+125 );
+	
+	
+	if( ("#"+item.ID) == id){
+		//$(".item-img[data-item='" + id + "']")
+		var pos_top = $(id).offset().top - 25;
+		$("body").animate({scrollTop: pos_top}, 2000);
+	} 
 }
 
 var render = function() {
@@ -99,7 +104,7 @@ var render = function() {
 			if(data.responseJSON){
 				$(".recommend").css("display","initial");
 				for(var i = 0 ; i < data.responseJSON.length; i++) {
-					var id = username.match(/#\d+/)||"0";
+					var id = username.match(/#(\d+)/)||"0";
 					render_bucket_item(data.responseJSON[i], id[0]);
 				}					
 			}	

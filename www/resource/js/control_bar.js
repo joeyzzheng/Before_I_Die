@@ -30,6 +30,14 @@ var public = function(item) {
 	})
 };
 
+var add = function() {
+	window.location.assign("https://apiapache-beforeidie.rhcloud.com/addItem.html");
+};
+
+var edit = function(item) {
+	window.location.assign("https://apiapache-beforeidie.rhcloud.com/edit#"+item);
+}
+
 var deleteItem = function(item) {
 	var apiData = {
 		itemID:item
@@ -75,7 +83,6 @@ var requestRelay = function(item) {
 var inherit = function(item) {
 	var apiData = {
 		itemID:item,
-		childUsername:"fwang1"
 	};
 	$.ajax({
 		type        : 'POST', 
@@ -91,9 +98,7 @@ var share = function() {
 	console.log(url);
 };
 
-var add = function() {
-	console.log("add");
-};
+
 
 var like = function(item) {
 	//console.log("like ",item);
@@ -129,16 +134,32 @@ var like = function(item) {
 			})
 			.done(function(data){
 				if(data[0].success == "true"){
-					$.ajax({
-						type        : 'GET', 
-						url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/like', // the url where we want to POST
-						data        : apiDataGET, // our data object
-						dataType    : 'json', // what type of data do we expect back from the server
-					})
-					.done(function(dataGet){
-						var countLike = dataGet.responseJSON?dataGet.responseJSON.length:0;
-						$(".like-count[data-item='" + item + "']").text(countLike);
-					})
+					var l = parseInt( $(".like-count[data-item='" + item + "']").text() );
+					if(apiDataPOST.liked == "1") {
+						l++;
+						//$(".icon-like[data-item='" + item + "']").attr("src","resource/pic/like.png");
+					}else {
+						l--;
+						//$(".icon-like[data-item='" + item + "']").attr("src","resource/pic/liked.png");
+					}
+					
+					$(".like-count[data-item='" + item + "']").text(l);
+					$(".icon-like[data-item='" + item + "']").animate({
+						 width: "+=10px"
+					}, 100);
+					$(".icon-like[data-item='" + item + "']").animate({
+						 width: "-=10px"
+					}, 100);
+//					$.ajax({
+//						type        : 'GET', 
+//						url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/like', // the url where we want to POST
+//						data        : apiDataGET, // our data object
+//						dataType    : 'json', // what type of data do we expect back from the server
+//					})
+//					.done(function(dataGet){
+//						var countLike = dataGet.responseJSON?dataGet.responseJSON.length:0;
+//						$(".like-count[data-item='" + item + "']").text(countLike);
+//					})
 				}			
 			})
 		}
@@ -178,7 +199,6 @@ var leave_comment = function(event, item) {
 	if(event.keyCode == 13){
 		var apiData = {
 			itemID:item,
-			commentusername:"fwang1",
 			comment:$("input[data-item='" + item + "']").val()
 		};
 		
@@ -205,8 +225,10 @@ var leave_comment = function(event, item) {
 				.done(function(getdata){
 					$("input[data-item='" + item + "']").val("");
 					var comment = getdata.responseJSON[0].comment.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-					$(".response[data-item='" + item + "']").append('<p class="comment"><span class="comment"><b>' + getdata.responseJSON[0].username + '</b></span><span class="comment_content">' + comment + '</span></p>');
+//					$(".response[data-item='" + item + "']").append('<p class="comment"><span class="comment"><b>' + getdata.responseJSON[0].username + '</b></span><span class="comment_content">' + comment + '</span></p>');
+
 					
+					$(".response[data-item='" + item + "']").append('<p class="comment-row"><img class="user-comment-img" alt="user image" src="'+getdata.responseJSON[0].profilePic+'"><span class="comment"><b>' + getdata.responseJSON[0].username + '</b>&nbsp&nbsp' + comment + '</span></p><HR>');
 				});
 			}
 		});
