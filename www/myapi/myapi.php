@@ -157,15 +157,6 @@
 					exit();
 				}
             }
-			$this->error_msg = "";
-
-			// //validate Login status
-			if(strcmp($input[1],"login")!=0 && (!$this->login_check())){
-				$temp["success"] = "false";
-				$temp["error_msg"] = "Not Login, Error Message: ".$this->error_msg;
-				$this->response($this->json($temp),200);
-			}
-			
             // log out
 			if(strcmp($input[0],"logout")==0){
 				// Unset all session values 
@@ -182,6 +173,16 @@
 				include("../home.html");
 				exit();
 			}
+			$this->error_msg = "";
+
+			// //validate Login status
+			if(strcmp($input[1],"login")!=0 && (!$this->login_check())){
+				$temp["success"] = "false";
+				$temp["error_msg"] = "Not Login, Error Message: ".$this->error_msg;
+				$this->response($this->json($temp),200);
+			}
+			
+            
 			
 			//$this->response($func,200);
 			$func = $input[1];
