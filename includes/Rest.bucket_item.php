@@ -140,6 +140,9 @@
                 if (strlen($title) > 100) {
                     $error_msg .= "Invalid title, limits to 100 characters.";
                 }
+                if (strlen($title) == 0) {
+                    $error_msg .= "Invalid title, empty string.";
+                }
                 
                 $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_STRING);
                 if (strlen($content) > 2000) {
@@ -147,6 +150,10 @@
                     // If it's not, something really odd has happened
                     $error_msg .= "Invalid content, limits to 2000 characters.";
                 }
+                if (strlen($content) == 0) {
+                    $content .= "Invalid content, empty string.";
+                }
+                
                 $location       = isset($_POST["location"]) ? $_POST["locaiton"] : NULL;
                 $orderindex     = isset($_POST["orderindex"]) ? $_POST["orderindex"] : NULL;
                     
