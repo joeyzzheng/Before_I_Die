@@ -26,7 +26,7 @@
 		public function PUT(){
 		    $error_msg = "";
             //$this->response(json_encode($_POST),200);
-            if (isset($_POST['username'], $_POST['email'], $_POST['p'], $_POST['firstname'], $_POST['lastname'])) {
+            if (isset($_POST['username'], $_POST['email'], $_POST['p'], $_POST['firstname'], $_POST['lastname'], $_POST['city'], $_POST['state'])) {
                 
                 $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
                 if (strlen($username) > 50) {
@@ -157,7 +157,7 @@
             else{
                 //$this->response(json_encode(["Inside if"]),200);
                 $temp["success"] = "false";
-                $temp["error_msg"] = "Username, password, firstname or lastname does not exist.";
+                $temp["error_msg"] = "Username, password, firstname, lastname, city or state does not exist.";
                 $this->response(json_encode($temp),200);
             }
 		}//end PUT
@@ -168,12 +168,9 @@
 		public function update(){
 		    $error_msg = "";
             //$this->response(json_encode($_POST),200);
-            if (isset($_POST['username'], $_POST['email'], $_POST['firstname'], $_POST['lastname'], $_POST['profilePic'])) {
+            if (isset($_POST['email'], $_POST['firstname'], $_POST['lastname'], $_POST['profilePic'], $_POST["city"], $_POST["state"])) {
                 
-                $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-                if (strlen($username) > 50) {
-                    $error_msg .= "Invalid username, limits to 50 characters.";
-                }
+                $username = $_SESSION["username"];
                 
                 $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
                 $email = filter_var($email, FILTER_VALIDATE_EMAIL);
@@ -273,7 +270,7 @@
             else{
                 //$this->response(json_encode(["Inside if"]),200);
                 $temp["success"] = "false";
-                $temp["error_msg"] = "username, email, firstname , lastname or profilePic does not exist.";
+                $temp["error_msg"] = "email, firstname , lastname, city or state does not exist.";
                 $this->response(json_encode($temp),200);
             }
 		}//end update
@@ -296,7 +293,7 @@
 			        $stmt->store_result();
 			        $stmt->num_rows();
 			        // get variables from result.
-			        if( $stmt->num_rows() >0 ){
+			        if( $stmt->num_rows() > 0 ){
 			        	
 			        	$stmt->bind_result($col1, $col2, $col3, $col4, $col5, $col6, $col7, $col8, $col9, $col10);
 				        $total_retrieve_result = 0;
@@ -339,5 +336,64 @@
 		        $this->response(json_encode($temp),200);
 		    }
 		}
+		/*
+		*  recommendation
+		*/
+		public function recommendation(){
+		    if(strcmp($this->get_request_method(),"GET")==0){
+		    	
+		        $query = "call Before_I_Die.UserRecommendationSelect ()";
+			    // Using prepared statements means that SQL injection is not possible.
+			    if($stmt = $this->db->prepare($query)){
+			        //$stmt->bind_param('s', $username);  // Bind to parameter.
+			        $stmt->execute();    // Execute the prepared query.
+			        $stmt->store_result();
+			        $stmt->num_rows();
+			        // get variables from result.
+			        if( $stmt->num_rows() > 0 ){
+			        	
+			        	$stmt->bind_result($col1, $col2, $col3, $col4, $col5, $col6, $col7, $col8, $col9, $col10);
+				        $total_retrieve_result = 0;
+				        while($stmt->fetch()){
+				        	
+				        	
+				        	//$json_result[$total_retrieve_result]["userID"]            = $col1;
+				        	$json_result[$total_retrieve_result]["username"]          = $col2;
+				        	$json_result[$total_retrieve_result]["email"]             = $col3;
+				        	$json_result[$total_retrieve_result]["firstName"]         = $col4;
+				        	$json_result[$total_retrieve_result]["lastName"]          = $col5;
+				        	$json_result[$total_retrieve_result]["title"]             = $col6;
+				        	$json_result[$total_retrieve_result]["description"]       = $col7;
+				        	$json_result[$total_retrieve_result]["city"]              = $col8;
+				        	$json_result[$total_retrieve_result]["state"]             = $col9;
+				        	$json_result[$total_retrieve_result]["profilePicture"]    = $col10;
+				        	
+				        	$total_retrieve_result++;
+				        }
+				        $stmt->close();
+				        
+				        $temp["success"] = "true";
+				        $temp["error_msg"] = "null";
+				        $temp["responseJSON"] = $json_result;
+				        $this->response(json_encode($temp),200);
+			        }
+			        else{
+			        	$temp["success"] = "true";
+			        	$temp["error_msg"] = "No Recommendation at all ";
+			        	$this->response(json_encode($temp),200);
+			        }
+			    }
+			    else{
+			    	$temp["success"] = "false";
+		        	$temp["error_msg"] = "USERS recommendation prepare".$query." fail.";
+		        	$this->response(json_encode($temp),200);
+			    }
+		    }
+		    else{
+		        $temp["success"] = "false";
+		        $temp["error_msg"] = "USERS recommendation can not accept none GET method";
+		        $this->response(json_encode($temp),200);
+		    }        
+		}//end recommendation function
 	}//end CLASS	
 ?>
