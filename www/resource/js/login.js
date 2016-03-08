@@ -202,11 +202,11 @@ $(document).ready( function() {
                     processData: false,
                     crossDomain: true,
                     success: function(data, textStatus, jqXHR) {
-                        alert("responsed data:" + JSON.stringify(data))
-                        alert("textStatus:" + textStatus)
-                        alert("jqXHR:" + JSON.stringify(jqXHR))
-                        // switchToLogin(); 
+                        alert("responsed data:" + JSON.stringify(data));
+                        alert("textStatus:" + textStatus);
+                        alert("jqXHR:" + JSON.stringify(jqXHR));
                         // switch to login form
+                        switchToLogin(); 
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         alert("An error occured: " + textStatus + " " + errorThrown);
@@ -257,11 +257,13 @@ $(document).ready( function() {
                 })
                 .done(function(data) {
                     //Debug message
-                    console.log("Success Message:\n" + JSON.stringify(data)); 
-                    $("#api-result").text("Success Message:\n" + JSON.stringify(data));
+                    alert("Success Message:\n" + JSON.stringify(data)); 
+                    // change to the home page
+                    window.location.assign("https://apiapache-beforeidie.rhcloud.com/");
                 })
                 .fail(function(data) {
-                    console.log("Failure Message:\n" + JSON.stringify(data)); 
+                    // Debug message
+                    alert("Failure Message:\n" + JSON.stringify(data)); 
                     $("#api-result").text("Failure Message:\n" + JSON.stringify(data));
                 })
                 event.preventDefault();
