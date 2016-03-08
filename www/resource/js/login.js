@@ -22,6 +22,7 @@ $(document).ready( function() {
         createStateList(); 
 
         // swith bewteen login page and signup page
+
         $("#login-form-link").on("click", function(e) {
             $("#login-form").delay(100).fadeIn(100);
             $("#signup-form").fadeOut(100);
@@ -206,7 +207,10 @@ $(document).ready( function() {
                         alert("textStatus:" + textStatus);
                         alert("jqXHR:" + JSON.stringify(jqXHR));
                         // switch to login form
-                        switchToLogin(); 
+                        $("#login-form").delay(100).fadeIn(100);
+                        $("#signup-form").fadeOut(100);
+                        $("#signup-form-link").removeClass("active");
+                        $("#login-form").addClass("active");
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         alert("An error occured: " + textStatus + " " + errorThrown);
