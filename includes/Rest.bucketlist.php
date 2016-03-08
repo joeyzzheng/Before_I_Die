@@ -152,9 +152,8 @@
 		/*
 		* get all the "Public" bucketlist
 		*/
-		public function ALLCANGETPUBLIC(){
+		public function ALLCANGETPUBLIC($username){
 			if(strcmp($this->get_request_method(),"GET")==0){
-				$username = $_SESSION["username"];
 		        $query = "call Before_I_Die.BucketListSelect (?)";
 			    // Using prepared statements means that SQL injection is not possible.
 			    if($stmt = $this->db->prepare($query)){

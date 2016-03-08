@@ -249,7 +249,7 @@
 		        //
 		        if ($stmt = $this->db->prepare("SELECT Password 
 				        FROM Users 
-		                WHERE email = ? LIMIT 1")) {
+		                WHERE username = ? LIMIT 1")) {
 		            $stmt->bind_param('s', $username);  // Bind "$email" to parameter.
 		            $stmt->execute();    // Execute the prepared query.
 		            $stmt->store_result();
