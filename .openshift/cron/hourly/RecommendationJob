@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mysql --user="$OPENSHIFT_MYSQL_DB_USERNAME" --password="$OPENSHIFT_MYSQL_DB_PASSWORD" --host="$OPENSHIFT_MYSQL_DB_HOST" --port="$OPENSHIFT_MYSQL_DB_PORT" --socket="$OPENSHIFT_MYSQL_DB_SOCKET" --database="Before_I_Die" --execute="CALL RecommendationUpdate(@Result, @Msg);"
+

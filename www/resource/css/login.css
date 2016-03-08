@@ -31,7 +31,7 @@ p {
   margin: 0.27em 0;
 }
 
-input[type="text"], input[type="password"], textarea {
+input[type="text"], input[type="password"], input[type="email"], textarea {
   color: #ccc;
   width: 100%;
   border: 1px solid #ccc;
@@ -207,7 +207,6 @@ input[type="text"], input[type="password"], textarea {
 }
 
 /*----responsive----*/
-@media screen and (min-width: 768px) {}
 
 /*----header----*/
 /*Jason*/
@@ -266,7 +265,7 @@ body {
 .panel-login>.panel-heading {
   color: #00415d;
   background-color: #fff;
-  border-color: #fff;
+  border-color: #ccc;
   text-align:center;
 }
 .panel-login>.panel-heading a{
@@ -293,9 +292,11 @@ body {
   background-image: -ms-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
   background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
 }
-.panel-login input[type="text"],.panel-login input[type="email"],.panel-login input[type="password"] {
+.panel-login input[type="text"],.panel-login input[type="email"],.panel-login input[type="password"], select {
+  width: 99%;
   height: 45px;
   border: 1px solid #ddd;
+  margin: 5px 2px;
   font-size: 16px;
   -webkit-transition: all 0.1s linear;
   -moz-transition: all 0.1s linear;
@@ -303,12 +304,25 @@ body {
 }
 .panel-login input:hover,
 .panel-login input:focus {
-  outline:none;
+  /*outline:none;*/
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
-  box-shadow: none;
+  /*box-shadow: none;*/
   border-color: #ccc;
 }
+
+.panel-login input:invalid {
+  box-shadow: 0 0 5px 1px #ff4d4d;
+}
+
+/*.panel-login input[type="text"]:valid, .panel-login input[type="email"]:valid, .panel-login input[type="password"]:valid, .panel-login select:valid {
+  border: 1px solid #2fb62f;
+}*/
+
+.panel-login input:focus:invalid {
+  outline: none;
+}
+
 .btn-login {
   width: 100%;
   background-color: #59B2E0;
@@ -325,7 +339,7 @@ body {
 .btn-login:focus {
   color: #fff;
   background-color: #53A3CD;
-  border-color: #53A3CD;
+  border-color: #3486b2;
 }
 .forgot-password {
   text-decoration: underline;
@@ -353,7 +367,7 @@ body {
 .btn-signup:focus {
   color: #fff;
   background-color: #1CA347;
-  border-color: #1CA347;
+  border-color: #168339;
 }
 
 #firstname {
@@ -366,12 +380,12 @@ body {
   float: right;
 }
 
-#user-city {
+#city {
   width: 48%;
   float: left;
 }
 
-#user-state {
+#state {
   width: 48%;
   float: right;
 }
