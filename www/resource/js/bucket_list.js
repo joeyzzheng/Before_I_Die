@@ -1,5 +1,6 @@
-var render_bucket_item = function(item) {
+var render_bucket_item = function(item, id) {
 	//render image and menu
+	
 	$(".bucket-items").append('<div class="bucket-item" id="'+item.ID+'" data-item="' + item.ID + '" data-torch="'+item.openToTorch+'"></div>');
 	$(".bucket-item[data-item='" + item.ID + "']").append('<div class="item-img-section" data-item="' + item.ID + '"></div>');
 	var img = '<img class="item-img" alt="bucket item image" src="' + item.image + '" data-item="'+ item.ID +'">';
@@ -11,24 +12,24 @@ var render_bucket_item = function(item) {
 		var done = '<img class="done" src="../resource/pic/done.png" alt="completed item">'
 		$(".item-img-section[data-item='" + item.ID + "']").append(done);
 	} else {
-			var menu = '<div class="dropdown">   <button class="dropbtn" data-item="'+item.ID+'"><img class="menu" alt="menu" src="../resource/pic/menu.png"></button>   <div class="dropdown-content" data-item="'+item.ID+'">' +
-					'<a class="edit" href="#">Edit</a> ' +
-					'<a onClick="completed('+item.ID+')">Completed</a>' +
-					'<a class="requestRelay" onClick="requestRelay('+item.ID+')">Request Relay</a>' +
-					'<a onClick="deleteItem('+item.ID+')">Delete</a>' +
-					'<div class="sub-dropdown"><a href="#">Privacy</a>' +
-					'<div class="dropdown-sub-content">' +
-					'<a onClick="private('+item.ID+')">Private</a>' +
-					'<a onClick="public('+item.ID+')">Public</a> </div>   	</div>   </div> </div>';
+		var menu = '<div class="dropdown">   <button class="dropbtn" data-item="'+item.ID+'"><img class="menu" alt="menu" src="../resource/pic/menu.png"></button>   <div class="dropdown-content" data-item="'+item.ID+'">' +
+				'<a class="edit" href="#">Edit</a> ' +
+				'<a onClick="completed('+item.ID+')">Completed</a>' +
+				'<a class="requestRelay" onClick="requestRelay('+item.ID+')">Request Relay</a>' +
+				'<a onClick="deleteItem('+item.ID+')">Delete</a>' +
+				'<div class="sub-dropdown"><a href="#">Privacy</a>' +
+				'<div class="dropdown-sub-content">' +
+				'<a onClick="private('+item.ID+')">Private</a>' +
+				'<a onClick="public('+item.ID+')">Public</a> </div>   	</div>   </div> </div>';
 
-			$(".item-img-section[data-item='" + item.ID + "']").append(menu);	
-		
-			var lock = '<img class="lock" src="../resource/pic/lock.png" alt="lock" data-item="'+item.ID+'" ';
-			
-			if(item.private == 0) lock += 'style="display:none;">';
-			else lock += ">";
-		
-			$(".item-img-section[data-item='" + item.ID + "']").append(lock);
+		$(".item-img-section[data-item='" + item.ID + "']").append(menu);	
+
+		var lock = '<img class="lock" src="../resource/pic/lock.png" alt="lock" data-item="'+item.ID+'" ';
+
+		if(item.private == 0) lock += 'style="display:none;">';
+		else lock += ">";
+
+		$(".item-img-section[data-item='" + item.ID + "']").append(lock);
 
 	}
 
@@ -76,11 +77,13 @@ var render_bucket_item = function(item) {
 	var textarea = '<input class="commentBox" onkeydown="leave_comment(event,'+item.ID+')" type="text" data-item="' + item.ID + '" placeholder="leave a comment..." maxlength="500">';
 	$(".item-info[data-item='" + item.ID + "']").append(textarea);
 
+	if( ("#" + item.ID) == id) $( "body" ).scrollTop( $(id).position().top+125 );
 }
 
 var render = function() {
 	var url = window.location.href.split("/");
 	var username = url[url.length-1];
+
 	render_user_info(username);
 	var userUrl = 'https://apiapache-beforeidie.rhcloud.com/api/bucketlist/' + username;
 	
@@ -96,11 +99,13 @@ var render = function() {
 			if(data.responseJSON){
 				$(".recommend").css("display","initial");
 				for(var i = 0 ; i < data.responseJSON.length; i++) {
-					render_bucket_item(data.responseJSON[i], i);
+					var id = username.match(/#\d+/)||"0";
+					render_bucket_item(data.responseJSON[i], id[0]);
 				}					
 			}	
 		}
 	});
+
 	
 //	for(var i = 0 ; i < bucket_list.responseJSON.length; i++) {
 //		render_bucket_item(bucket_list.responseJSON[i], i);
