@@ -30,6 +30,7 @@
 		    }
             //$this->response(json_encode($_POST),200);
             if (isset($_POST['itemID'], $_POST['title'], $_POST['content'], $_POST["imag"])) {
+                $username = $_SESSION["username"];
                 
                 $itemID = filter_input(INPUT_POST, 'itemID', FILTER_SANITIZE_STRING);
                 
@@ -69,12 +70,12 @@
                 }
         
                 // Insert the new bucket item into the database
-                $query = "call Before_I_Die.BucketItemUpdate (?, ?, ?, ?, ?, @Result, @Msg)";
+                $query = "call Before_I_Die.BucketItemUpdate (?, ?, ?, ?, ?, ?, @Result, @Msg)";
                 if ($insert_stmt = $this->db->prepare($query)) {
                 //if ($insert_stmt = $mysqli->prepare("INSERT INTO Users (Username, Email, FirstName, LastName, Title, Description, City, State, ProfilePic, Salt, Password) 
                 //VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
                     
-                    $insert_stmt->bind_param('issss', $itemID, $title, $content, $location, $imag);
+                    $insert_stmt->bind_param('sissss', $username, $itemID, $title, $content, $location, $imag);
                     // Execute the prepared query.
                     if (! $insert_stmt->execute()) {
                         $temp["success"] = "false";
@@ -128,16 +129,20 @@
                 $this->response(json_encode($temp),200);
 		    }
             //$this->response(json_encode($_POST),200);
-            if (isset($_POST['username'], $_POST['title'], $_POST['content'])) {
+            if (isset($_POST['title'], $_POST['content'])) {
                 
-                $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-                if (strlen($username) > 50) {
-                    $error_msg .= "Invalid username, limits to 50 characters.";
-                }
+                // $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+                // if (strlen($username) > 50) {
+                //     $error_msg .= "Invalid username, limits to 50 characters.";
+                // }
+                $username = $_SESSION["username"];
                 
                 $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
                 if (strlen($title) > 100) {
                     $error_msg .= "Invalid title, limits to 100 characters.";
+                }
+                if (strlen($title) == 0) {
+                    $error_msg .= "Invalid title, empty string.";
                 }
                 
                 $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_STRING);
@@ -146,6 +151,10 @@
                     // If it's not, something really odd has happened
                     $error_msg .= "Invalid content, limits to 2000 characters.";
                 }
+                if (strlen($content) == 0) {
+                    $content .= "Invalid content, empty string.";
+                }
+                
                 $location       = isset($_POST["location"]) ? $_POST["locaiton"] : NULL;
                 $orderindex     = isset($_POST["orderindex"]) ? $_POST["orderindex"] : NULL;
                     
@@ -244,11 +253,12 @@
 		public function delete(){
 		    if(strcmp($this->get_request_method(),"POST") == 0){
 		        if(isset($_POST["itemID"])){
+		        	$username = $_SESSION["username"];
 		            $itemID = $_POST["itemID"];
 		            
-		            $query = "call Before_I_Die.BucketItemDelete( ?, @Result, @Msg)";
+		            $query = "call Before_I_Die.BucketItemDelete( ?, ?, @Result, @Msg)";
 		            if($stmt = $this->db->prepare($query)){
-		                $stmt->bind_param('i', $itemID);  // Bind to parameter.
+		                $stmt->bind_param('si', $username, $itemID);  // Bind to parameter.
 			            $stmt->execute();    // Execute the prepared query.
 			            $stmt->close();
 			            $query = "SELECT @Result, @Msg";
@@ -292,6 +302,7 @@
 		public function complete(){
 		    if(strcmp($this->get_request_method(),"POST") == 0){
 		        if(isset($_POST["itemID"],$_POST["complete"])){
+		        	$username = $_SESSION["username"];
 		            $itemID = $_POST["itemID"];
 		            $complete = $_POST["complete"];
 		      //      if(strcmp($complete,"0") != 0 || strcmp($complete,"1") != 0){
@@ -299,9 +310,9 @@
         //         		$temp["error_msg"] = "complete is not 0 or 1";
         //         		$this->response(json_encode($temp),200);
 		    		// }
-		            $query = "call Before_I_Die.BucketItemCompleteUpdate( ?, ?, @Result, @Msg)";
+		            $query = "call Before_I_Die.BucketItemCompleteUpdate(?, ?, ?, @Result, @Msg)";
 		            if($stmt = $this->db->prepare($query)){
-		                $stmt->bind_param('ii', $itemID, $complete);  // Bind to parameter.
+		                $stmt->bind_param('sii', $username, $itemID, $complete);  // Bind to parameter.
 			            $stmt->execute();    // Execute the prepared query.
 			            $stmt->close();
 			            $query = "SELECT @Result, @Msg";
@@ -345,6 +356,7 @@
 		public function request_relay(){
 		    if(strcmp($this->get_request_method(),"POST") == 0){
 		    	if(isset($_POST["itemID"], $_POST["openToTorch"])){
+		    		$username = $_SESSION["username"];
 		    		$itemID = $_POST["itemID"];
 		    		$openToTorch = $_POST["openToTorch"];
 		    		// if(strcmp($openToTorch,"0") != 0 || strcmp($openToTorch,"1") != 0){
@@ -352,9 +364,9 @@
         //         		$temp["error_msg"] = "openToTorch is not 0 or 1";
         //         		$this->response(json_encode($temp),200);
 		    		// }
-		    		$query = "call Before_I_Die.BucketItemTorchUpdate( ?, ?, @Result, @Msg)";
+		    		$query = "call Before_I_Die.BucketItemTorchUpdate(?, ?, ?, @Result, @Msg)";
 		    		if($stmt = $this->db->prepare($query)){
-		                $stmt->bind_param('ii', $itemID, $openToTorch);  // Bind to parameter.
+		                $stmt->bind_param('sii', $username, $itemID, $openToTorch);  // Bind to parameter.
 			            $stmt->execute();    // Execute the prepared query.
 			            $stmt->close();
 			            $query = "SELECT @Result, @Msg";
@@ -398,6 +410,7 @@
 		public function privacy(){
 		    if(strcmp($this->get_request_method(),"POST") == 0){
 		    	if(isset($_POST["itemID"], $_POST["private"])){
+		    		$username = $_SESSION["username"];
 		    		$itemID = $_POST["itemID"];
 		    		$private = $_POST["private"];
 		    		// if(strcmp($private,"0") != 0 || strcmp($private,"1") != 0){
@@ -405,9 +418,9 @@
         //         		$temp["error_msg"] = "private is not 0 or 1";
         //         		$this->response(json_encode($temp),200);
 		    		// }
-		    		$query = "call Before_I_Die.BucketItemPrivacyUpdate( ?, ?, @Result, @Msg)";
+		    		$query = "call Before_I_Die.BucketItemPrivacyUpdate( ?, ?, ?, @Result, @Msg)";
 		    		if($stmt = $this->db->prepare($query)){
-		                $stmt->bind_param('ii', $itemID, $private);  // Bind to parameter.
+		                $stmt->bind_param('sii', $username, $itemID, $private);  // Bind to parameter.
 			            $stmt->execute();    // Execute the prepared query.
 			            $stmt->close();
 			            $query = "SELECT @Result, @Msg";
@@ -450,9 +463,9 @@
 		
 		public function like(){
 		    if(strcmp($this->get_request_method(),"POST") == 0){
-		    	if(isset($_POST["itemID"],$_POST["likeusername"],$_POST["liked"])){
+		    	if(isset($_POST["itemID"],$_POST["liked"])){
 		    		$itemID = $_POST["itemID"];
-		    		$likeusername = $_POST["likeusername"];
+		    		$likeusername = $_SESSION["username"];
 		    		$liked = filter_input(INPUT_POST, 'liked', FILTER_SANITIZE_STRING);
 		    		// if(strcmp($liked,"0") != 0 || strcmp($liked,"1") != 0){
 		    		// 	$temp["success"] = "false";
@@ -491,7 +504,7 @@
 		    	}
 		    	else{
 		    		$temp["success"] = "false";
-                    $temp["error_msg"] = "ItemID likeusername or liked does not set.";
+                    $temp["error_msg"] = "ItemID or liked does not set.";
                     $this->response(json_encode($temp),200);
 		    	}
 		    }
@@ -544,9 +557,9 @@
 		
 		public function torch(){
 		    if(strcmp($this->get_request_method(),"POST") == 0){
-		    	if(isset($_POST["itemID"], $_POST["childUsername"])){
+		    	if(isset($_POST["itemID"])){
 		    		$itemID = $_POST["itemID"];
-		    		$childUsername = $_POST["childUsername"];
+		    		$childUsername = $_SESSION["username"];
 		    		$query = "call Before_I_Die.BucketItemInheritInsert( ?, ?, @Result, @Msg)";
 		    		if($stmt = $this->db->prepare($query)){
 		                $stmt->bind_param('is', $itemID, $childUsername);  // Bind to parameter.
@@ -579,7 +592,7 @@
 		    	}
 		    	else{
 		    		$temp["success"] = "false";
-                    $temp["error_msg"] = "ItemID or childUsername does not set.";
+                    $temp["error_msg"] = "ItemID does not set.";
                     $this->response(json_encode($temp),200);
 		    	}
 		    }
@@ -592,9 +605,9 @@
 		
 		public function comment(){
 		    if(strcmp($this->get_request_method(),"POST") == 0){
-		    	if(isset($_POST["itemID"], $_POST["commentusername"], $_POST["comment"])){
+		    	if(isset($_POST["itemID"], $_POST["comment"])){
 		    		$itemID = $_POST["itemID"];
-		    		$commentusername = $_POST["commentusername"];
+		    		$commentusername = $_SESSION["username"];
 		    		$comment = $_POST["comment"];
 		    		$query = "call Before_I_Die.BucketItemCommentInsert( ?, ?, ?, @Result, @Msg)";
 		    		if($stmt = $this->db->prepare($query)){
@@ -628,7 +641,7 @@
 		    	}
 		    	else{
 		    		$temp["success"] = "false";
-                    $temp["error_msg"] = "ItemID, commentusername or comment does not set.";
+                    $temp["error_msg"] = "ItemID or comment does not set.";
                     $this->response(json_encode($temp),200);
 		    	}
 		    }//POST
@@ -643,13 +656,14 @@
 				        $stmt_like->store_result();
 				        
 				        if($stmt_like->num_rows() > 0){
-				        	$stmt_like->bind_result($col1_like,$col2_like,$col3_like,$col4_like);
+				        	$stmt_like->bind_result($col1_like,$col2_like,$col3_like,$col4_like, $col5_like);
 				        	$total_retrieve_like_result = 0;
 				        	while($stmt_like->fetch()){
 				        		
 				        		$json_like_result[$total_retrieve_like_result]["username"]    = $col2_like;
-				        		$json_like_result[$total_retrieve_like_result]["comment"]     = $col3_like;
-				        		$json_like_result[$total_retrieve_like_result]["createdDate"] = $col4_like;
+                                $json_like_result[$total_retrieve_like_result]["profilePic"] = $col3_like;
+				        		$json_like_result[$total_retrieve_like_result]["comment"]     = $col4_like;
+				        		$json_like_result[$total_retrieve_like_result]["createdDate"] = $col5_like;
 	
 				        		$total_retrieve_like_result++;
 				        	}
