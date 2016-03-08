@@ -264,11 +264,13 @@ $(document).ready( function() {
                     alert("Success Message:\n" + JSON.stringify(data)); 
                     // change to the home page
                     window.location.assign("https://apiapache-beforeidie.rhcloud.com/");
+                    
+                    document.cookie = "username" + "=" + $("#login-form #username").val();
+                    console.log("Cookies Set: " + document.cookie);
                 })
                 .fail(function(data) {
                     // Debug message
                     alert("Failure Message:\n" + JSON.stringify(data)); 
-                    $("#api-result").text("Failure Message:\n" + JSON.stringify(data));
                 })
                 event.preventDefault();
             }

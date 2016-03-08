@@ -105,7 +105,7 @@
                 exit();
 			}
 
-			$input = (explode('/',(str_replace("","",$_REQUEST['rquest']))));
+			$input = (explode('/',strtolower(str_replace("","",$_REQUEST['rquest']))));
 			$this->parseURL = $input;
 			
 			//validate URL is {domain}/api/ or {domain}/personal/
@@ -138,11 +138,11 @@
 			if(strcmp($input[0],"api") == 0 && strcmp($input[1],"popular_item") == 0){
 				$this->myBucketItem->popular_item();
 			}
-			//popular_item first
+			//recent_item first
 			if(strcmp($input[0],"api") == 0 && strcmp($input[1],"recent_item") == 0){
 				$this->myBucketItem->recent_item();
 			}
-			//popular_item first
+			//torch_item first
 			if(strcmp($input[0],"api") == 0 && strcmp($input[1],"torch_item") == 0){
 				$this->myBucketItem->torch_item();
 			}
@@ -257,7 +257,7 @@
 		        if ($stmt = $this->db->prepare("SELECT Password 
 				        FROM Users 
 		                WHERE username = ? LIMIT 1")) {
-		            $stmt->bind_param('s', $username);  // Bind "$email" to parameter.
+		            $stmt->bind_param('s', $username);  // Bind "$username" to parameter.
 		            $stmt->execute();    // Execute the prepared query.
 		            $stmt->store_result();
 		
@@ -267,7 +267,7 @@
 		            $stmt->close();
 		            if(empty($password)){
 		                //login fail, eamil is wrong
-		                $this->error_msg .= "Chech Login Fail: Eamil is wrong in check login";
+		                $this->error_msg .= "Chech Login Fail: username is wrong in check login";
 		                return false;
 		            }
 		            
@@ -397,7 +397,7 @@
 			        $_SESSION['login_string'] = hash('sha512', $password . $user_browser);
 			        
 			        // unique email as identity
-			        $_SESSION['username'] = $username;
+			        $_SESSION['username'] = strtolower($username);
 			        
 			        //login success
 			        $temp["success"] = "true";
