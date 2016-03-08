@@ -70,7 +70,7 @@
                 }
         
                 // Insert the new bucket item into the database
-                $query = "call Before_I_Die.BucketItemUpdate (?, ?, ?, ?, ?, @Result, @Msg)";
+                $query = "call Before_I_Die.BucketItemUpdate (?, ?, ?, ?, ?, ?, @Result, @Msg)";
                 if ($insert_stmt = $this->db->prepare($query)) {
                 //if ($insert_stmt = $mysqli->prepare("INSERT INTO Users (Username, Email, FirstName, LastName, Title, Description, City, State, ProfilePic, Salt, Password) 
                 //VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
@@ -310,7 +310,7 @@
         //         		$temp["error_msg"] = "complete is not 0 or 1";
         //         		$this->response(json_encode($temp),200);
 		    		// }
-		            $query = "call Before_I_Die.BucketItemCompleteUpdate( ?, ?, @Result, @Msg)";
+		            $query = "call Before_I_Die.BucketItemCompleteUpdate(?, ?, ?, @Result, @Msg)";
 		            if($stmt = $this->db->prepare($query)){
 		                $stmt->bind_param('sii', $username, $itemID, $complete);  // Bind to parameter.
 			            $stmt->execute();    // Execute the prepared query.
@@ -364,7 +364,7 @@
         //         		$temp["error_msg"] = "openToTorch is not 0 or 1";
         //         		$this->response(json_encode($temp),200);
 		    		// }
-		    		$query = "call Before_I_Die.BucketItemTorchUpdate( ?, ?, @Result, @Msg)";
+		    		$query = "call Before_I_Die.BucketItemTorchUpdate(?, ?, ?, @Result, @Msg)";
 		    		if($stmt = $this->db->prepare($query)){
 		                $stmt->bind_param('sii', $username, $itemID, $openToTorch);  // Bind to parameter.
 			            $stmt->execute();    // Execute the prepared query.
@@ -418,7 +418,7 @@
         //         		$temp["error_msg"] = "private is not 0 or 1";
         //         		$this->response(json_encode($temp),200);
 		    		// }
-		    		$query = "call Before_I_Die.BucketItemPrivacyUpdate( ?, ?, @Result, @Msg)";
+		    		$query = "call Before_I_Die.BucketItemPrivacyUpdate( ?, ?, ?, @Result, @Msg)";
 		    		if($stmt = $this->db->prepare($query)){
 		                $stmt->bind_param('sii', $username, $itemID, $private);  // Bind to parameter.
 			            $stmt->execute();    // Execute the prepared query.
