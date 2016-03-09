@@ -8,6 +8,7 @@ BEGIN
 	SELECT
 		BIC.BucketItemID AS BucketItemID,
         U.Username AS Username,
+        U.ProfilePic AS ProfilePic,
         BIC.UserComment AS Comment,
         BIC.CreateDate AS CreatedDate
 	FROM

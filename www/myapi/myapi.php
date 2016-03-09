@@ -105,7 +105,7 @@
                 exit();
 			}
 
-			$input = (explode('/',(str_replace("","",$_REQUEST['rquest']))));
+			$input = (explode('/',strtolower(str_replace("","",$_REQUEST['rquest']))));
 			$this->parseURL = $input;
 			
 			//validate URL is {domain}/api/ or {domain}/personal/
@@ -113,9 +113,9 @@
 				include("../home.html");
 				exit(); 
 			}
-			if(strcmp($input[0],"api") != 0 && strcmp($input[0], "personal") != 0 && strcmp($input[0],"login") != 0 ){
+			if(strcmp($input[0],"api") != 0 && strcmp($input[0], "personal") != 0 && strcmp($input[0],"login") != 0 && strcmp($input[0],"edititem") != 0){
 				$temp["success"] = "false";
-				$temp["error_msg"] = "API URL should begin with {domain}/api/method or {domain}/personal/username or {domain}/login or {domain}/logout";
+				$temp["error_msg"] = "API URL should begin with {domain}/api/method or {domain}/personal/username or {domain}/login or {domain}/edititem";
 				$this->response($this->json($temp),200);
 			}
 			if(sizeof($input) < 2 && strcmp($input[0],"api") == 0 && strcmp($input[0], "personal") == 0){
@@ -138,11 +138,11 @@
 			if(strcmp($input[0],"api") == 0 && strcmp($input[1],"popular_item") == 0){
 				$this->myBucketItem->popular_item();
 			}
-			//popular_item first
+			//recent_item first
 			if(strcmp($input[0],"api") == 0 && strcmp($input[1],"recent_item") == 0){
 				$this->myBucketItem->recent_item();
 			}
-			//popular_item first
+			//torch_item first
 			if(strcmp($input[0],"api") == 0 && strcmp($input[1],"torch_item") == 0){
 				$this->myBucketItem->torch_item();
 			}
@@ -157,27 +157,20 @@
 					exit();
 				}
             }
+            // parse edititem page requests
+			if(strcmp($input[0], "edititem") == 0){
+				if($this->login_check()){
+            		include("../editItem.html");
+                	exit();
+				}
+				else{
+					header("Location: ../login");
+					exit();
+				}
+            }
             // log out
-			if(strcmp($input[1],"logout")==0 && strcmp($input[0],"api")==0){
-				// Unset all session values 
-				$_SESSION = array();
-				
-				// get session parameters 
-				$params = session_get_cookie_params();
-				
-				// Delete the actual cookie. 
-				setcookie(session_name(),'', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
-				
-				// Destroy session 
-				session_destroy();
-				
-				// logout
-				$temp["success"] = "true";
-				$temp["error_msg"] = "null";
-				$this->response($this->json($temp),200);
-				
-				// include("../home.html");
-				// exit();
+			if(strcmp($input[0],"api")==0 && strcmp($input[1],"logout")==0){
+				$this->logout();
 			}
 			$this->error_msg = "";
 
@@ -257,7 +250,7 @@
 		        if ($stmt = $this->db->prepare("SELECT Password 
 				        FROM Users 
 		                WHERE username = ? LIMIT 1")) {
-		            $stmt->bind_param('s', $username);  // Bind "$email" to parameter.
+		            $stmt->bind_param('s', $username);  // Bind "$username" to parameter.
 		            $stmt->execute();    // Execute the prepared query.
 		            $stmt->store_result();
 		
@@ -267,7 +260,7 @@
 		            $stmt->close();
 		            if(empty($password)){
 		                //login fail, eamil is wrong
-		                $this->error_msg .= "Chech Login Fail: Eamil is wrong in check login";
+		                $this->error_msg .= "Chech Login Fail: username is wrong in check login";
 		                return false;
 		            }
 		            
@@ -397,7 +390,7 @@
 			        $_SESSION['login_string'] = hash('sha512', $password . $user_browser);
 			        
 			        // unique email as identity
-			        $_SESSION['username'] = $username;
+			        $_SESSION['username'] = strtolower($username);
 			        
 			        //login success
 			        $temp["success"] = "true";
@@ -566,7 +559,44 @@
 				$this->response(json_encode($temp),200);
 			}
 		}
-		
+		/*
+		* recommendation
+		*/ 
+		private function recommendation(){
+			//recommendation 
+			if(strcmp($this->get_request_method(),"GET") == 0){
+				$this->myUsers->recommendation();
+			}
+			else{
+				$temp["success"] = "false";
+				$temp["error_msg"] = "HTTP method not found, must be GET for recommendation";
+				$this->response(json_encode($temp),200);
+			}
+		}
+		/*
+		* logout
+		*/
+		private function logout(){
+			// Unset all session values 
+				$_SESSION = array();
+				
+				// get session parameters 
+				$params = session_get_cookie_params();
+				
+				// Delete the actual cookie. 
+				setcookie(session_name(),'', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+				
+				// Destroy session 
+				session_destroy();
+				
+				// logout
+				$temp["success"] = "true";
+				$temp["error_msg"] = "null";
+				$this->response($this->json($temp),200);
+				
+				// include("../home.html");
+				// exit();
+		}
 		/*
 		 *	Encode array into JSON
 		*/
