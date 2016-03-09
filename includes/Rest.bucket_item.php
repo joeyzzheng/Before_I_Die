@@ -29,7 +29,7 @@
                 $this->response(json_encode($temp),200);
 		    }
             //$this->response(json_encode($_POST),200);
-            if (isset($_POST['itemID'], $_POST['title'], $_POST['content'], $_POST["imag"])) {
+            if (isset($_POST['itemID'], $_POST['title'], $_POST['content'], $_POST["image"])) {
                 $username = $_SESSION["username"];
                 
                 $itemID = filter_input(INPUT_POST, 'itemID', FILTER_SANITIZE_STRING);
@@ -116,7 +116,7 @@
             else{
                 //$this->response(json_encode(["Inside if"]),200);
                 $temp["success"] = "false";
-                $temp["error_msg"] = "itemID, title, content or imag does not exist.";
+                $temp["error_msg"] = "itemID, title, content or image does not exist.";
                 $this->response(json_encode($temp),200);
             }
 		}
