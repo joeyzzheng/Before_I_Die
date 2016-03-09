@@ -4,8 +4,6 @@
     <title>Before I Die</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="./resource/css/login.css">
     <link rel="stylesheet" type='text/css' href="./resource/css/home.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   </head>
@@ -15,17 +13,14 @@
       <header class="row">
         <nav class="col-12 navbar-position-top">
           <div class="wrapper-navbar">
-            <div class="navbar-col-left">
+            <div class="navbar-col-left" id="navbar-left">
               <div class="navbar-content navbar-padding">
-                <a href="#"><span class="font-normal" id="nav-brand">Before I Die</span></a>
+                <a href="#"><span class="font-normal">Before I Die</span></a>
               </div>
             </div>
-            <div class="navbar-col-right">
+            <div class="navbar-col-right" id="navbar-right">
               <div class="navbar-content navbar-padding">
-                <a href="login.html" class="font-small" id="link-open-login-page">
-                  <span id="span-login">Login</span>
-                  <span id="span-signup">Sign up</span>
-                </a>
+                <a href="login.html" id="link-open-login-page"><span class="font-small">Login/Sign Up</span></a>
                 <div class="wrapper" id="wrapper-login-page"></div>  
               </div>
             </div>
@@ -37,8 +32,7 @@
         <div class="row">
           <div class="col-12">
             <div class="wrapper banner-wrapper">
-              <img  id="banner" src="./resource/pic/homePic/banner.png" alt="banner-picture">
-              <!-- <i class="fa fa-spin fa-spinner fa-refresh"></i> -->
+              <img id="banner" src="./resource/pic/homePic/banner.png" alt="placehold">
             </div>
           </div>
         </div>
@@ -75,7 +69,6 @@
       <footer class="row text-center">
         <p class="font-xsmall">Copyright © 2016 Before I Die</p>
       </footer>
-      
       
       <script src="./resource/js/home.js"></script>
 

@@ -232,6 +232,10 @@ nav a {
   color: #ccc;
 }
 
+#link-open-login-page {
+  display: none;
+}
+
 #link-open-login-page:hover,
 #link-open-login-page:focus {
     color: #ffffff;

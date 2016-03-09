@@ -16,9 +16,10 @@ $(document).ready(function() {
 
     /* Initialize web page */
     iniFun();
+    loginCheck("username");
     
     /* Declare Events */
-    /* When the user clicks the login link to open the login page */
+    /* When user clicks the login link to open the login page */
     linkLoginPage.onclick = function() {
         loginPage.style.display = "block";
 
@@ -26,7 +27,7 @@ $(document).ready(function() {
         loginPageLoad();
     };
     
-    /* When the user clicks the popular link to load popular bucket list */
+    /* When user clicks the popular link to load popular bucket list */
     $("#tab-popular-link").click(function() {
         if (!$("#tab-popular-link").is(".active")) {
             $("#tab-popular").empty();
@@ -42,7 +43,7 @@ $(document).ready(function() {
         $("#tab-popular").css("display","block");
     });
     
-    /* When the user clicks the recent link to load recent bucket list */
+    /* When user clicks the recent link to load recent bucket list */
     $("#tab-recent-link").click(function() {
         if (!$("#tab-recent-link").is(".active")) {
             $("#tab-recent").empty();
@@ -58,7 +59,7 @@ $(document).ready(function() {
         $("#tab-recent").css("display","block");
     });
     
-    /* When the user clicks the torch relay link to load torch relay bucket item */
+    /* When user clicks the torch relay link to load torch relay bucket item */
     $("#tab-torch-relay-link").click(function() {
         if (!$("#tab-torch-relay").is(".active")) {
             $("#tab-torch-relay").empty();
@@ -74,16 +75,6 @@ $(document).ready(function() {
         $("#tab-recent").css("display","block");
     });
     
-    /* When the user clicks the torch relay link to load torch relay bucket item */
-    $("#tab-torch-relay-link").click(function() {
-        /* clean class active first */
-        $("#tab-ids").find("a").removeClass("active");
-        $(this).addClass("active");
-        
-        /* reset display behavior to none first */
-        tabConDisplayReset();
-        $("#tab-torch-relay").css("display","block");
-    });
 
     /* Declare functions */
     /**
@@ -171,7 +162,7 @@ $(document).ready(function() {
                     console.log("Debug - verify id: " + this.id);
                     var redirectURL = "";
                     redirectURL = "https://apiapache-beforeidie.rhcloud.com/personal/" + this.id;
-                    window.location.assign(redirectURL)
+                    window.location.assign(redirectURL);
                 });
 
                 var imgPop = document.createElement("img");
@@ -230,5 +221,155 @@ $(document).ready(function() {
         return  ranChoice;
     }    
     
+    /**
+     * 
+     * Check whether user login and provide related information
+     * login: user profile
+     * non-login: login/signup icon (default)
+     */ 
+    function loginCheck(cname) {
+        var cookieVal = getCookie(cname);
+        /* Check cookie username first */
+        if (cookieVal !== "") { 
+            console.log("Login check - cookie exist: " + document.cookie); 
+            
+            /* Verify whether id navbar-user-profile exist */
+            if (!$("#navbar-user-profile").hasClass("navbar-content-user-profile")) {
+                console.log("Login check - #navbar-user-profile doesn't exist"); 
+                
+                $("#navbar-right").empty();
+                var urlLink = "api/users/" + cookieVal;
+                console.log("api url: " + urlLink);
+                    
+                // Execute ajax with API /api/register
+                $.ajax({
+                    type        : 'GET', // Define the https method that we want to use
+                    url         : urlLink, // api url that we want to call
+                    dataType    : 'json', // what type of data do we expect back from the server
+                })
+                
+                /* if returned header shows 200 OK */
+                .done(function(data) {
+                    console.log("Success Message - " + urlLink + " :\n" + JSON.stringify(data));
+                    
+                    var imgSrc = "";
+                    var usrAlt = "";
+                    var personalURL = "";
+                    var spanText = "";
+                    
+                    imgSrc = data.responseJSON[0].profilePicture;
+                    usrAlt = data.responseJSON[0].userName + "_profilePicture";
+                    personalURL = "personal/" + data.responseJSON[0].userName;
+    
+                    var navR = document.getElementById("navbar-right");
+                    var navRDiv = document.createElement("div");
+                    navRDiv.setAttribute("class", "navbar-content-user-profile navbar-padding dropdown");   
+                    navRDiv.setAttribute("id", "navbar-user-profile");   
+                    
+                    var imgPro = document.createElement("img");
+                    imgPro.setAttribute("src", imgSrc);
+                    imgPro.setAttribute("alt", usrAlt);
+                    imgPro.setAttribute("class", "photo-circle");
+                    navRDiv.appendChild(imgPro);
+                    
+                    var dropDiv = document.createElement("div");
+                    dropDiv.setAttribute("class", "dropdown-content");
+                    navRDiv.appendChild(dropDiv);
+                    
+                    var perLinkA = document.createElement("a");
+                    perLinkA.setAttribute("href", personalURL);
+                    
+                    var spanWord = document.createElement("span");
+                    spanWord.innerHTML = "MyPersonal";
+                    perLinkA.appendChild(spanWord);
+                    dropDiv.appendChild(perLinkA);
+                    
+                    var logoutLinkA = document.createElement("a");
+                    //logoutLinkA.setAttribute("href", "#");
+                    logoutLinkA.setAttribute("id", "logout-link");
+                    logoutLinkA.style.cursor = "pointer";
+                    
+                    var spanWord2 = document.createElement("span");
+                    spanWord2.innerHTML = "Logout";
+                    logoutLinkA.appendChild(spanWord2);
+                    dropDiv.appendChild(logoutLinkA);
+                    
+                    navR.appendChild(navRDiv);
+                    
+                    /* When user clicks logout */
+                    $("#logout-link").click(function() {
+                        /* clean cookie username */
+                        console.log("Logout Cookie Check: " + document.cookie);
+                        document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+                        console.log("Logout Cookie Check after delete: " + document.cookie);
+                        
+                        //$("#logout").preventDefault(e);
+                        
+                        // Execute ajax with API /api/register
+                        $.ajax({
+                            type        : 'GET', // Define the https method that we want to use
+                            url         : 'api/logout', // api url that we want to call
+                            dataType    : 'json', // what type of data do we expect back from the server
+                        })
+                        
+                        /* if returned header shows 200 OK */
+                        .done(function(data) {
+                            console.log("Success Message - /api/logout :\n" + JSON.stringify(data)); 
+                            
+                            $("#navbar-right").empty();
+                            var navR = document.getElementById("navbar-right");
+                            var navRDiv = document.createElement("div");
+                            navRDiv.setAttribute("class", "navbar-content navbar-padding");   
+                    
+                            var perLinkA = document.createElement("a");
+                            perLinkA.setAttribute("href", "/login");
+                            perLinkA.setAttribute("id", "link-open-login-page");
+                            navRDiv.appendChild(perLinkA);
+                            
+                            var spanWord = document.createElement("span");
+                            spanWord.setAttribute("class", "font-small");
+                            var spanText = "Login|Sign Up";
+                            spanWord.innerHTML = spanText;
+                            perLinkA.appendChild(spanWord);
+                            
+                            navR.appendChild(navRDiv);
+                            
+                            $("#link-open-login-page").css("display", "inline-block");
+                            window.location.assign("/");
+                        })
+                        
+                        /* if returned header shows none 200 OK */
+                        .fail(function(data) {
+                            console.log("Failure Message:\n" + data); 
+                        })
+                    });
+                })
+                
+                /* if returned header shows none 200 OK */
+                .fail(function(data) {
+                    console.log("Failure Message:\n" + data); 
+                })
+            } else {
+                console.log("Login check - #navbar-user-profile exist!"); 
+            }
+        } else {
+            console.log("Login check - cookie doesn't exist: " + document.cookie); 
+            $("#link-open-login-page").css("display", "inline-block");
+        }
+    }
+    
+    /**
+     * 
+     * Get Cookies value by name
+     */
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for ( var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+        }
+        return "";
+    }
 });
-
