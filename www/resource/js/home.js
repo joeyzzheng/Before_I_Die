@@ -1,3 +1,6 @@
+/* Change to 1 if need to pring debug message */
+var debuMode = 0;
+
 /**
  * Main function
  */
@@ -31,7 +34,7 @@ $(document).ready(function() {
     $("#tab-popular-link").click(function() {
         if (!$("#tab-popular-link").is(".active")) {
             $("#tab-popular").empty();
-            tabPageLoad("api/popular_item", "tab-popular", 6, 0, 11);
+            tabPageLoad("/api/popular_item", "tab-popular", 6, 0, 11);
         }
         
         /* clean class active first */
@@ -47,7 +50,7 @@ $(document).ready(function() {
     $("#tab-recent-link").click(function() {
         if (!$("#tab-recent-link").is(".active")) {
             $("#tab-recent").empty();
-            tabPageLoad("api/recent_item", 'tab-recent', 6, 0, 9);
+            tabPageLoad("/api/recent_item", 'tab-recent', 6, 0, 9);
         }
         
         /* clean class active first */
@@ -61,9 +64,9 @@ $(document).ready(function() {
     
     /* When user clicks the torch relay link to load torch relay bucket item */
     $("#tab-torch-relay-link").click(function() {
-        if (!$("#tab-torch-relay").is(".active")) {
+        if (!$("#tab-torch-relay-link").is(".active")) {
             $("#tab-torch-relay").empty();
-            tabPageLoad("api/torch_item", 'tab-torch-relay', 6, 0, 9);
+            tabPageLoad("/api/torch_item", 'tab-torch-relay', 6, 0, 9);
         }
         
         /* clean class active first */
@@ -72,7 +75,7 @@ $(document).ready(function() {
         
         /* reset display behavior to none first */
         tabConDisplayReset();
-        $("#tab-recent").css("display","block");
+        $("#tab-torch-relay").css("display","block");
     });
     
 
@@ -144,11 +147,18 @@ $(document).ready(function() {
                 var divPopCard = document.createElement("div");
                 divPopCard.setAttribute("class", "tab-bucket-card");
                 
-                if (apiURLCall === "api/torch_item") {
+                if (apiURLCall == "/api/torch_item") {
                     /* set element id with username#bucketID */
                     divPopCard.setAttribute("id", data.responseJSON[ranChoice[index]].username + "#" + data.responseJSON[ranChoice[index]].bucketItemID);
                     imgSrc = data.responseJSON[ranChoice[index]].image;
                     spanText = data.responseJSON[ranChoice[index]].username + "<br>" + data.responseJSON[ranChoice[index]].bucketItemTitle;
+                    
+                    if (debuMode == 1) {
+                        console.log("Debug Mode : " + apiURLCall);
+                        console.log("Debug Mode [id]: " + data.responseJSON[ranChoice[index]].username + "#" + data.responseJSON[ranChoice[index]].bucketItemID);
+                        console.log("Debug Mode [imgSrc]: " + imgSrc);
+                        console.log("Debug Mode [spanText]: " + spanText);
+                    }
                     
                 } else {
                     /* set element id with username */
@@ -161,7 +171,7 @@ $(document).ready(function() {
                 divPopCard.addEventListener("click", function() {
                     console.log("Debug - verify id: " + this.id);
                     var redirectURL = "";
-                    redirectURL = "https://apiapache-beforeidie.rhcloud.com/personal/" + this.id;
+                    redirectURL = "/personal/" + this.id;
                     window.location.assign(redirectURL);
                 });
 
@@ -193,7 +203,7 @@ $(document).ready(function() {
      * Initialize home page
      */
     function iniFun() {
-        tabPageLoad("api/popular_item", "tab-popular", 6, 0, 11);
+        tabPageLoad("/api/popular_item", "tab-popular", 6, 0, 11);
     }
    
     function tabConDisplayReset() {
@@ -238,7 +248,7 @@ $(document).ready(function() {
                 console.log("Login check - #navbar-user-profile doesn't exist"); 
                 
                 $("#navbar-right").empty();
-                var urlLink = "api/users/" + cookieVal;
+                var urlLink = "/api/users/" + cookieVal;
                 console.log("api url: " + urlLink);
                     
                 // Execute ajax with API /api/register
@@ -305,10 +315,10 @@ $(document).ready(function() {
                         
                         //$("#logout").preventDefault(e);
                         
-                        // Execute ajax with API /api/register
+                        // Execute ajax with API /api/logout
                         $.ajax({
                             type        : 'GET', // Define the https method that we want to use
-                            url         : 'api/logout', // api url that we want to call
+                            url         : '/api/logout', // api url that we want to call
                             dataType    : 'json', // what type of data do we expect back from the server
                         })
                         
