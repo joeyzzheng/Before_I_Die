@@ -227,14 +227,19 @@ input[type="text"], input[type="password"], input[type="email"], textarea {
     width: 100%;
     margin-left: 0;
     margin-right: 0;
+    margin-bottom: 60px;
   }
 } 
 
 body {
   max-width: 2000px;
   min-width: 300px;
-  padding-top: 90px;
+  padding-top: 130px;
   background-color: rgba(89, 89, 89, 0.9);
+}
+
+#panel-wrapper {
+  margin-bottom: 60px;
 }
 
 .text-center {
@@ -278,12 +283,12 @@ body {
   transition: all 0.1s linear;
 }
 .panel-login>.panel-heading a.signup-active{
-  color: #029f5b;
+  color: #5E9CA9;
   font-size: 18px;
 }
 
 .panel-login>.panel-heading a.login-active{
-  color: #59B2E0;
+  color: #ED7D57;
   font-size: 18px;
 }
 
@@ -332,7 +337,7 @@ body {
 
 .btn-login {
   width: 100%;
-  background-color: #59B2E0;
+  background-color: #ED7D57;
   outline: none;
   color: #fff;
   font-size: 14px;
@@ -340,12 +345,12 @@ body {
   font-weight: normal;
   padding: 14px 0;
   text-transform: uppercase;
-  border-color: #59B2E6;
+  border-color: #ccc;
 }
 .btn-login:hover,
 .btn-login:focus {
   color: #fff;
-  background-color: #53A3CD;
+  background-color: #DDA611;
   border-color: #3486b2;
 }
 .forgot-password {
@@ -360,7 +365,7 @@ body {
 
 .btn-signup {
   width: 100%;
-  background-color: #1CB94E;
+  background-color: #5E9CA9;
   outline: none;
   color: #fff;
   font-size: 14px;
@@ -368,12 +373,12 @@ body {
   font-weight: normal;
   padding: 14px 0;
   text-transform: uppercase;
-  border-color: #1CB94A;
+  border-color: #ccc;
 }
 .btn-signup:hover,
 .btn-signup:focus {
   color: #fff;
-  background-color: #1CA347;
+  background-color: #6B7E91;
   border-color: #168339;
 }
 
