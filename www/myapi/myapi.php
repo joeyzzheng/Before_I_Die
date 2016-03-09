@@ -113,9 +113,9 @@
 				include("../home.html");
 				exit(); 
 			}
-			if(strcmp($input[0],"api") != 0 && strcmp($input[0], "personal") != 0 && strcmp($input[0],"login") != 0 ){
+			if(strcmp($input[0],"api") != 0 && strcmp($input[0], "personal") != 0 && strcmp($input[0],"login") != 0 && strcmp($input[0],"edititem") != 0){
 				$temp["success"] = "false";
-				$temp["error_msg"] = "API URL should begin with {domain}/api/method or {domain}/personal/username or {domain}/login or {domain}/logout";
+				$temp["error_msg"] = "API URL should begin with {domain}/api/method or {domain}/personal/username or {domain}/login or {domain}/edititem";
 				$this->response($this->json($temp),200);
 			}
 			if(sizeof($input) < 2 && strcmp($input[0],"api") == 0 && strcmp($input[0], "personal") == 0){
@@ -157,27 +157,20 @@
 					exit();
 				}
             }
+            // parse edititem page requests
+			if(strcmp($input[0], "edititem") == 0){
+				if($this->login_check()){
+            		include("../editItem.html");
+                	exit();
+				}
+				else{
+					header("Location: ../login");
+					exit();
+				}
+            }
             // log out
-			if(strcmp($input[1],"logout")==0 && strcmp($input[0],"api")==0){
-				// Unset all session values 
-				$_SESSION = array();
-				
-				// get session parameters 
-				$params = session_get_cookie_params();
-				
-				// Delete the actual cookie. 
-				setcookie(session_name(),'', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
-				
-				// Destroy session 
-				session_destroy();
-				
-				// logout
-				$temp["success"] = "true";
-				$temp["error_msg"] = "null";
-				$this->response($this->json($temp),200);
-				
-				// include("../home.html");
-				// exit();
+			if(strcmp($input[0],"api")==0 && strcmp($input[1],"logout")==0){
+				$this->logout();
 			}
 			$this->error_msg = "";
 
@@ -187,10 +180,7 @@
 				$temp["error_msg"] = "Not Login, Error Message: ".$this->error_msg;
 				$this->response($this->json($temp),200);
 			}
-			//recommendation 
-			if(strcmp($input[0],"api") == 0 && strcmp($input[1],"recommendation") == 0){
-				$this->myUsers->recommendation();
-			}
+			
             
 			
 			//$this->response($func,200);
@@ -569,7 +559,44 @@
 				$this->response(json_encode($temp),200);
 			}
 		}
-		
+		/*
+		* recommendation
+		*/ 
+		private function recommendation(){
+			//recommendation 
+			if(strcmp($this->get_request_method(),"GET")){
+				$this->myUsers->recommendation();
+			}
+			else{
+				$temp["success"] = "false";
+				$temp["error_msg"] = "HTTP method not found, must be GET for recommendation";
+				$this->response(json_encode($temp),200);
+			}
+		}
+		/*
+		* logout
+		*/
+		private function logout(){
+			// Unset all session values 
+				$_SESSION = array();
+				
+				// get session parameters 
+				$params = session_get_cookie_params();
+				
+				// Delete the actual cookie. 
+				setcookie(session_name(),'', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+				
+				// Destroy session 
+				session_destroy();
+				
+				// logout
+				$temp["success"] = "true";
+				$temp["error_msg"] = "null";
+				$this->response($this->json($temp),200);
+				
+				// include("../home.html");
+				// exit();
+		}
 		/*
 		 *	Encode array into JSON
 		*/
