@@ -44,7 +44,7 @@
                     
                     $error_msg .= "Invalid content, limits to 2000 characters.";
                 }
-                $location       = isset($_POST["location"]) ? $_POST["locaiton"] : NULL;
+                $location       = isset($_POST["location"]) ? $_POST["location"] : NULL;
                 //$orderindex     = isset($_POST["orderindex"]) ? $_POST["orderindex"] : NULL;
                     
                 if(strlen($location) > 200) $error_msg .= "Invalid location, limits to 200 characters.";
@@ -155,10 +155,12 @@
                     $content .= "Invalid content, empty string.";
                 }
                 
-                $location       = isset($_POST["location"]) ? $_POST["locaiton"] : NULL;
+                $location       = isset($_POST["location"]) ? $_POST["location"] : NULL;
                 $orderindex     = isset($_POST["orderindex"]) ? $_POST["orderindex"] : NULL;
-                    
-                if(strlen($location) > 200) $error_msg .= "Invalid location, limits to 200 characters.";
+                
+                if(!empty($location)){    
+                	if(strlen($location) > 200) $error_msg .= "Invalid location, limits to 200 characters.";
+                }
                 //if(strlen($orderindex) > 100) $error_msg .= "Invalid orderindex, limits to 100 characters.";
                 
                     
