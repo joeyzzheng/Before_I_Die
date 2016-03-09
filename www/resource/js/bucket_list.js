@@ -47,7 +47,15 @@ var render_bucket_item = function(item, id) {
 	$(".item-info[data-item='" + item.ID + "']").append('<div class="response" data-item="' + item.ID + '"></div>');
 	$(".response[data-item='" + item.ID + "']").append('<div class="like" data-item="' + item.ID + '"></div>');
 	var countLike = (item.like)?item.like.length:0;
-	var like = '<img onClick="like('+item.ID+')" class="icon-like" alt="like button" data-item="'+item.ID+'" src="../resource/pic/like.png"><span class="like-count" data-item="'+item.ID+'">'+countLike+'</span>';
+	var like_status = "like";
+	var likeusername = document.cookie.match(/=(.*)/)[1];
+	if(item.like){
+		for(var i = 0; i<item.like.length; i++){
+			if (likeusername == item.like[i]) like_status = "liked";
+		}		
+	}
+
+	var like = '<img onClick="like('+item.ID+')" class="icon-like" alt="like button" data-item="'+item.ID+'" src="../resource/pic/'+like_status+'.png"><span class="like-count" data-item="'+item.ID+'">'+countLike+'</span>';
 	$(".like[data-item='" + item.ID + "']").append(like);
 	
 	var torch = '<img class="torch" data-item="'+item.ID+'" alt="torch" src="../resource/pic/'

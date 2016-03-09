@@ -35,7 +35,8 @@ var add = function() {
 };
 
 var edit = function(item) {
-	window.location.assign("https://apiapache-beforeidie.rhcloud.com/edit#"+item);
+	var username = document.cookie.match(/=(.*)/)[1];
+	window.location.assign("https://apiapache-beforeidie.rhcloud.com/editItem/"+username+"#"+item);
 }
 
 var deleteItem = function(item) {
@@ -101,10 +102,9 @@ var share = function() {
 
 
 var like = function(item) {
-	//console.log("like ",item);
+	var likeusername = document.cookie.match(/=(.*)/)[1];
 	var apiDataPOST = {
 		itemID:item,
-		likeusername:"fwang3",
 		liked:"1"
 	};
 	var apiDataGET = {
@@ -121,7 +121,7 @@ var like = function(item) {
 		if(likers.success == "true"){
 			if(likers.responseJSON){
 				for(var i = 0; i < likers.responseJSON.length; i++) {
-					if(likers.responseJSON[i] == apiDataPOST.likeusername) likerExist = true;
+					if(likers.responseJSON[i] == likeusername) likerExist = true;
 				}				
 			}
 			if(likerExist) apiDataPOST.liked = "0";
@@ -137,10 +137,10 @@ var like = function(item) {
 					var l = parseInt( $(".like-count[data-item='" + item + "']").text() );
 					if(apiDataPOST.liked == "1") {
 						l++;
-						//$(".icon-like[data-item='" + item + "']").attr("src","resource/pic/like.png");
+						$(".icon-like[data-item='" + item + "']").attr("src","../resource/pic/liked.png");
 					}else {
 						l--;
-						//$(".icon-like[data-item='" + item + "']").attr("src","resource/pic/liked.png");
+						$(".icon-like[data-item='" + item + "']").attr("src","../resource/pic/like.png");
 					}
 					
 					$(".like-count[data-item='" + item + "']").text(l);
