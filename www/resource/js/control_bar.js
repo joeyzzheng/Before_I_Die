@@ -31,7 +31,8 @@ var public = function(item) {
 };
 
 var add = function() {
-	window.location.assign("https://apiapache-beforeidie.rhcloud.com/addItem.html");
+	var username = document.cookie.match(/=(.*)/)[1];
+	window.location.assign("https://apiapache-beforeidie.rhcloud.com/editItem/"+username);
 };
 
 var edit = function(item) {
@@ -96,6 +97,10 @@ var inherit = function(item) {
 
 var share = function() {
 	var url = window.location.href;
+
+    window.prompt("Copy to clipboard: Ctrl+C, Enter", url);
+
+ 
 	console.log(url);
 };
 
@@ -112,7 +117,7 @@ var like = function(item) {
 	};
 	$.ajax({
 		type        : 'GET', 
-		url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/like', // the url where we want to POST
+		url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/like',
 		data        : apiDataGET, // our data object
 		dataType    : 'json', // what type of data do we expect back from the server
 	})

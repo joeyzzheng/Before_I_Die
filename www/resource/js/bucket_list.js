@@ -1,6 +1,8 @@
 var render_bucket_item = function(item, id) {
-	//render image and menu
+	var user_name = document.cookie.match(/=(.*)/)[1];
+	var url = window.location.href.split("/");
 	
+	//render image and menu
 	$(".bucket-items").append('<div class="bucket-item" id="'+item.ID+'" data-item="' + item.ID + '" data-torch="'+item.openToTorch+'"></div>');
 	$(".bucket-item[data-item='" + item.ID + "']").append('<div class="item-img-section" data-item="' + item.ID + '"></div>');
 	var img = '<img class="item-img" alt="bucket item image" src="' + item.image + '" data-item="'+ item.ID +'">';
@@ -12,25 +14,27 @@ var render_bucket_item = function(item, id) {
 		var done = '<img class="done" src="../resource/pic/done.png" alt="completed item">'
 		$(".item-img-section[data-item='" + item.ID + "']").append(done);
 	} else {
-		var menu = '<div class="dropdown">   <button class="dropbtn" data-item="'+item.ID+'"><img class="menu" alt="menu" src="../resource/pic/menu.png"></button>   <div class="dropdown-content" data-item="'+item.ID+'">' +
-				'<a class="edit" onClick="edit('+item.ID+')">Edit</a> ' +
-				'<a onClick="completed('+item.ID+')">Completed</a>' +
-				'<a class="requestRelay" onClick="requestRelay('+item.ID+')">Request Relay</a>' +
-				'<a onClick="deleteItem('+item.ID+')">Delete</a>' +
-				'<div class="sub-dropdown"><a href="#">Privacy</a>' +
-				'<div class="dropdown-sub-content">' +
-				'<a onClick="private('+item.ID+')">Private</a>' +
-				'<a onClick="public('+item.ID+')">Public</a> </div>   	</div>   </div> </div>';
+		if(user_name == url[url.length-1]){
+			var menu = '<div class="dropdown">   <button class="dropbtn" data-item="'+item.ID+'"><img class="menu" alt="menu" src="../resource/pic/menu.png"></button>   <div class="dropdown-content" data-item="'+item.ID+'">' +
+					'<a class="edit" onClick="edit('+item.ID+')">Edit</a> ' +
+					'<a onClick="completed('+item.ID+')">Completed</a>' +
+					'<a class="requestRelay" onClick="requestRelay('+item.ID+')">Request Relay</a>' +
+					'<a onClick="deleteItem('+item.ID+')">Delete</a>' +
+					'<div class="sub-dropdown"><a href="#">Privacy</a>' +
+					'<div class="dropdown-sub-content">' +
+					'<a onClick="private('+item.ID+')">Private</a>' +
+					'<a onClick="public('+item.ID+')">Public</a> </div>   	</div>   </div> </div>';
 
-		$(".item-img-section[data-item='" + item.ID + "']").append(menu);	
+			$(".item-img-section[data-item='" + item.ID + "']").append(menu);	
 
-		var lock = '<img class="lock" src="../resource/pic/lock.png" alt="lock" data-item="'+item.ID+'" ';
+			var lock = '<img class="lock" src="../resource/pic/lock.png" alt="lock" data-item="'+item.ID+'" ';
 
-		if(item.private == 0) lock += 'style="display:none;">';
-		else lock += ">";
+			if(item.private == 0) lock += 'style="display:none;">';
+			else lock += ">";
 
-		$(".item-img-section[data-item='" + item.ID + "']").append(lock);
-
+			$(".item-img-section[data-item='" + item.ID + "']").append(lock);
+			
+		}
 	}
 
 	
@@ -48,10 +52,10 @@ var render_bucket_item = function(item, id) {
 	$(".response[data-item='" + item.ID + "']").append('<div class="like" data-item="' + item.ID + '"></div>');
 	var countLike = (item.like)?item.like.length:0;
 	var like_status = "like";
-	var likeusername = document.cookie.match(/=(.*)/)[1];
+	
 	if(item.like){
 		for(var i = 0; i<item.like.length; i++){
-			if (likeusername == item.like[i]) like_status = "liked";
+			if (user_name == item.like[i]) like_status = "liked";
 		}		
 	}
 
@@ -99,13 +103,16 @@ var render_bucket_item = function(item, id) {
 var render = function() {
 	var url = window.location.href.split("/");
 	var username = url[url.length-1];
-
+	var cur_username = document.cookie.match(/=(.*)/)[1];
+	if(cur_username != username){
+		$(".add").css({display:"none"});
+	}
 	render_user_info(username);
 	var userUrl = 'https://apiapache-beforeidie.rhcloud.com/api/bucketlist/' + username;
 	
 	$.ajax({
 		type        : 'GET', 
-		url         : userUrl,//joeyzheng 
+		url         : userUrl,
 		dataType    : 'json', // what type of data do we expect back from the server
   })
 	
