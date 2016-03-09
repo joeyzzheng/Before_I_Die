@@ -59,9 +59,9 @@
                 
             
                 include 'processBucketImagUpload.php';
-                $imag = filter_input(INPUT_POST, 'imag', FILTER_SANITIZE_STRING);
-                $imag = ($uploadOk == 1) ? $target_dir : $imag;
-                if(strlen($imag) > 200) $error_msg .= "pfofilePic file length is too long, limits to 200 characters.";
+                $image = filter_input(INPUT_POST, 'image', FILTER_SANITIZE_STRING);
+                $image = ($uploadOk == 1) ? $target_dir : $image;
+                if(strlen($image) > 200) $error_msg .= "pfofilePic file length is too long, limits to 200 characters.";
                 
                 if(!empty($error_msg)){
                     $temp["success"] = "false";
@@ -75,7 +75,7 @@
                 //if ($insert_stmt = $mysqli->prepare("INSERT INTO Users (Username, Email, FirstName, LastName, Title, Description, City, State, ProfilePic, Salt, Password) 
                 //VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
                     
-                    $insert_stmt->bind_param('sissss', $username, $itemID, $title, $content, $location, $imag);
+                    $insert_stmt->bind_param('sissss', $username, $itemID, $title, $content, $location, $image);
                     // Execute the prepared query.
                     if (! $insert_stmt->execute()) {
                         $temp["success"] = "false";
