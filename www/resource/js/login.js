@@ -25,15 +25,15 @@ $(document).ready( function() {
         $("#login-form-link").on("click", function(e) {
             $("#login-form").delay(100).fadeIn(100);
             $("#signup-form").fadeOut(100);
-            $("#signup-form-link").removeClass("active");
-            $(this).addClass("active");
+            $("#signup-form-link").removeClass("signup-active");
+            $(this).addClass("login-active");
             e.preventDefault();
         });
         $("#signup-form-link").on("click", function(e) {
             $("#signup-form").delay(100).fadeIn(100);
             $("#login-form").fadeOut(100);
-            $("#login-form-link").removeClass("active");
-            $(this).addClass("active");
+            $("#login-form-link").removeClass("login-active");
+            $(this).addClass("signup-active");
             e.preventDefault();
         })
         
@@ -54,7 +54,7 @@ $(document).ready( function() {
             var userState = $("#signup-form #state");
             // check each required fields has a value
             if (username.val() == '' || firstname.val() == '' || lastname.val() == '' || email.val() == '' || signUpPassword.val() == '' || confirmPassword.val() == '') {
-                alert('You must provide all the requested details. Please try again');
+                alert('Please provide all the requested details. Please try again');
                 return false;
             }
             // check username
@@ -105,7 +105,6 @@ $(document).ready( function() {
                     return false;
                 }
             }
-
             // check user description
             if (userDescription.val() != '') {
                 if (userDescription.val().length > 500) {
@@ -114,7 +113,6 @@ $(document).ready( function() {
                     return false;
                 }
             }
-
             // check user city 
             if (userCity.val().length > 100 || (!/[a-zA-Z\s]+/.test(userCity))) {
                 alert('User city must be less than 100 characters long. Please try again');
@@ -203,8 +201,8 @@ $(document).ready( function() {
                         // switch to login form
                         $("#login-form").delay(100).fadeIn(100);
                         $("#signup-form").fadeOut(100);
-                        $("#signup-form-link").removeClass("active");
-                        $("#login-form").addClass("active");
+                        $("#signup-form-link").removeClass("signup-active");
+                        $("#login-form").addClass("login-active");
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         alert("An error occured: " + textStatus + " " + errorThrown);
@@ -257,7 +255,7 @@ $(document).ready( function() {
                     // change to the home page
                     window.location.assign("https://apiapache-beforeidie.rhcloud.com/");
                     document.cookie = "username" + "=" + $("#login-form #username").val();
-                    console.log("Cookies Set: " + document.cookie);
+                    // console.log("Cookies Set: " + document.cookie);
                 })
                 .fail(function(data) {
                     // Debug message

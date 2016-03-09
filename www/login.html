@@ -21,7 +21,7 @@
                       <a href="#" id="login-form-link">Log in</a>
                     </div>
                     <div class="col-6">
-                      <a href="#" class="active" id="signup-form-link">Sign up</a>
+                      <a href="#" class="signup-active" id="signup-form-link">Sign up</a>
                     </div>
                   </div>
                   <hr>
@@ -101,8 +101,10 @@
                           <label class="sr-only" for="description">Self Introduction:</label>
                           <input class="form-entry" type="text" name="description" id="description" placeholder="Who are you?" title="Please introduce yourself" tabindex="8" maxlength="500">
                         </div>
-                        <div class="form-wrapper text-center">
-                          Upload Your Picture:<input type="file" name="fileToUpload" id="user-pic-upload" title="Please upload your profile picture" tabindex="11">
+                        <div class="form-wrapper text-center" id="uploadPic">
+                          <span>Upload your picture:</span>
+                          <br>
+                          <input type="file" name="fileToUpload" id="user-pic-upload" title="Please upload your profile picture" tabindex="11">
                         </div>
                         <div class="form-wrapper">
                           <div class="row">

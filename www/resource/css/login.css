@@ -32,7 +32,7 @@ p {
 }
 
 input[type="text"], input[type="password"], input[type="email"], textarea {
-  color: #ccc;
+  color: #2E3E4C;
   width: 100%;
   border: 1px solid #ccc;
   border-radius: 3px;
@@ -277,8 +277,13 @@ body {
   -moz-transition: all 0.1s linear;
   transition: all 0.1s linear;
 }
-.panel-login>.panel-heading a.active{
+.panel-login>.panel-heading a.signup-active{
   color: #029f5b;
+  font-size: 18px;
+}
+
+.panel-login>.panel-heading a.login-active{
+  color: #59B2E0;
   font-size: 18px;
 }
 
@@ -394,5 +399,9 @@ body {
 
 #item-description {
   height: 80px;
+}
+
+#uploadPic span {
+  font-size: 14px;
 }
 
