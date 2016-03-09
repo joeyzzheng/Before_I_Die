@@ -26,6 +26,22 @@ this_proc: BEGIN
         LEAVE this_proc;
     END IF;
     
+    IF (EXISTS (
+		SELECT 1
+        FROM
+			BucketItem BI
+            INNER JOIN BucketList BL ON BL.ID = BI.BucketListID
+            INNER JOIN Users U ON U.ID = BL.UserID
+		WHERE
+			BI.ID = bucketItemID
+            AND U.Username = childUsername
+            AND U.Status = 1)) THEN
+		SET Result = 0;
+        SET Msg = 'A user cannot inherit his or her item.';
+        ROLLBACK;
+        LEAVE this_proc;
+	END IF;
+    
     INSERT INTO BucketItem
     (Title, Content, Location, Image, Private, CreateDate, OpenToTorch, InheritFrom, BucketListID)
     SELECT

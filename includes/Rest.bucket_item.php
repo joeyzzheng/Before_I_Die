@@ -709,7 +709,7 @@
 			        $stmt->store_result();
 			        $stmt->num_rows();
 			        // get variables from result.
-			        if( $stmt->num_rows() > -1 ){
+			        if( $stmt->num_rows() > 0 ){
 			        	
 			        	$stmt->bind_result($col1, $col2, $col3, $col4, $col5, $col6, $col7, $col8, $col9, $col10);
 				        $total_retrieve_result = 0;
@@ -770,7 +770,7 @@
 			        $stmt->store_result();
 			        $stmt->num_rows();
 			        // get variables from result.
-			        if( $stmt->num_rows() > -1 ){
+			        if( $stmt->num_rows() > 0 ){
 			        	
 			        	$stmt->bind_result($col1, $col2, $col3, $col4, $col5, $col6, $col7, $col8, $col9, $col10);
 				        $total_retrieve_result = 0;
@@ -830,7 +830,7 @@
 			        $stmt->store_result();
 			        $stmt->num_rows();
 			        // get variables from result.
-			        if( $stmt->num_rows() > -1 ){
+			        if( $stmt->num_rows() > 0 ){
 			        	
 			        	$stmt->bind_result($col1, $col2, $col3, $col4, $col5);
 				        $total_retrieve_result = 0;
