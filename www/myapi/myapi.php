@@ -564,7 +564,7 @@
 		*/ 
 		private function recommendation(){
 			//recommendation 
-			if(strcmp($this->get_request_method(),"GET")){
+			if(strcmp($this->get_request_method(),"GET") == 0){
 				$this->myUsers->recommendation();
 			}
 			else{
