@@ -22,7 +22,6 @@ $(document).ready( function() {
         createStateList(); 
 
         // swith bewteen login page and signup page
-
         $("#login-form-link").on("click", function(e) {
             $("#login-form").delay(100).fadeIn(100);
             $("#signup-form").fadeOut(100);
@@ -157,7 +156,6 @@ $(document).ready( function() {
                 loginPassword.focus(); 
                 return false;
             }
-            
             // check if the remember me is checked
             if (rememberPassword.is(":checked")){
                 // do something
@@ -172,7 +170,6 @@ $(document).ready( function() {
 
         // ajax signup form submission
         $("#signup-form").submit(function(event) {
-            alert("signup submit button clicked"); // debug
             if (signupFormValidate()) {
                 event.preventDefault();
                 var form = $("#signup-form"); 
@@ -185,15 +182,12 @@ $(document).ready( function() {
                 p.name = "p";
                 p.type = "hidden";
                 p.value = hex_sha512(signUpPassword);
-                alert("p.value" + p.value);
                 // Make sure the plaintext password doesn't get sent. 
                 signUpPassword = "";
                 confirmPassword = "";
                 // collect the form data
                 var signupForm = new FormData(this);
-
                 var signupURL = "https://apiapache-beforeidie.rhcloud.com/api/register";
-                // var signupURL = "https://loging-sedernet.c9users.io/api/register";
                 $.ajax({
                     url: signupURL,
                     type: "POST",
@@ -203,9 +197,9 @@ $(document).ready( function() {
                     processData: false,
                     crossDomain: true,
                     success: function(data, textStatus, jqXHR) {
-                        alert("responsed data:" + JSON.stringify(data));
-                        alert("textStatus:" + textStatus);
-                        alert("jqXHR:" + JSON.stringify(jqXHR));
+                        // alert("responsed data:" + JSON.stringify(data));
+                        // alert("textStatus:" + textStatus);
+                        // alert("jqXHR:" + JSON.stringify(jqXHR));
                         // switch to login form
                         $("#login-form").delay(100).fadeIn(100);
                         $("#signup-form").fadeOut(100);
@@ -221,7 +215,6 @@ $(document).ready( function() {
 
         // ajax login form submission 
         $("#login-form").submit(function(event) {
-            alert("login submit button clicked"); // debug
             if (loginFormValidation()) {
                 // event.preventDefault();
                 var form = $("#login-form"); 
@@ -233,7 +226,6 @@ $(document).ready( function() {
                 p.name = "p";
                 p.type = "hidden";
                 p.value = hex_sha512(loginPassword);
-                alert("p.value" + p.value);
                 // Make sure the plaintext password doesn't get sent. 
                 loginPassword = "";
                 // collect the form data
@@ -261,10 +253,9 @@ $(document).ready( function() {
                 })
                 .done(function(data) {
                     //Debug message
-                    alert("Success Message:\n" + JSON.stringify(data)); 
+                    // alert("Success Message:\n" + JSON.stringify(data)); 
                     // change to the home page
                     window.location.assign("https://apiapache-beforeidie.rhcloud.com/");
-                    
                     document.cookie = "username" + "=" + $("#login-form #username").val();
                     console.log("Cookies Set: " + document.cookie);
                 })
