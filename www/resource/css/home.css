@@ -169,7 +169,7 @@ input[type="text"], input[type="password"], textarea {
 /*----home----*/
 /*Bryce*/
 nav {
-  background: rgba(58, 66, 78, 0.9);
+  background: rgba(18, 45, 61, 0.9);
 }
 
 .navbar-col-left {
@@ -210,14 +210,31 @@ nav a {
   margin: 3px 0px;
   padding: 4px 5px;
   background: rgba(0, 0, 0, 0);
-  color: white;
   display: inline-block;
-  border: 2px solid;
+}
+
+#nav-brand {
+  color: #ffffff;
+}
+
+#span-login {
+  font-size: 15px;
+  padding-right: 10px;
+}
+
+#span-signup {
+  font-size: 15px;
+  padding-left: 10px;
+  border-left: 1px solid #ccc;
+}
+
+#link-open-login-page {
+  color: #ccc;
 }
 
 #link-open-login-page:hover,
 #link-open-login-page:focus {
-    color: rgba(255, 255, 0, 0.8);
+    color: #ffffff;
     text-decoration: none;
     cursor: pointer;
 }
@@ -317,7 +334,7 @@ nav a {
 }
 
 footer {
-  background: rgba(58, 66, 78, 1.0);
+  background: rgba(18, 45, 61, 1.0);
   margin-top: 20px;
   padding: 2px;
   color: white;
@@ -369,11 +386,10 @@ footer {
   font-family:Georgia;
   border: 0;
   margin: 0;
-  border-radius: 0;
 }
 
 .dropdown-content a:hover {
-  background-color: rgba(45, 196, 100, 1.0);
+  background-color: #72DED2;
   color: white;
 }
 
