@@ -252,6 +252,13 @@ body {
   border-radius: 6px;
 }
 
+.form-entry-textarea {
+  height: 100px;
+  padding: 10px 16px;
+  border-radius: 6px;
+}
+
+
 
 .panel-editItem {
   padding: 10px;
