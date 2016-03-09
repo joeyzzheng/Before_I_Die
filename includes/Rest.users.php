@@ -341,11 +341,11 @@
 		*/
 		public function recommendation(){
 		    if(strcmp($this->get_request_method(),"GET")==0){
-		    	
-		        $query = "call Before_I_Die.UserRecommendationSelect ()";
+		    	$username = $_SESSION["username"];
+		        $query = "call Before_I_Die.UserRecommendationSelect (?)";
 			    // Using prepared statements means that SQL injection is not possible.
 			    if($stmt = $this->db->prepare($query)){
-			        //$stmt->bind_param('s', $username);  // Bind to parameter.
+			        $stmt->bind_param('s', $username);  // Bind to parameter.
 			        $stmt->execute();    // Execute the prepared query.
 			        $stmt->store_result();
 			        $stmt->num_rows();
