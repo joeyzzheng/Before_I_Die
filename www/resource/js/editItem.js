@@ -17,7 +17,7 @@ $(document).ready(function() {
         // process the form
         $.ajax({
             type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-            url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/insert', // the url where we want to POST
+            url         : '/api/bucket_item/insert', // the url where we want to POST
             data        : formData, // our data object
             dataType    : 'json', // what type of data do we expect back from the server
             processData: false,
