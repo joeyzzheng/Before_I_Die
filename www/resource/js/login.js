@@ -185,7 +185,7 @@ $(document).ready( function() {
                 confirmPassword = "";
                 // collect the form data
                 var signupForm = new FormData(this);
-                var signupURL = "https://apiapache-beforeidie.rhcloud.com/api/register";
+                var signupURL = "/api/register";
                 $.ajax({
                     url: signupURL,
                     type: "POST",
@@ -253,7 +253,7 @@ $(document).ready( function() {
                     //Debug message
                     // alert("Success Message:\n" + JSON.stringify(data)); 
                     // change to the home page
-                    window.location.assign("https://apiapache-beforeidie.rhcloud.com/");
+                    window.location.assign("/");
                     document.cookie = "username" + "=" + $("#login-form #username").val();
                     // console.log("Cookies Set: " + document.cookie);
                 })
