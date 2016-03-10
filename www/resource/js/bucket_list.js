@@ -120,7 +120,7 @@ var render = function() {
 		if(data.success){
 			
 			if(data.responseJSON){
-				$(".recommend").css("display","initial");
+				
 				for(var i = 0 ; i < data.responseJSON.length; i++) {
 					var id = username.match(/#(\d+)/)||"0";
 					render_bucket_item(data.responseJSON[i], id[0]);

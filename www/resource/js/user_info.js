@@ -2,7 +2,7 @@ var render_user_info = function(userName) {
 	
 	$.ajax({
 		type        : 'GET', 
-		url         : 'https://apiapache-beforeidie.rhcloud.com/api/users/' + userName, 
+		url         : '/api/users/' + userName, 
 		dataType    : 'json', // what type of data do we expect back from the server
   })
 	.done(function(data){
@@ -18,18 +18,23 @@ var render_user_info = function(userName) {
 	
 	$.ajax({
 		type        : 'GET', 
-		url         : 'https://apiapache-beforeidie.rhcloud.com/api/recommendation', 
+		url         : '/api/recommendation', 
 		dataType    : 'json', // what type of data do we expect back from the server
   })
 	.done(function(data){
 		var recom = data.responseJSON;
-		$(".user-img.a").attr("src",recom[0].profilePicture);
-		$(".user-name.a").text(recom[0].firstName + " " + recom[0].lastName);
-		$(".user-loc.a").text(recom[0].city);
-		
-		$(".user-img.b").attr("src",recom[1].profilePicture);
-		$(".user-name.b").text(recom[1].firstName + " " + recom[1].lastName);
-		$(".user-loc.b").text(recom[1].city);
+		if(recom.length > 1){
+			$(".recommend").css("display","initial");
+			$(".user-img.a").attr("src",recom[0].profilePicture);
+			$(".user-name.a").text(recom[0].firstName + " " + recom[0].lastName);
+			$(".user-loc.a").text(recom[0].city);
+
+			$(".user-img.b").attr("src",recom[1].profilePicture);
+			$(".user-name.b").text(recom[1].firstName + " " + recom[1].lastName);
+			$(".user-loc.b").text(recom[1].city);
+		} else {
+			$(".recommend").css("display","none");
+		}
 
 	})
 	
