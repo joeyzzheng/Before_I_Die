@@ -92,8 +92,6 @@
 		 */
 		public function processApi(){
 			//$this->response(DB_SERVER,200); //for debug
-			$input = (explode('/',strtolower(str_replace("","",$_REQUEST['rquest']))));
-			$this->parseURL = $input;
 			
 			//refresh session
 			if(!$this->sec_session_start()){
@@ -102,42 +100,88 @@
 				$this->response($this->json($temp),200);
 			}
 			
-			//validate URL begin with api
+			if(empty($_REQUEST)){
+				include("../home.html");
+                exit();
+			}
+
+			$input = (explode('/',strtolower(str_replace("","",$_REQUEST['rquest']))));
+			$this->parseURL = $input;
+			
+			//validate URL is {domain}/api/ or {domain}/personal/
 			if(strcmp($input[0],"")==0){
-				header("Location: ../home.php");
+				include("../home.html");
 				exit(); 
 			}
-			if(strcmp($input[0],"api") !=0 || sizeof($input) < 2){
+			if(strcmp($input[0],"api") != 0 && strcmp($input[0], "personal") != 0 && strcmp($input[0],"login") != 0 && strcmp($input[0],"edititem") != 0){
 				$temp["success"] = "false";
-				$temp["error_msg"] = "API URL should begin with api/blablabla";
+				$temp["error_msg"] = "API URL should begin with {domain}/api/method or {domain}/personal/username or {domain}/login or {domain}/edititem";
 				$this->response($this->json($temp),200);
 			}
-			if(strcmp($input[1],"") == 0){
+			if(sizeof($input) < 2 && strcmp($input[0],"api") == 0 && strcmp($input[0], "personal") == 0){
 				$temp["success"] = "false";
-				$temp["error_msg"] = "API URL should begin with api/blablabla";
+				$temp["error_msg"] = "The 2nd portion of the URL is not given. {domain}/1/2/";
 				$this->response($this->json($temp),200);
 			}
-			
+
 			//register first
-			
 			if((sizeof($input) == 2) && (strcmp($input[1],"register") == 0)) {
 				//$this->response($this->json($input),200);
 				$this->myUsers->PUT();
 			}
-			
-			
+			//login first
+			if((strcmp($input[0],"login") == 0)){
+				include("../login.html");
+				exit();
+			}
+			//popular_item first
+			if(strcmp($input[0],"api") == 0 && strcmp($input[1],"popular_item") == 0){
+				$this->myBucketItem->popular_item();
+			}
+			//recent_item first
+			if(strcmp($input[0],"api") == 0 && strcmp($input[1],"recent_item") == 0){
+				$this->myBucketItem->recent_item();
+			}
+			//torch_item first
+			if(strcmp($input[0],"api") == 0 && strcmp($input[1],"torch_item") == 0){
+				$this->myBucketItem->torch_item();
+			}
+			// parse personal page requests
+			if(strcmp($input[0], "personal") == 0){
+				if($this->login_check()){
+            		include("../personal.html");
+                	exit();
+				}
+				else{
+					header("Location: ../login");
+					exit();
+				}
+            }
+            // parse edititem page requests
+			if(strcmp($input[0], "edititem") == 0){
+				if($this->login_check()){
+            		include("../editItem.html");
+                	exit();
+				}
+				else{
+					header("Location: ../login");
+					exit();
+				}
+            }
+            // log out
+			if(strcmp($input[0],"api")==0 && strcmp($input[1],"logout")==0){
+				$this->logout();
+			}
 			$this->error_msg = "";
-			
-			
-			
-			
+
 			// //validate Login status
-			// if(strcmp($input[1],"login")!=0 && (!$this->login_check())){
-			// 	$temp["success"] = "false";
-			// 	$temp["error_msg"] = "Not Login, Error Message: ".$this->error_msg;
-			// 	$this->response($this->json($temp),200);
-			// }
+			if(strcmp($input[1],"login")!=0 && (!$this->login_check())){
+				$temp["success"] = "false";
+				$temp["error_msg"] = "Not Login, Error Message: ".$this->error_msg;
+				$this->response($this->json($temp),200);
+			}
 			
+            
 			
 			//$this->response($func,200);
 			$func = $input[1];
@@ -205,8 +249,8 @@
 		        //
 		        if ($stmt = $this->db->prepare("SELECT Password 
 				        FROM Users 
-		                WHERE email = ? LIMIT 1")) {
-		            $stmt->bind_param('s', $username);  // Bind "$email" to parameter.
+		                WHERE username = ? LIMIT 1")) {
+		            $stmt->bind_param('s', $username);  // Bind "$username" to parameter.
 		            $stmt->execute();    // Execute the prepared query.
 		            $stmt->store_result();
 		
@@ -216,7 +260,7 @@
 		            $stmt->close();
 		            if(empty($password)){
 		                //login fail, eamil is wrong
-		                $this->error_msg .= "Chech Login Fail: Eamil is wrong in check login";
+		                $this->error_msg .= "Chech Login Fail: username is wrong in check login";
 		                return false;
 		            }
 		            
@@ -319,39 +363,49 @@
 		    //hash password with salt
 		    $password = hash('sha512', $password . $salt); 
 		    
-		    $query = "call Before_I_Die.Login (?,?)";
+		    $query = "call Before_I_Die.Login (?,?,@Result,@Msg)";
 		    // Using prepared statements means that SQL injection is not possible.
 		    if($stmt = $this->db->prepare($query)){
 		        //$stmt = $mysqli->prepare("call Before_I_Die.Login (?,?)");
 		        $stmt->bind_param('ss', $username, $password);  // Bind "$email"/$password to parameter.
 		        $stmt->execute();    // Execute the prepared query.
-		        $stmt->store_result();
-		    
-		        // get variables from result.
-		        $stmt->bind_result($col1, $col2);
-		        $stmt->fetch();
 		        $stmt->close();
-		        if(empty($col1)){
-		        	$temp["success"] = "false";
-		            $temp["error_msg"] = "Username does not match password.";
-		            $this->response($this->json($temp),200);
-		        }
 		        
-		        // Password is correct!
+		        $query = "SELECT @Result, @Msg";
+                if ($insert_stmt = $this->db->query($query)) {
+                    $result = $insert_stmt->fetch_assoc();
+                    $insert_stmt->close();
+                    if($result["@Result"] == 0){
+                        $temp["success"] = "false";
+                        $temp["error_msg"] = $result["@Msg"];
+                        $this->response(json_encode($temp), 200);
+                    }
+
+                    // Password is correct!
 		        
-		        // Get the user-agent string of the user.
-		        $user_browser = $_SERVER['HTTP_USER_AGENT'];
-		        
-		        //hash the password and user browser as login proof
-		        $_SESSION['login_string'] = hash('sha512', $password . $user_browser);
-		        
-		        // unique email as identity
-		        $_SESSION['username'] = $username;
-		        
-		        //login success
-		        $temp["success"] = "true";
-		        $temp["error_msg"] = "null";
-		        $this->response($this->json($temp),200);
+			        // Get the user-agent string of the user.
+			        $user_browser = $_SERVER['HTTP_USER_AGENT'];
+			        
+			        //hash the password and user browser as login proof
+			        $_SESSION['login_string'] = hash('sha512', $password . $user_browser);
+			        
+			        // unique email as identity
+			        $_SESSION['username'] = strtolower($username);
+			        
+			        //login success
+			        $temp["success"] = "true";
+			        $temp["error_msg"] = "null";
+			        $this->response($this->json($temp),200);
+
+                    $temp["success"] = "true";
+                    $temp["error_msg"] = "null";
+                    $this->response(json_encode([$temp]),200);
+                }
+                else{
+                    $temp["success"] = "false";
+                    $temp["error_msg"] = "Can not query UserInsert result msg";
+                    $this->response(json_encode($temp), 200);
+                }
 		    }
 		    else{
 		    	$temp["success"] = "false";
@@ -375,8 +429,13 @@
 					$temp["error_msg"] = "No username assign";
 					$this->response(json_encode($temp),200);
 				}
-				
-				$this->myBucketList->ALLCANGETALL($this->parseURL[2]);
+				//validate Login status
+				if(strcmp($_SESSION["username"],$this->parseURL[2]) != 0){
+					$this->myBucketList->ALLCANGETPUBLIC($this->parseURL[2]);
+				}
+				else{
+					$this->myBucketList->SELFCANGETALL();
+				}
 			}
 			else{
 				$temp["success"] = "false";
@@ -499,6 +558,44 @@
 				$temp["error_msg"] = "HTTP method not found";
 				$this->response(json_encode($temp),200);
 			}
+		}
+		/*
+		* recommendation
+		*/ 
+		private function recommendation(){
+			//recommendation 
+			if(strcmp($this->get_request_method(),"GET") == 0){
+				$this->myUsers->recommendation();
+			}
+			else{
+				$temp["success"] = "false";
+				$temp["error_msg"] = "HTTP method not found, must be GET for recommendation";
+				$this->response(json_encode($temp),200);
+			}
+		}
+		/*
+		* logout
+		*/
+		private function logout(){
+			// Unset all session values 
+				$_SESSION = array();
+				
+				// get session parameters 
+				$params = session_get_cookie_params();
+				
+				// Delete the actual cookie. 
+				setcookie(session_name(),'', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+				
+				// Destroy session 
+				session_destroy();
+				
+				// logout
+				$temp["success"] = "true";
+				$temp["error_msg"] = "null";
+				$this->response($this->json($temp),200);
+				
+				// include("../home.html");
+				// exit();
 		}
 		/*
 		 *	Encode array into JSON

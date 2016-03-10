@@ -108,7 +108,7 @@ var render = function() {
 		$(".add").css({display:"none"});
 	}
 	render_user_info(username);
-	var userUrl = 'https://apiapache-beforeidie.rhcloud.com/api/bucketlist/' + username;
+	var userUrl = '/api/bucketlist/' + username;
 	
 	$.ajax({
 		type        : 'GET', 

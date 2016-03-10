@@ -31,8 +31,8 @@ p {
   margin: 0.27em 0;
 }
 
-input[type="text"], input[type="password"], textarea {
-  color: #ccc;
+input[type="text"], input[type="password"], input[type="email"], textarea {
+  color: #2E3E4C;
   width: 100%;
   border: 1px solid #ccc;
   border-radius: 3px;
@@ -207,7 +207,6 @@ input[type="text"], input[type="password"], textarea {
 }
 
 /*----responsive----*/
-@media screen and (min-width: 768px) {}
 
 /*----header----*/
 /*Jason*/
@@ -228,14 +227,19 @@ input[type="text"], input[type="password"], textarea {
     width: 100%;
     margin-left: 0;
     margin-right: 0;
+    margin-bottom: 60px;
   }
 } 
 
 body {
   max-width: 2000px;
   min-width: 300px;
-  padding-top: 90px;
+  padding-top: 130px;
   background-color: rgba(89, 89, 89, 0.9);
+}
+
+#panel-wrapper {
+  margin-bottom: 60px;
 }
 
 .text-center {
@@ -266,7 +270,7 @@ body {
 .panel-login>.panel-heading {
   color: #00415d;
   background-color: #fff;
-  border-color: #fff;
+  border-color: #ccc;
   text-align:center;
 }
 .panel-login>.panel-heading a{
@@ -278,10 +282,17 @@ body {
   -moz-transition: all 0.1s linear;
   transition: all 0.1s linear;
 }
-.panel-login>.panel-heading a.active{
-  color: #029f5b;
+.panel-login>.panel-heading a.signup-active{
+  color: #5E9CA9;
   font-size: 18px;
 }
+
+.panel-login>.panel-heading a.login-active{
+  color: #ED7D57;
+  font-size: 18px;
+}
+
+
 .panel-login>.panel-heading hr{
   margin-top: 10px;
   margin-bottom: 10px;
@@ -293,9 +304,11 @@ body {
   background-image: -ms-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
   background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
 }
-.panel-login input[type="text"],.panel-login input[type="email"],.panel-login input[type="password"] {
+.panel-login input[type="text"],.panel-login input[type="email"],.panel-login input[type="password"], select {
+  width: 99%;
   height: 45px;
   border: 1px solid #ddd;
+  margin: 5px 2px;
   font-size: 16px;
   -webkit-transition: all 0.1s linear;
   -moz-transition: all 0.1s linear;
@@ -303,15 +316,28 @@ body {
 }
 .panel-login input:hover,
 .panel-login input:focus {
-  outline:none;
+  /*outline:none;*/
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
-  box-shadow: none;
+  /*box-shadow: none;*/
   border-color: #ccc;
 }
+
+.panel-login input:invalid {
+  box-shadow: 0 0 5px 1px #ff4d4d;
+}
+
+/*.panel-login input[type="text"]:valid, .panel-login input[type="email"]:valid, .panel-login input[type="password"]:valid, .panel-login select:valid {
+  border: 1px solid #2fb62f;
+}*/
+
+.panel-login input:focus:invalid {
+  outline: none;
+}
+
 .btn-login {
   width: 100%;
-  background-color: #59B2E0;
+  background-color: #ED7D57;
   outline: none;
   color: #fff;
   font-size: 14px;
@@ -319,13 +345,13 @@ body {
   font-weight: normal;
   padding: 14px 0;
   text-transform: uppercase;
-  border-color: #59B2E6;
+  border-color: #ccc;
 }
 .btn-login:hover,
 .btn-login:focus {
   color: #fff;
-  background-color: #53A3CD;
-  border-color: #53A3CD;
+  background-color: #DDA611;
+  border-color: #3486b2;
 }
 .forgot-password {
   text-decoration: underline;
@@ -339,7 +365,7 @@ body {
 
 .btn-signup {
   width: 100%;
-  background-color: #1CB94E;
+  background-color: #5E9CA9;
   outline: none;
   color: #fff;
   font-size: 14px;
@@ -347,13 +373,13 @@ body {
   font-weight: normal;
   padding: 14px 0;
   text-transform: uppercase;
-  border-color: #1CB94A;
+  border-color: #ccc;
 }
 .btn-signup:hover,
 .btn-signup:focus {
   color: #fff;
-  background-color: #1CA347;
-  border-color: #1CA347;
+  background-color: #6B7E91;
+  border-color: #168339;
 }
 
 #firstname {
@@ -366,17 +392,21 @@ body {
   float: right;
 }
 
-#user-city {
+#city {
   width: 48%;
   float: left;
 }
 
-#user-state {
+#state {
   width: 48%;
   float: right;
 }
 
 #item-description {
   height: 80px;
+}
+
+#uploadPic span {
+  font-size: 14px;
 }
 

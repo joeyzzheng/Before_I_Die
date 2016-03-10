@@ -4,7 +4,7 @@
     if(!empty($_FILES["fileToUpload"]["tmp_name"])){
         $temp_imageFileType = explode(".",basename($_FILES["fileToUpload"]["name"]));
         $imageFileType = $temp_imageFileType[sizeof($temp_imageFileType) - 1];
-        $target_dir = "/resource/pic/bucketPic/". $username . "_" . date("h:i:sa") . "." .$imageFileType;
+        $target_dir = "/resource/pic/bucketPic/". $username . "_" . date("h-i-sa") . "." .$imageFileType;
         $target_file = $_SERVER['DOCUMENT_ROOT'].$target_dir;
         $uploadOk = 1;
         
