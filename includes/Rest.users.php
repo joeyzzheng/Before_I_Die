@@ -66,7 +66,7 @@
                 $state       = isset($_POST["state"]) ? $_POST["state"] : NULL;
                 
                 if(strlen($title) > 100) $error_msg .= "Invalid title, limits to 100 characters.";
-                if(strlen($description) > 100) $error_msg .= "Invalid description, limits to 500 characters.";
+                if(strlen($description) > 500) $error_msg .= "Invalid description, limits to 500 characters.";
                 if(strlen($city) > 100) $error_msg .= "Invalid city, limits to 100 characters.";
                 if(strlen($state) > 100) $error_msg .= "Invalid state, limits to 100 characters.";
                 
