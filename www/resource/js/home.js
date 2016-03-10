@@ -20,6 +20,9 @@ $(document).ready(function() {
     /* Initialize web page */
     iniFun();
     loginCheck("username");
+    $("#tab-popular-link").css("cursor", "pointer");
+    $("#tab-recent-link").css("cursor", "pointer");
+    $("#tab-torch-relay-link").css("cursor", "pointer");
     
     /* Declare Events */
     /* When user clicks the login link to open the login page */
@@ -243,7 +246,7 @@ $(document).ready(function() {
     function loginCheck(cname) {
         var cookieVal = getCookie(cname);
         /* Check cookie username first */
-        if (cookieVal !== "") { 
+        if (cookieVal != "") { 
             console.log("Login check - cookie exist: " + document.cookie); 
             
             /* Verify whether id navbar-user-profile exist */
@@ -340,10 +343,16 @@ $(document).ready(function() {
                             navRDiv.appendChild(perLinkA);
                             
                             var spanWord = document.createElement("span");
-                            spanWord.setAttribute("class", "font-small");
-                            var spanText = "Login|Sign Up";
+                            spanWord.setAttribute("id", "span-login");
+                            var spanText = "Login";
                             spanWord.innerHTML = spanText;
                             perLinkA.appendChild(spanWord);
+                            
+                            var spanWord2 = document.createElement("span");
+                            spanWord2.setAttribute("id", "span-signup");
+                            var spanText2 = "Sign up";
+                            spanWord2.innerHTML = spanText2;
+                            perLinkA.appendChild(spanWord2);
                             
                             navR.appendChild(navRDiv);
                             
