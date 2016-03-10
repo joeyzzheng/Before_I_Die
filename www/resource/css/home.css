@@ -215,6 +215,7 @@ nav a {
 
 #nav-brand {
   color: #ffffff;
+  cursor: pointer;
 }
 
 #span-login {

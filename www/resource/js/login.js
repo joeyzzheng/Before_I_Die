@@ -253,8 +253,12 @@ $(document).ready( function() {
                     //Debug message
                     // alert("Success Message:\n" + JSON.stringify(data)); 
                     // change to the home page
+                    if (data.success == "true") {
+                        document.cookie = "username" + "=" + $("#login-form #username").val();
+                    } else {
+                        document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+                    }
                     window.location.assign("/");
-                    document.cookie = "username" + "=" + $("#login-form #username").val();
                     // console.log("Cookies Set: " + document.cookie);
                 })
                 .fail(function(data) {
