@@ -18,10 +18,10 @@
                 <div class="panel-heading">
                   <div class="row">
                     <div class="col-6">
-                      <a href="#" id="login-form-link">Log in</a>
+                      <a href="#" class="login-active active" id="login-form-link">Log in</a>
                     </div>
                     <div class="col-6">
-                      <a href="#" class="signup-active" id="signup-form-link">Sign up</a>
+                      <a href="#" id="signup-form-link">Sign up</a>
                     </div>
                   </div>
                   <hr>
@@ -30,7 +30,7 @@
                   <div class="row">
                     <div class="col-12">
                       <!-- login form -->
-                      <form id="login-form" action="#" method="post" style="display:none;">
+                      <form id="login-form" action="#" method="post" style="display: block;">
                         <div class="form-wrapper">
                           <label class="sr-only" for="username">Username:</label>
                           <input class="form-entry" type="text" name="username" id="username" placeholder="Username" tabindex="1" maxlength="50" pattern="[a-zA-Z0-9_]+">
@@ -61,7 +61,7 @@
                         </div> -->
                       <!-- signup form -->
                       </form>
-                      <form id="signup-form" style="display: block;">
+                      <form id="signup-form" style="display: none;">
                         <div class="form-wrapper">
                           <label class="sr-only" for="username">Username:</label>
                           <input class="form-entry" type="text" name="username" id="username" placeholder="Username" tabindex="1" maxlength="50" title="Please enter your username in 50 characters with only numbers, letters and underscores" pattern="[a-zA-Z0-9_]+">
@@ -128,5 +128,3 @@
 
     </body>
 </html>
-
-
