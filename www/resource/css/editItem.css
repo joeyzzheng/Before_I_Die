@@ -339,3 +339,7 @@ body {
   font-size: 14px;
 }
 
+input[type="text"], textarea {
+  color: #14171a;
+}
+
