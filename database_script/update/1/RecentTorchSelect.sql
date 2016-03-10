@@ -19,6 +19,7 @@ BEGIN
     WHERE
 		BI.Status = 1
         AND BI.OpenToTorch = 1
+        AND BI.Private = 0
 	ORDER BY
 		OpenToTorchDate DESC
 	LIMIT 12;
