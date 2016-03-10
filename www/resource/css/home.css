@@ -365,6 +365,7 @@ footer {
 #banner {
   width: 100%;
   /*height: 300px;*/
+  margin-top: 4px;
 }
 
 .banner-wrapper {
@@ -383,7 +384,7 @@ footer {
 .dropdown-content {
   display: none;
   position: absolute;
-  margin-top: 5px;
+  /*margin-top: 5px;*/
   right: 0;
   min-width: 50px;
   background: rgba(255, 255, 255, 1.0);
