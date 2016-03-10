@@ -151,11 +151,13 @@ $(document).ready(function() {
                     /* set element id with username#bucketID */
                     divPopCard.setAttribute("id", data.responseJSON[ranChoice[index]].username + "#" + data.responseJSON[ranChoice[index]].bucketItemID);
                     imgSrc = data.responseJSON[ranChoice[index]].image;
-                    spanText = data.responseJSON[ranChoice[index]].username + "<br>" + data.responseJSON[ranChoice[index]].bucketItemTitle;
+                    spanText = data.responseJSON[ranChoice[index]].username;
+                    // + "<br>" + data.responseJSON[ranChoice[index]].bucketItemTitle
                     
                     if (debuMode == 1) {
                         console.log("Debug Mode : " + apiURLCall);
-                        console.log("Debug Mode [id]: " + data.responseJSON[ranChoice[index]].username + "#" + data.responseJSON[ranChoice[index]].bucketItemID);
+                        console.log("Debug Mode [id]: " + data.responseJSON[ranChoice[index]].username);
+                        //+ "#" + data.responseJSON[ranChoice[index]].bucketItemID
                         console.log("Debug Mode [imgSrc]: " + imgSrc);
                         console.log("Debug Mode [spanText]: " + spanText);
                     }
@@ -164,7 +166,8 @@ $(document).ready(function() {
                     /* set element id with username */
                     divPopCard.setAttribute("id", data.responseJSON[ranChoice[index]].username);
                     imgSrc = data.responseJSON[ranChoice[index]].profilePicture;
-                    spanText = data.responseJSON[ranChoice[index]].username + "<br>" + data.responseJSON[ranChoice[index]].description;
+                    spanText = data.responseJSON[ranChoice[index]].username;
+                    //+ "<br>" + data.responseJSON[ranChoice[index]].description
                 }
 
                 /* Add click function - redirect to personal user page */
