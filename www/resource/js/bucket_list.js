@@ -69,7 +69,7 @@ var render_bucket_item = function(item, id) {
 	$(".like[data-item='" + item.ID + "']").append(torch);
 	
 	if(item.inheritFrom) {
-		var parentUser = '<span class="inheritFrom">' + 'Inherited from <a class="inherit-link" href="https://apiapache-beforeidie.rhcloud.com/personal/'+item.inheritFrom+'#'+item.ID+'">' + item.inheritFrom + '</a></span>';
+		var parentUser = '<span class="inheritFrom">' + 'Inherited from <a class="inherit-link" href="/personal/'+item.inheritFrom+'#'+item.ID+'">' + item.inheritFrom + '</a></span>';
 		$(".like[data-item='" + item.ID + "']").append(parentUser);
 		$(".dropdown-content[data-item='" + item.ID + "']>.edit").remove();
 		$(".dropdown-content[data-item='" + item.ID + "']>.requestRelay").remove();

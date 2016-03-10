@@ -32,12 +32,12 @@ var public = function(item) {
 
 var add = function() {
 	var username = document.cookie.match(/=(.*)/)[1];
-	window.location.assign("https://apiapache-beforeidie.rhcloud.com/editItem/"+username);
+	window.location.assign("/editItem/"+username);
 };
 
 var edit = function(item) {
 	var username = document.cookie.match(/=(.*)/)[1];
-	window.location.assign("https://apiapache-beforeidie.rhcloud.com/editItem/"+username+"#"+item);
+	window.location.assign("/editItem/"+username+"#"+item);
 }
 
 var deleteItem = function(item) {

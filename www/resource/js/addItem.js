@@ -38,7 +38,7 @@ $(document).ready(function() {
             event.preventDefault(); 
             var addItemForm = new FormData(this);
             // addItemForm.append("username", "Sen180"); 
-            var addItemURL = "https://apiapache-beforeidie.rhcloud.com/api/bucket_item/insert"; 
+            var addItemURL = "/api/bucket_item/insert"; 
             $.ajax({
                 url: addItemURL,
                 type: "POST",
@@ -53,7 +53,7 @@ $(document).ready(function() {
                     alert("jqXHR:" + JSON.stringify(jqXHR));
                     var username = "username";
                     username = getCookie(username); 
-                    var url = "https://apiapache-beforeidie.rhcloud.com/personal/" + username; 
+                    var url = "/personal/" + username; 
                     window.location.assign(url);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
