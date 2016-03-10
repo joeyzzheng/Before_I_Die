@@ -29,7 +29,7 @@
                 $this->response(json_encode($temp),200);
 		    }
             //$this->response(json_encode($_POST),200);
-            if (isset($_POST['itemID'], $_POST['title'], $_POST['content'], $_POST["imag"])) {
+            if (isset($_POST['itemID'], $_POST['title'], $_POST['content'], $_POST["image"])) {
                 $username = $_SESSION["username"];
                 
                 $itemID = filter_input(INPUT_POST, 'itemID', FILTER_SANITIZE_STRING);
@@ -44,7 +44,7 @@
                     
                     $error_msg .= "Invalid content, limits to 2000 characters.";
                 }
-                $location       = isset($_POST["location"]) ? $_POST["locaiton"] : NULL;
+                $location       = isset($_POST["location"]) ? $_POST["location"] : NULL;
                 //$orderindex     = isset($_POST["orderindex"]) ? $_POST["orderindex"] : NULL;
                     
                 if(strlen($location) > 200) $error_msg .= "Invalid location, limits to 200 characters.";
@@ -59,9 +59,9 @@
                 
             
                 include 'processBucketImagUpload.php';
-                $imag = filter_input(INPUT_POST, 'imag', FILTER_SANITIZE_STRING);
-                $imag = ($uploadOk == 1) ? $target_dir : $imag;
-                if(strlen($imag) > 200) $error_msg .= "pfofilePic file length is too long, limits to 200 characters.";
+                $image = filter_input(INPUT_POST, 'image', FILTER_SANITIZE_STRING);
+                $image = ($uploadOk == 1) ? $target_dir : $image;
+                if(strlen($image) > 200) $error_msg .= "pfofilePic file length is too long, limits to 200 characters.";
                 
                 if(!empty($error_msg)){
                     $temp["success"] = "false";
@@ -75,7 +75,7 @@
                 //if ($insert_stmt = $mysqli->prepare("INSERT INTO Users (Username, Email, FirstName, LastName, Title, Description, City, State, ProfilePic, Salt, Password) 
                 //VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
                     
-                    $insert_stmt->bind_param('sissss', $username, $itemID, $title, $content, $location, $imag);
+                    $insert_stmt->bind_param('sissss', $username, $itemID, $title, $content, $location, $image);
                     // Execute the prepared query.
                     if (! $insert_stmt->execute()) {
                         $temp["success"] = "false";
@@ -116,7 +116,7 @@
             else{
                 //$this->response(json_encode(["Inside if"]),200);
                 $temp["success"] = "false";
-                $temp["error_msg"] = "itemID, title, content or imag does not exist.";
+                $temp["error_msg"] = "itemID, title, content or image does not exist.";
                 $this->response(json_encode($temp),200);
             }
 		}
@@ -155,10 +155,12 @@
                     $content .= "Invalid content, empty string.";
                 }
                 
-                $location       = isset($_POST["location"]) ? $_POST["locaiton"] : NULL;
+                $location       = isset($_POST["location"]) ? $_POST["location"] : NULL;
                 $orderindex     = isset($_POST["orderindex"]) ? $_POST["orderindex"] : NULL;
-                    
-                if(strlen($location) > 200) $error_msg .= "Invalid location, limits to 200 characters.";
+                
+                if(!empty($location)){    
+                	if(strlen($location) > 200) $error_msg .= "Invalid location, limits to 200 characters.";
+                }
                 //if(strlen($orderindex) > 100) $error_msg .= "Invalid orderindex, limits to 100 characters.";
                 
                     
