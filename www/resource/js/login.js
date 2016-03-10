@@ -202,7 +202,7 @@ $(document).ready( function() {
                         $("#login-form").delay(100).fadeIn(100);
                         $("#signup-form").fadeOut(100);
                         $("#signup-form-link").removeClass("signup-active");
-                        $("#login-form").addClass("login-active");
+                        $("#login-form-link").addClass("login-active");
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         alert("An error occured: " + textStatus + " " + errorThrown);
