@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Before I Die</title>
-        <link rel="stylesheet" type="text/css" href="/resource/css/editItem.css">
+        <link rel="stylesheet" type="text/css" href="./resource/css/editItem.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     </head>
     <body>
@@ -38,15 +38,17 @@
                         </div>
                         <div class="form-wrapper">
                           <label class="sr-only" for="location">Location(optional):</label>
-                          <input class="form-entry" type="text" name="location" id="location" tabindex="1" maxlength="100">
+                          <input class="form-entry" type="text" name="location" id="location" tabindex="3" maxlength="100">
                         </div>
                         <div class="form-wrapper text-center">
-                          Upload your item picture:<input type="file" name="fileToUpload" id="fileToUpload" tabindex="3">
+                          <span id="uploadPic">Upload your item picture:</span>
+                          <br>
+                          <input type="file" name="fileToUpload" id="fileToUpload" tabindex="4">
                         </div>
                         <div class="form-wrapper">
                           <div class="row">
                             <div class="col-6 col-offset-3">
-                              <input class="btn-save btn-default" type="submit" id="submit" value="Save" tabindex="4">
+                              <input class="btn-save btn-default" type="submit" id="submit" value="Save" tabindex="5">
                             </div>
                           </div>
                         </div>
@@ -59,6 +61,6 @@
           </div>
         </div>
       </main>
-      <script src="/resource/js/editItem.js"></script>
+      <script src="./resource/js/editItem.js"></script>
     </body>
 </html>
