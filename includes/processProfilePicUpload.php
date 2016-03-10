@@ -3,7 +3,7 @@
     
     if(!empty($_FILES["fileToUpload"]["tmp_name"])){
         $temp_imageFileType = explode(".",basename($_FILES["fileToUpload"]["name"]));
-        $imageFileType = $temp_imageFileType[sizeof($temp_imageFileType) - 1];
+        $imageFileType = strtolower($temp_imageFileType[sizeof($temp_imageFileType) - 1]);
         $target_dir = "/resource/pic/profilePic/". $_POST['username'] . "." .$imageFileType;
         $target_file = $_SERVER['DOCUMENT_ROOT'].$target_dir;
         $uploadOk = 1;

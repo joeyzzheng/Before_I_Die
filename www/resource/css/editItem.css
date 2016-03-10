@@ -31,8 +31,8 @@ p {
   margin: 0.27em 0;
 }
 
-input[type="text"], input[type="password"], input[type="email"], textarea {
-  color: #2E3E4C;
+input[type="text"], input[type="password"], textarea {
+  color: #ccc;
   width: 100%;
   border: 1px solid #ccc;
   border-radius: 3px;
@@ -227,19 +227,14 @@ input[type="text"], input[type="password"], input[type="email"], textarea {
     width: 100%;
     margin-left: 0;
     margin-right: 0;
-    margin-bottom: 60px;
   }
 } 
 
 body {
   max-width: 2000px;
   min-width: 300px;
-  padding-top: 130px;
+  padding-top: 90px;
   background-color: rgba(89, 89, 89, 0.9);
-}
-
-#panel-wrapper {
-  margin-bottom: 60px;
 }
 
 .text-center {
@@ -257,8 +252,15 @@ body {
   border-radius: 6px;
 }
 
+.form-entry-textarea {
+  height: 100px;
+  padding: 10px 16px;
+  border-radius: 6px;
+}
 
-.panel-login {
+
+
+.panel-editItem {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -267,13 +269,13 @@ body {
   box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
   background-color: #ffffff;
 }
-.panel-login>.panel-heading {
+.panel-editItem>.panel-heading {
   color: #00415d;
   background-color: #fff;
   border-color: #ccc;
   text-align:center;
 }
-.panel-login>.panel-heading a{
+.panel-editItem>.panel-heading a{
   text-decoration: none;
   color: #666;
   font-weight: bold;
@@ -282,18 +284,11 @@ body {
   -moz-transition: all 0.1s linear;
   transition: all 0.1s linear;
 }
-.panel-login>.panel-heading a.signup-active{
-  color: #5E9CA9;
+.panel-editItem>.panel-heading a.active{
+  color: #029f5b;
   font-size: 18px;
 }
-
-.panel-login>.panel-heading a.login-active{
-  color: #ED7D57;
-  font-size: 18px;
-}
-
-
-.panel-login>.panel-heading hr{
+.panel-editItem>.panel-heading hr{
   margin-top: 10px;
   margin-bottom: 10px;
   clear: both;
@@ -304,40 +299,26 @@ body {
   background-image: -ms-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
   background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
 }
-.panel-login input[type="text"],.panel-login input[type="email"],.panel-login input[type="password"], select {
-  width: 99%;
+.panel-editItem input[type="text"],.panel-editItem input[type="email"],.panel-editItem input[type="password"] {
   height: 45px;
   border: 1px solid #ddd;
-  margin: 5px 2px;
   font-size: 16px;
   -webkit-transition: all 0.1s linear;
   -moz-transition: all 0.1s linear;
   transition: all 0.1s linear;
 }
-.panel-login input:hover,
-.panel-login input:focus {
-  /*outline:none;*/
+.panel-editItem input:hover,
+.panel-editItem input:focus {
+  outline:none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
-  /*box-shadow: none;*/
+  box-shadow: none;
   border-color: #ccc;
 }
 
-.panel-login input:invalid {
-  box-shadow: 0 0 5px 1px #ff4d4d;
-}
-
-/*.panel-login input[type="text"]:valid, .panel-login input[type="email"]:valid, .panel-login input[type="password"]:valid, .panel-login select:valid {
-  border: 1px solid #2fb62f;
-}*/
-
-.panel-login input:focus:invalid {
-  outline: none;
-}
-
-.btn-login {
+.btn-save {
   width: 100%;
-  background-color: #ED7D57;
+  background-color: #1CB94E;
   outline: none;
   color: #fff;
   font-size: 14px;
@@ -345,40 +326,12 @@ body {
   font-weight: normal;
   padding: 14px 0;
   text-transform: uppercase;
-  border-color: #ccc;
+  border-color: #1CB94A;
 }
-.btn-login:hover,
-.btn-login:focus {
+.btn-save:hover,
+.btn-save:focus {
   color: #fff;
-  background-color: #DDA611;
-  border-color: #3486b2;
-}
-.forgot-password {
-  text-decoration: underline;
-  color: #888;
-}
-.forgot-password:hover,
-.forgot-password:focus {
-  text-decoration: underline;
-  color: #666;
-}
-
-.btn-signup {
-  width: 100%;
-  background-color: #5E9CA9;
-  outline: none;
-  color: #fff;
-  font-size: 14px;
-  height: auto;
-  font-weight: normal;
-  padding: 14px 0;
-  text-transform: uppercase;
-  border-color: #ccc;
-}
-.btn-signup:hover,
-.btn-signup:focus {
-  color: #fff;
-  background-color: #6B7E91;
+  background-color: #1CA347;
   border-color: #168339;
 }
 
@@ -392,12 +345,12 @@ body {
   float: right;
 }
 
-#city {
+#user-city {
   width: 48%;
   float: left;
 }
 
-#state {
+#user-state {
   width: 48%;
   float: right;
 }
@@ -405,8 +358,3 @@ body {
 #item-description {
   height: 80px;
 }
-
-#uploadPic span {
-  font-size: 14px;
-}
-
