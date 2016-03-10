@@ -4,11 +4,11 @@ var private = function(item) {
 		private:1
 	};
 	$.ajax({
-		type        : 'POST', 
-		url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/privacy', 
+		type        : 'POST',
+		url         : '/api/bucket_item/privacy',
 		data        : apiData, // our data object
 		dataType    : 'json' // what type of data do we expect back from the server
-  })	
+  })
 	.done(function(){
 		$(".lock[data-item='" + item + "']").css({display:"initial"});
 	})
@@ -20,11 +20,11 @@ var public = function(item) {
 		private:0
 	};
 	$.ajax({
-		type        : 'POST', 
-		url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/privacy', 
+		type        : 'POST',
+		url         : '/api/bucket_item/privacy', 
 		data        : apiData, // our data object
 		dataType    : 'json' // what type of data do we expect back from the server
-  })	
+  })
 	.done(function(){
 		$(".lock[data-item='" + item + "']").css({display:"none"});
 	})
@@ -35,8 +35,8 @@ var deleteItem = function(item) {
 		itemID:item
 	};
 	$.ajax({
-		type        : 'POST', 
-		url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/delete', // the url where we want to POST
+		type        : 'POST',
+		url         : '/api/bucket_item/delete', // the url where we want to POST
 		data        : apiData, // our data object
 		dataType    : 'json', // what type of data do we expect back from the server
   })
@@ -54,8 +54,8 @@ var requestRelay = function(item) {
 		openToTorch:(torch == 1)?0:1
 	};
 	$.ajax({
-		type        : 'POST', 
-		url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/request_relay', // the url where we want to POST
+		type        : 'POST',
+		url         : '/api/bucket_item/request_relay', // the url where we want to POST
 		data        : apiData, // our data object
 		dataType    : 'json', // what type of data do we expect back from the server
   })
@@ -63,7 +63,7 @@ var requestRelay = function(item) {
 		if(torch == 0){
 			$(".bucket-item[data-item='"+item+"']").attr("data-torch",1);
 			$(".torch[data-item='" + item + "']").attr("src","../resource/pic/torched.png");
-			$(".torch[data-item='" + item + "']").attr("onClick","inherit("+item+")");			
+			$(".torch[data-item='" + item + "']").attr("onClick","inherit("+item+")");
 		} else {
 			$(".bucket-item[data-item='"+item+"']").attr("data-torch",0);
 			$(".torch[data-item='" + item + "']").attr("src","../resource/pic/torch.png");
@@ -78,8 +78,8 @@ var inherit = function(item) {
 		childUsername:"fwang1"
 	};
 	$.ajax({
-		type        : 'POST', 
-		url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/torch',
+		type        : 'POST',
+		url         : '/api/bucket_item/torch',
 		data        : apiData,
 		dataType    : 'json' // what type of data do we expect back from the server
   })
@@ -106,8 +106,8 @@ var like = function(item) {
 		itemID:item
 	};
 	$.ajax({
-		type        : 'GET', 
-		url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/like', // the url where we want to POST
+		type        : 'GET',
+		url         : '/api/bucket_item/like', // the url where we want to POST
 		data        : apiDataGET, // our data object
 		dataType    : 'json', // what type of data do we expect back from the server
 	})
@@ -117,21 +117,21 @@ var like = function(item) {
 			if(likers.responseJSON){
 				for(var i = 0; i < likers.responseJSON.length; i++) {
 					if(likers.responseJSON[i] == apiDataPOST.likeusername) likerExist = true;
-				}				
+				}
 			}
 			if(likerExist) apiDataPOST.liked = "0";
-			
+
 			$.ajax({
-				type        : 'POST', 
-				url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/like', // the url where we want to POST
+				type        : 'POST',
+				url         : '/api/bucket_item/like', // the url where we want to POST
 				data        : apiDataPOST, // our data object
 				dataType    : 'json', // what type of data do we expect back from the server
 			})
 			.done(function(data){
 				if(data[0].success == "true"){
 					$.ajax({
-						type        : 'GET', 
-						url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/like', // the url where we want to POST
+						type        : 'GET',
+						url         : '/api/bucket_item/like', // the url where we want to POST
 						data        : apiDataGET, // our data object
 						dataType    : 'json', // what type of data do we expect back from the server
 					})
@@ -139,11 +139,11 @@ var like = function(item) {
 						var countLike = dataGet.responseJSON?dataGet.responseJSON.length:0;
 						$(".like-count[data-item='" + item + "']").text(countLike);
 					})
-				}			
+				}
 			})
 		}
 
-	})	
+	})
 
 
 
@@ -156,10 +156,10 @@ var completed = function(item) {
 		itemID:item,
 		complete:1
 	};
-	
+
 	$.ajax({
-		type        : 'POST', 
-		url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/complete', // the url where we want to POST
+		type        : 'POST',
+		url         : '/api/bucket_item/complete', // the url where we want to POST
 		data        : apiData, // our data object
 		dataType    : 'json', // what type of data do we expect back from the server
   })
@@ -181,39 +181,38 @@ var leave_comment = function(event, item) {
 			commentusername:"fwang1",
 			comment:$("input[data-item='" + item + "']").val()
 		};
-		
+
 		var apiDataGet = {
 			itemID:item
 		};
-		
+
 		$.ajax({
-			type        : 'POST', 
-			url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/comment', // the url where we want to POST
+			type        : 'POST',
+			url         : '/api/bucket_item/comment', // the url where we want to POST
 			data        : apiData, // our data object
 			dataType    : 'json', // what type of data do we expect back from the server
-		})		
-		
+		})
+
 		.done(function(data){
 			if(data[0].success == "true"){
 				//ajax get
 				$.ajax({
-					type        : 'GET', 
-					url         : 'https://apiapache-beforeidie.rhcloud.com/api/bucket_item/comment', 
+					type        : 'GET',
+					url         : '/api/bucket_item/comment',
 					data        : apiDataGet, // our data object
 					dataType    : 'json', // what type of data do we expect back from the server
-				})	
+				})
 				.done(function(getdata){
 					$("input[data-item='" + item + "']").val("");
 					var comment = getdata.responseJSON[0].comment.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 					$(".response[data-item='" + item + "']").append('<p class="comment"><span class="comment"><b>' + getdata.responseJSON[0].username + '</b></span><span class="comment_content">' + comment + '</span></p>');
-					
+
 				});
 			}
 		});
-		
-	
-	}
-	
-	
-};
 
+
+	}
+
+
+};

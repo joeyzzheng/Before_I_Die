@@ -1,8 +1,8 @@
-var render_user_info = function(userName) {	
-	
+var render_user_info = function(userName) {
+
 	$.ajax({
-		type        : 'GET', 
-		url         : 'https://apiapache-beforeidie.rhcloud.com/api/users/' + userName, 
+		type        : 'GET',
+		url         : '/api/users/' + userName, 
 		dataType    : 'json', // what type of data do we expect back from the server
   })
 	.done(function(data){
