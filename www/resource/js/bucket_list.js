@@ -14,7 +14,7 @@ var render_bucket_item = function(item, id) {
 		var done = '<img class="done" src="../resource/pic/done.png" alt="completed item">'
 		$(".item-img-section[data-item='" + item.ID + "']").append(done);
 	} else {
-		if(user_name == url[url.length-1]){
+		if(user_name == url[url.length-1].toLowerCase()){
 			var menu = '<div class="dropdown">   <button class="dropbtn" data-item="'+item.ID+'"><img class="menu" alt="menu" src="../resource/pic/menu.png"></button>   <div class="dropdown-content" data-item="'+item.ID+'">' +
 					'<a class="edit" onClick="edit('+item.ID+')">Edit</a> ' +
 					'<a onClick="completed('+item.ID+')">Completed</a>' +
@@ -71,7 +71,7 @@ var render_bucket_item = function(item, id) {
 	if(item.inheritFrom) {
 		var parentUser = '<span class="inheritFrom">' + 'Inherited from <a class="inherit-link" href="https://apiapache-beforeidie.rhcloud.com/personal/'+item.inheritFrom+'#'+item.ID+'">' + item.inheritFrom + '</a></span>';
 		$(".like[data-item='" + item.ID + "']").append(parentUser);
-		$(".dropdown-content[data-item='" + item.ID + "']>.edit").remove();
+		//$(".dropdown-content[data-item='" + item.ID + "']>.edit").remove();
 		$(".dropdown-content[data-item='" + item.ID + "']>.requestRelay").remove();
 	}
 	//render comment
@@ -120,7 +120,6 @@ var render = function() {
 		if(data.success){
 			
 			if(data.responseJSON){
-				$(".recommend").css("display","initial");
 				for(var i = 0 ; i < data.responseJSON.length; i++) {
 					var id = username.match(/#(\d+)/)||"0";
 					render_bucket_item(data.responseJSON[i], id[0]);

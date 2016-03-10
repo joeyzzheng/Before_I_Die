@@ -23,13 +23,19 @@ var render_user_info = function(userName) {
   })
 	.done(function(data){
 		var recom = data.responseJSON;
-		$(".user-img.a").attr("src",recom[0].profilePicture);
-		$(".user-name.a").text(recom[0].firstName + " " + recom[0].lastName);
-		$(".user-loc.a").text(recom[0].city);
-		
-		$(".user-img.b").attr("src",recom[1].profilePicture);
-		$(".user-name.b").text(recom[1].firstName + " " + recom[1].lastName);
-		$(".user-loc.b").text(recom[1].city);
+		if(recom){
+			$(".recommend").css("display","initial");
+			$(".user-img.a").attr("src",recom[0].profilePicture);
+			$(".user-name.a").text(recom[0].firstName + " " + recom[0].lastName);
+			$(".user-loc.a").text(recom[0].city);
+
+			$(".user-img.b").attr("src",recom[1].profilePicture);
+			$(".user-name.b").text(recom[1].firstName + " " + recom[1].lastName);
+			$(".user-loc.b").text(recom[1].city);			
+		} else {
+			$(".recommend").css("display","none");
+		}
+
 
 	})
 	
