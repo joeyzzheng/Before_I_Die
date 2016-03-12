@@ -20,6 +20,7 @@ BEGIN
 		BI.Status = 1
         AND BI.OpenToTorch = 1
         AND BI.Private = 0
+        AND U.Status = 1
 	ORDER BY
 		OpenToTorchDate DESC
 	LIMIT 12;
