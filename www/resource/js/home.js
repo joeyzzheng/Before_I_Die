@@ -37,7 +37,7 @@ $(document).ready(function() {
     $("#tab-popular-link").click(function() {
         if (!$("#tab-popular-link").is(".active")) {
             $("#tab-popular").empty();
-            tabPageLoad("/api/popular_item", "tab-popular", 6, 0, 11);
+            tabPageLoad("/api/popular_item", "tab-popular", 6, 0, 9);
         }
         
         /* clean class active first */
@@ -209,7 +209,7 @@ $(document).ready(function() {
      * Initialize home page
      */
     function iniFun() {
-        tabPageLoad("/api/popular_item", "tab-popular", 6, 0, 11);
+        tabPageLoad("/api/popular_item", "tab-popular", 6, 0, 9);
     }
    
     function tabConDisplayReset() {
