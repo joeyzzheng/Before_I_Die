@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Before I Die</title>
+        <link rel="stylesheet" type="text/css" href="../resource/css/editItem.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    </head>
+    <body>
+      <header></header>
+      <main>
+        <div class="container">
+          <div class="row">
+            <div class="col-6 col-offset-3" id="panel-wrapper">
+              <div class="panel-editItem">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-12">
+                      <a class="active" id="editItem-form-link">Edit item:</a>
+                    </div>
+                  </div>
+                  <hr>
+                </div>
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-12">
+                      <!-- add item form-->
+                      <form id="editItem-form" method="post" style="display: block;" enctype="multipart/form-data">
+                        <div class="form-wrapper">
+                          <label class="sr-only" for="title">Item name:</label>
+                          <input class="form-entry" type="text" name="title" id="title" tabindex="1" maxlength="100">
+                        </div>
+                        <div class="form-wrapper">
+                          <label class="sr-only" for="content">Item Description:</label>
+                          <textarea class="form-entry-textarea" name="content" id="content" tabindex="2" maxlength="2000" rows="15"></textarea>
+                        </div>
+                        <div class="form-wrapper">
+                          <label class="sr-only" for="location">Location(optional):</label>
+                          <input class="form-entry" type="text" name="location" id="location" tabindex="3" maxlength="100">
+                        </div>
+                        <div class="form-wrapper text-center">
+                          <span id="uploadPic">Upload your item picture:</span>
+                          <br>
+                          <input type="file" name="fileToUpload" id="fileToUpload" tabindex="4">
+                        </div>
+                        <div class="form-wrapper">
+                          <div class="row">
+                            <div class="col-6 col-offset-3">
+                              <input class="btn-save btn-default" type="submit" id="submit" value="Save" tabindex="5">
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <script src="../resource/js/editItem.js"></script>
+    </body>
+</html>

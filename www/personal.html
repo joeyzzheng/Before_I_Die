@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+
+
+<head>
+		<title>Before I Die</title>
+		<meta charset="UTF-8">
+		<meta property="og:image" content="https://apiapache-beforeidie.rhcloud.com/resource/pic/bucketPic/default_bucket_pic.jpg"/>
+		<meta property="og:image:secure_url" content="https://apiapache-beforeidie.rhcloud.com/resource/pic/bucketPic/default_bucket_pic.jpg" />
+		<link rel="stylesheet" type='text/css' href="../resource/css/main.css">
+		<link rel="stylesheet" type='text/css' href="../resource/css/personal.css">
+</head>
+
+<body onload="render()">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<!--
+	<script src="../local/b.js"></script>
+	<script src="../local/u.js"></script>
+-->
+	<script src="../resource/js/bucket_list.js"></script>
+	<script src="../resource/js/user_info.js"></script>
+	<script src="../resource/js/control_bar.js"></script>
+
+	
+	<div class="container">
+		
+		<div class="col-8 card">
+			<a href="/"><img class="close" alt="close this list" src="../resource/pic/close.png"></a>
+			<div class="title">
+				<div class="add-share">
+					<img onClick="add()" class="add" alt="add button" src="../resource/pic/add.png">
+					<img onClick="share()" class="share" alt="share button" src="../resource/pic/share.png">
+				</div>	
+				<h1></h1>
+					
+				<br><br>
+			</div>
+
+			<div class="bucket-items">
+				
+
+				
+			</div>
+
+		</div>
+
+
+		<div class="col-3 card side">
+			<div class="user-basic">
+				<img class="user user-img" alt="user image">
+				<span class="user user-name"></span>
+				<br>
+				<span class="user user-loc"></span>
+			</div>
+			<br>
+			
+			About
+			<p id="user-about">
+			</p>
+
+		</div>
+		
+		<div class="col-3 card side recommend">
+			<div class="user-basic">
+				<img class="recom user-img a" alt="user image">
+				<span class="recom user-name a"></span>
+				<br>
+				<span class="recom user-loc a"></span>
+			</div>	
+			<div class="recom user-basic">
+				<img class="recom user-img b" alt="user image">
+				<span class="recom user-name b"></span>
+				<br>
+				<span class="recom user-loc b"></span>
+			</div>	
+		</div>
+	
+	</div>
+
+</body>
+
+</html>
+
+
