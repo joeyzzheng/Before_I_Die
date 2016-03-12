@@ -255,10 +255,14 @@ $(document).ready( function() {
                     // change to the home page
                     if (data.success == "true") {
                         document.cookie = "username" + "=" + $("#login-form #username").val();
+                        window.location.assign("/");
                     } else {
+                        alert("Invalid username or password!");
+                        $("#login-form #username").val("");
+                        $("#login-form #login-password").val("");
                         document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
                     }
-                    window.location.assign("/");
+                    
                     // console.log("Cookies Set: " + document.cookie);
                 })
                 .fail(function(data) {
