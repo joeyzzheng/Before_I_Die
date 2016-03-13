@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</head>
+<body>
+
+<div><h2>jQuery AJAX API Test With Cookies</h2></div>
+
+<form id="loginF">
+    <div>
+        <label>username: </label>
+        <input type="text" name="username" value="robot01">
+    </div>
+    
+    <div>
+        <label>p: </label>
+        <input type="text" name="p" value="bc30ecc758c63691c69e66d846326670924bff9609b5febf39c1e86cca8fb72783ad5e5b7076359e6d709bc58cd379ade1495945f8591e9876cb2634e43139a6">
+    </div>
+    
+    <br>
+    <button type="submit">Login</button>
+    
+</form>
+<br>
+<div id="login-result"></div>
+<br>
+
+<form id="apiF">
+    <button type="submit">API Popular Test</button>
+</form>
+<br>
+<div id="api-result"></div>
+<br>
+
+
+<script>
+$(document).ready(function() {
+    $("label").after("<br>");
+    /* Load form information */
+    $('#loginF').submit(function(event) {
+        var apiData = {
+            'username'          : $('input[name=username]').val(),
+            'p'             : $('input[name=p]').val(),
+        };
+        
+        // Execute ajax with API /api/register
+        $.ajax({
+            type        : 'POST', // Define the https method that we want to use
+            url         : '/api/login', // api url that we want to call
+            data        : apiData, // our data object
+            dataType    : 'json', // what type of data do we expect back from the server
+            encode      : true
+        })
+        
+        /* if returned header shows 200 OK */
+        .done(function(data) {
+            //Debug message
+            console.log("Success Message:\n" + JSON.stringify(data)); 
+            $("#login-result").text("Success Message:\n" + JSON.stringify(data));
+            
+            console.log("Login Response API: " + document.cookie);
+        })
+        
+        /* if returned header shows none 200 OK */
+        .fail(function(data) {
+            console.log("Failure Message:\n" + JSON.stringify(data)); 
+            $("#login-result").text("Failure Message:\n" + JSON.stringify(data));
+        })
+
+        /* stop the form from submitting the normal way and refreshing the page */
+        event.preventDefault();
+    });
+    
+    
+    $('#apiF').submit(function(event) {
+        console.log("API Request Session ID: " + document.cookie);
+        
+        var apiData = {
+            //'sec_session_id'    : document.cookie,
+            itemID              : "3"
+        }
+
+        // Execute ajax with API /api/register
+        $.ajax({
+            type        : 'GET', // Define the https method that we want to use
+            url         : '/api/bucket_item/like',
+            data        : apiData, // our data object
+            dataType    : 'json', // what type of data do we expect back from the server
+            encode      : true
+        })
+        
+        /* if returned header shows 200 OK */
+        .done(function(data) {
+            //Debug message
+            console.log("Success Message:\n" + JSON.stringify(data)); 
+            $("#api-result").text("Success Message:\n" + JSON.stringify(data));
+            
+            console.log("API Response Session ID: " + document.cookie);
+        })
+        
+        /* if returned header shows none 200 OK */
+        .fail(function(data) {
+            console.log("Failure Message:\n" + JSON.stringify(data)); 
+            $("#api-result").text("Failure Message:\n" + JSON.stringify(data));
+        })
+
+        /* stop the form from submitting the normal way and refreshing the page */
+        event.preventDefault();
+    });
+});
+
+</script>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Before I Die</title>
+        <link rel="stylesheet" type="text/css" href="..">
+    </head>
+    <body>
+      <header></header>
+      <main>
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+            <form id="myForm">
+                <input type="text">
+                <input type="email">
+            </form>
+          </div>
+          </div>
+        </div>
+      </main>
+      <footer></footer>
+      <script>
+        $("#myForm").submit(function(event) {
+            if (FormValidate()) { // validate your form before submit, if return true, continue
+                event.preventDefault(); // prevent default action when your click on the submit button
+
+                // do Step 1, if you want to modify your form, e.g. hash your password or add other information;
+                // do Step 2, otherwise;
+
+                // Step 1
+                var form = $("#myForm"); 
+                  // edit my form here 
+                // Step 2
+                // collect the form data
+                var formData = new FormData(this);
+                var formURL = "https://...";
+                $.ajax({
+                    url: formURL,
+                    type: "POST",
+                    data: formData, 
+                    dataType: "json", // data type that returned from your server 
+                    contentType: false, // false means don't send the content type in the request header 
+                    processData: false, // prevent default form data process into query string
+                    crossDomain: true, 
+                    success: function(data, textStatus, jqXHR) {
+                      // debug message
+                        alert("responsed data:" + JSON.stringify(data))
+                        alert("textStatus:" + textStatus)
+                        alert("jqXHR:" + JSON.stringify(jqXHR))
+                      // process the data returned here 
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert("An error occured: " + textStatus + " " + errorThrown);
+                    }
+                })
+            }
+        })
+      </script>
+    </body>
+</html>
+
+
