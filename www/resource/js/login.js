@@ -41,7 +41,7 @@ $(document).ready( function() {
         // signup form validation
         function signupFormValidate() {
             // required fields 
-            var username = $("#signup-form #username");
+            var username = $("#signup-form #signup-username");
             var firstname = $("#signup-form #firstname");
             var lastname = $("#signup-form #lastname");
             var email = $("#signup-form #email");
@@ -130,7 +130,7 @@ $(document).ready( function() {
 
         // login form validation 
         function loginFormValidation() {
-            var username = $("#login-form #username");
+            var username = $("#login-form #login-username");
             var loginPassword = $("#login-form #login-password");
             var rememberPassword = $("#login-form #remember-password");
             // check username 
@@ -231,7 +231,7 @@ $(document).ready( function() {
                 var loginURL = "/api/login";
                 // var loginData = $(this).serialize();
                 var apiData = {
-                    "username": $("#login-form #username").val(),
+                    "username": $("#login-form #login-username").val(),
                     "p": p.value 
                 }
                 $.ajax({
@@ -254,11 +254,11 @@ $(document).ready( function() {
                     // alert("Success Message:\n" + JSON.stringify(data)); 
                     // change to the home page
                     if (data.success == "true") {
-                        document.cookie = "username" + "=" + $("#login-form #username").val();
+                        document.cookie = "username" + "=" + $("#login-form #login-username").val();
                         window.location.assign("/");
                     } else {
                         alert("Invalid username or password!");
-                        $("#login-form #username").val("");
+                        $("#login-form #login-username").val("");
                         $("#login-form #login-password").val("");
                         document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
                     }
